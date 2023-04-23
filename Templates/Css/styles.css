@@ -1,0 +1,43 @@
+/* ===============
+    Global Styles
+================*/
+* {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  color: black;
+
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+  --secondary-color: #691852;
+  --light-primary-color: #fff;
+  --dark-primary-color: #000;
+  --grey-color: #cacaca;
+}
+
+/* position: absolute;
+left: 63.37%;
+right: 7%;
+top: 19.15%;
+bottom: 30.31%;
+ */
+
+
+ .btn-primary{
+    background-color: var(--secondary-color);
+ }
+
+ .row{
+    gap: 1rem;
+ }
