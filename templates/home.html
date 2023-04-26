@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div id="hero-section">
+  <div class="container">
+    <div class="left-half">
+      <div class="app"><p>#1 E-LIBRARY IN APP STORE</p></div>
+      <h1>Build your digital shelf easily with Book-Lite</h1>
+      <p>
+        With Book-Lite you can read and save books in the easiest way and in the
+        fastest time
+      </p>
+      <form
+        class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto search-input"
+        role="search"
+      >
+        <input
+          type="search"
+          class="form-control"
+          placeholder="Browse Books"
+          aria-label="Search"
+        />
+        <i class="bi bi-search"></i>
+      </form>
+      <div class="partner">
+        <p>In Partner with:</p>
+        <div class="company">
+          <div>
+            <i class="bi bi-hexagon-fill">
+              <i class="amazon"
+                ><img src="/static/images/amazon-logo.png" alt="amazon"
+              /></i>
+            </i>
+          </div>
+          <div>
+            <i class="bi bi-hexagon-fill">
+              <i class="bi bi-apple"></i>
+            </i>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="right-half">
+      <img src="/static/images/hero-img.png" alt="" />
+    </div>
+  </div>
+  <div class="overlay"></div>
+</div>
+
+<div id="process-section">
+  <div class="container">
+    <h4><i class="bi bi-dash-lg"></i> Process</h4>
+    <h2>How it works</h2>
+    <div class="process">
+      <div class="step">
+        <div class="number"><p>1</p></div>
+        <h3>Register</h3>
+        <p>Register yourself as a book-lite application user</p>
+      </div>
+      <div class="stepper"></div>
+      <div class="step">
+        <div class="number"><p>2</p></div>
+        <h3>Verify account</h3>
+        <p>Verify your email address</p>
+      </div>
+      <div class="stepper"></div>
+      <div class="step">
+        <div class="number"><p>3</p></div>
+        <h3>Read</h3>
+        <p>Search and read books of your choice</p>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div id="benefits-section">
+  <div class="container">
+    <div class="left-half">
+      <h2>Book-Lite, your Online Library.</h2>
+      <h4><i class="bi bi-dash-lg"></i> Benefits</h4>
+      <ul>
+        <li>
+          One of the benefits of book-lite is that you can save a progress in a
+          book and close the application.
+        </li>
+        <li>Share a page of a book to friends not using the application</li>
+      </ul>
+      <button>Read More</button>
+    </div>
+    <div class="right-half">
+      <img src="/static/images/open-book.png" alt="" />
+    </div>
+  </div>
+</div>
+
+<div id="testimonials">
+  <div class="container">
+    <div id="myCarousel" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button
+          type="button"
+          data-bs-target="#myCarousel"
+          data-bs-slide-to="0"
+          class=""
+          aria-label="Slide 1"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#myCarousel"
+          data-bs-slide-to="1"
+          aria-label="Slide 2"
+          class="active"
+          aria-current="true"
+        ></button>
+        <button
+          type="button"
+          data-bs-target="#myCarousel"
+          data-bs-slide-to="2"
+          aria-label="Slide 3"
+          class=""
+        ></button>
+      </div>
+      <div class="carousel-inner">
+        <div class="carousel-item active">
+          <img src="/static/images/person1.png" alt="" />
+          <div class="text">
+            <h4><i class="bi bi-dash-lg"></i> Testimonials</h4>
+            <h2><i class="bi bi-quote"></i> What our clients say</h2>
+            <p>
+              The user interface also looks simple so that it makes it easier
+              for users, that is also very helpful regarding problems
+            </p>
+            <cite
+              >Samantha <br />
+              Waiter</cite
+            >
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="/static/images/girl-reading.png" alt="" />
+          <div class="text">
+            <h4><i class="bi bi-dash-lg"></i> Testimonials</h4>
+            <h2><i class="bi bi-quote"></i> What our clients say</h2>
+            <p>
+              The user interface also looks simple so that it makes it easier
+              for users, that is also very helpful regarding problems
+            </p>
+            <cite
+              >Kate <br />
+              Happy child</cite
+            >
+          </div>
+        </div>
+        <div class="carousel-item">
+          <img src="/static/images/person3.png" alt="" />
+          <div class="text">
+            <h4><i class="bi bi-dash-lg"></i> Testimonials</h4>
+            <h2><i class="bi bi-quote"></i> What our clients say</h2>
+            <p>
+              The user interface also looks simple so that it makes it easier
+              for users, that is also very helpful regarding problems
+            </p>
+            <cite
+              >Rose Lynx <br />
+              Project Manager</cite
+            >
+          </div>
+        </div>
+      </div>
+      <button
+        class="cont carousel-control-prev"
+        type="button"
+        data-bs-target="#myCarousel"
+        data-bs-slide="prev"
+      >
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button
+        class="cont carousel-control-next"
+        type="button"
+        data-bs-target="#myCarousel"
+        data-bs-slide="next"
+      >
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
+  </div>
+</div>
+{% endblock %}
