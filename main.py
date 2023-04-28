@@ -1,16 +1,18 @@
 from flask import Flask
-from routes.views import views
-from auth.auth import auth
+from models import db
+from routes.auth import auth_bp
 
-def start_app():
-    app = Flask(__name__)
-    app.config['SECRET_KEY'] = 'ete'
+app = Flask(__name__)
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///models/library.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = 'your-secret-key'
+app.register_blueprint(auth_bp)
 
-    app.register_blueprint(views, url_prefix='/')
-    app.register_blueprint(auth, url_prefix='/')
+db.init_app(app)
 
-    return app
+with app.app_context():
+    db.create_all()
 
-run_app = start_app()
 if __name__ == '__main__':
-    run_app.run(debug=True)
+    app.run(debug=True)
+
