@@ -11,3 +11,7 @@ mysql-connector-python==8.0.26
 SQLAlchemy==1.4.23
 Werkzeug==2.0.1
 WTForms==2.3.3
+flask_uploads
+flask_login
+flask_wtf
+werkzeug
