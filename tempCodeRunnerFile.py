@@ -1,1 +1,0 @@
-pp.register_blueprint(views)
