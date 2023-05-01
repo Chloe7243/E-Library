@@ -1,4 +1,5 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
+from flask_login import login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from models import db, User
 
@@ -13,11 +14,12 @@ def login():
         # Check if user with given email exists
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
-            session['user_id'] = user.id
-            session['user_name'] = user.name
-            session['user_is_admin'] = user.is_admin
+            login_user(user)
             flash('You are now logged in.', 'success')
-            return redirect(url_for('home'))
+            if user.is_admin:
+                return redirect(url_for('admin_bp.dashboard'))
+            else:
+                return redirect(url_for('user_bp.dashboard'))
         else:
             flash('Invalid email or password.', 'error')
             return redirect(url_for('auth.login'))
@@ -88,7 +90,7 @@ def register_admin():
 
 @auth_bp.route('/logout')
 def logout():
-    session.clear()
+    logout_user()
     flash('You have been logged out.', 'success')
     return redirect(url_for('home'))
 

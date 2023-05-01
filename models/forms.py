@@ -5,6 +5,7 @@ from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 class CategoryForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=100)])
+    description = StringField('Name', validators=[DataRequired(), Length(min=10, max=1000)])
     submit = SubmitField('Submit')
 
 class BookForm(FlaskForm):
@@ -12,7 +13,7 @@ class BookForm(FlaskForm):
     author = StringField('Author', validators=[DataRequired(), Length(min=2, max=100)])
     description = TextAreaField('Description', validators=[DataRequired()])
     category_id = IntegerField('Category ID', validators=[DataRequired()])
-    cover_image = FileField('Cover Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')])
+    cover = FileField('Cover Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')])
     file = FileField('Book File', validators=[FileRequired(), FileAllowed(['pdf'], 'PDFs only!')])
     submit = SubmitField('Submit')
 
@@ -20,7 +21,7 @@ class VideoForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(min=2, max=100)])
     description = TextAreaField('Description', validators=[DataRequired()])
     category_id = IntegerField('Category ID', validators=[DataRequired()])
-    cover_image = FileField('Cover Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')])
+    cover = FileField('Cover Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')])
     file = FileField('Video File', validators=[FileRequired(), FileAllowed(['mp4'], 'MP4s only!')])
     submit = SubmitField('Submit')
 
