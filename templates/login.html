@@ -3,25 +3,31 @@
 
 {% block content2 %}
     <h2>Welcome Back</h2>
-    <p>The faster you</p>
-    <div>
+    <p>We're glad your back</p>
+    <div class="form-group">
+        
         <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Email Address"> </input>
+            <input class="form-control" type="email" id="email" name="email" placeholder="Email Address"> </input>
+    </div>    
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter Password"> </input>
+        <div class="form-group">
+            
+            <label for="password">Password</label>
+            <input class="form-control" type="password" id="password" name="password" placeholder="Enter Password"> </input>
+        </div>
 
-        <div>
-            <label for="remember_me">Remember me</label>
-            <input type="checkbox"  name="remember_me" id="remember_me">
+        <div class="idk">
+            <div class="form-group">
+                <input class="check" type="checkbox"  name="remember_me" id="remember_me">
+                <label for="remember_me">Remember me</label>
+            </div>
 
             <a href="/reset_password">Forgot password</a>
         </div>
-        <button type="submit">Login</button>
-    </div>
+        <button type="submit" class="auth-btn">Login</button>
     <p>Don't have an account? <a href="/register">Register</a></p>
 {% endblock %} 
-
+ 
 {% block content3 %}
-    <img src="/static/images/IMG-20230422-WA0018.jpg" alt="">
+    <img src="/static/images/login-img.jpg" alt="">
 {% endblock %}

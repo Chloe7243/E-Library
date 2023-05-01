@@ -1,0 +1,100 @@
+{% extends "base_dashboard.html" %} {% block sidebar %}
+<ul class="nav nav-pills flex-column mb-auto">
+  <li>
+    <a href="/admin_dashboard" class="nav-link big {{d_active}}">
+      <i class="bi bi-speedometer2 me-2"></i>
+      Dashboard
+    </a>
+  </li>
+  <li>
+    <a href="/admin_dashboard" class="nav-link small {{d_active}}">
+      <i class="bi bi-speedometer2 me-2"></i>
+    </a>
+  </li>
+  <li>
+    <a href="/admin_users" class="nav-link big {{u_active}}">
+      <i class="bi bi-people me-2"></i>
+      Users
+    </a>
+  </li>
+  <li>
+    <a href="/admin_users" class="nav-link small {{u_active}}">
+      <i class="bi bi-people me-2"></i>
+    </a>
+  </li>
+  <li>
+    <a href="/admin_books" class="nav-link big {{b_active}}">
+      <i class="bi bi-book me-2"></i>
+      Books
+    </a>
+  </li>
+  <li>
+    <a href="/admin_books" class="nav-link small {{b_active}}">
+      <i class="bi bi-book me-2"></i>
+    </a>
+  </li>
+  <li>
+    <a href="/admin_library" class="nav-link big {{l_active}}">
+      <i class="bi bi-collection me-2"></i>
+      Library
+    </a>
+  </li>
+  <li>
+    <a href="/admin_library" class="nav-link small {{l_active}}">
+      <i class="bi bi-collection me-2"></i>
+    </a>
+  </li>
+  <li>
+    <a href="/admin_requests" class="nav-link big {{r_active}}">
+      <i class="bi bi-hand-index me-2"></i>
+      Requests
+    </a>
+  </li>
+  <li>
+    <a href="/admin_requests" class="nav-link small {{r_active}}">
+      <i class="bi bi-hand-index me-2"></i>
+    </a>
+  </li>
+</ul>
+<hr />
+<div class="dropdown">
+  <a
+    href="#"
+    class="d-flex align-items-center text-decoration-none dropdown-toggle user"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    <i class="bi bi-person-circle me-2"></i>
+    <strong>mdo</strong>
+  </a>
+  <ul class="dropdown-menu text-small shadow admin-settings">
+    <li>
+      <a class="dropdown-item" href="/edit_account">Edit Account</a>
+      <a class="dropdown-item" href="/change_password">Change Password</a>
+    </li>
+    <li><hr class="dropdown-divider" /></li>
+    <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+  </ul>
+</div>
+{% endblock %} {% block main %}
+<div class="main-top">
+  <div class="search-bar">
+    <label for="d_search"></label>
+    <input
+      type="search"
+      name=""
+      id=""
+      placeholder="search books, authors, users, categories"
+    />
+    <i></i>
+  </div>
+
+  <div class="add-buttons">{%block buttons %} {% endblock %}</div>
+</div>
+
+<div class="content">
+  <div class="bigger">{% block content %} {% endblock %}</div>
+
+  <div class="smaller">{% block content2 %} {% endblock %}</div>
+</div>
+{% endblock %}

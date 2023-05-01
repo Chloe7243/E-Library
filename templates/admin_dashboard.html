@@ -1,0 +1,103 @@
+{% extends "base_admin.html" %}
+{%block title %}Dashboard{% endblock %}
+
+{% block content %}
+<div class="statistics">
+  <h3>In the last <span class="time">30 days</span></h3>
+  <div class="main">
+  <div class="category num_books">
+    <p class="number">0</p>
+    <p class="category_title">Books</p>
+  </div>
+  <div class="category num_users">
+    <p class="number">0</p>
+    <p class="category_title">Users</p>
+  </div>
+  <div class="category num_downloads">
+    <p class="number">0</p>
+    <p class="category_title">Downloads</p>
+  </div>
+    </div>
+</div>
+
+<div class="all_users">
+  <div class="header">
+    <h3>All Users</h3>
+    <div class="sort">
+      <div class="search_bar">
+        <label for="d_search"></label>
+        <input type="search" name="" id="" placeholder="search_users" />
+        <i></i>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="table">
+    <table class="users_table">
+      <thead>
+      <tr>
+        <th>Username</th>
+        <th>Lastname</th>
+        <th>Firstname</th>
+        <th>Email Address</th>
+        <th>PFP</th>
+      </tr>
+      </thead>
+    </table>
+
+      <div class="empty ">
+    <h1>NOTHING YET</h1>
+    <i class="bi bi-emoji-frown-fill"></i>
+  </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block content2 %}
+<div class="top_rated row">
+  <div class="top_rated_book col col-md-auto col-lg-auto">
+    <h4>Top rated books</h4>
+    <div class="items">
+      <div class="row-book">
+        <img src="/static/images/girl-reading.png" alt="" width="60" />
+        <p> <b>honest woman</b> </br> <span>Igne Moore</span></p>
+        <p>18+ downloads</p>
+      </div>
+      <div class="row-book">
+        <img src="/static/images/girl-reading.png" alt="" width="60" />
+        <p> <b>honest woman</b> </br> <span>Igne Moore</span></p>
+        <p>18+ downloads</p>
+      </div>
+      <div class="row-book">
+        <img src="/static/images/girl-reading.png" alt="" width="60" />
+        <p> <b>honest woman</b> </br> <span>Igne Moore</span></p>
+        <p>18+ downloads</p>
+      </div>
+    </div>
+    <button class="view_all"><a href="/admin_library">View all books</a></button>
+  </div>
+
+  <div class="top_rated_category col col-md-auto col-lg-auto">
+    <h4>Top rated categories</h4>
+    <div class="items">
+      <div class="row-book">
+        <img src="/static/images/girl-reading.png" alt="" width="60" />
+        <p> <b>honest woman</b> </br> <span>Igne Moore</span></p>
+        <p>18+ downloads</p>
+      </div>
+      <div class="row-book">
+        <img src="/static/images/girl-reading.png" alt="" width="60" />
+        <p> <b>honest woman</b> </br> <span>Igne Moore</span></p>
+        <p>18+ downloads</p>
+      </div>
+      <div class="row-book">
+        <img src="/static/images/girl-reading.png" alt="" width="60" />
+        <p> <b>honest woman</b> </br> <span>Igne Moore</span></p>
+        <p>18+ downloads</p>
+      </div>
+    </div>
+    <button class="view_all"><a href="/admin_library">View all books</a></button>
+  </div>
+</div>
+{% endblock %}

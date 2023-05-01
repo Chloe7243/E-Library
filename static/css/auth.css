@@ -1,0 +1,153 @@
+/* ===============
+    Global Styles
+================*/
+
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Taviraj:ital,wght@0,100;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500;1,600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  color: black;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+:root {
+  --secondary-color: #691852;
+  --light-primary-color: #fff;
+  --dark-primary-color: #000;
+  --grey-color: #cacaca;
+}
+
+body {
+  background: url(/static/images/bg-home-page.jpg) no-repeat fixed center;
+
+}
+
+.container {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  padding: 0;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 70rem;
+  display: flex;
+  height: max-content;
+  min-height: 60vh;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+}
+
+.logo h1 {
+  color: var(--secondary-color);
+  font-size: 2rem;
+}
+
+.back {
+  font-size: 1.5rem;
+  float: right;
+}
+
+.back i {
+  color: var(--secondary-color);
+}
+.form {
+  flex: 1 0 50%;
+  padding: 2rem;
+  background: var(--light-primary-color);
+  overflow-y: scroll;
+}
+
+form {
+  max-height: 70vh;
+  display: flex;
+  flex-direction: column;
+  gap: 1.3rem;
+  padding: 2rem 4rem;
+  overflow-y: scroll;
+}
+
+form h2 {
+  text-align: center;
+}
+
+form h2 + p{
+  margin-top: -1rem;
+  text-align: center;
+  color: var(--grey-color);
+}
+
+form p:last-of-type {
+  text-align: center;
+}
+
+form p a, .idk a {
+  text-decoration: none;
+  color: var(--dark-primary-color);
+}
+
+.auth-btn {
+  margin-top: 2rem;
+  padding: 0.2rem 0;
+  font-size: 1.2rem;
+  background: var(--secondary-color);
+  color: var(--light-primary-color);
+}
+
+.image {
+  flex: 1 0 50%;
+}
+
+.image img {
+  height: 100%;
+  width: 100%;
+}
+
+.idk {
+  display: flex;
+  justify-content: space-between;
+}
+
+
+@media (max-width: 50em) {
+  .container {
+    top:0;
+    left: 0;
+    transform: unset;
+    width: 100vw;
+    height: 100vh;
+  }
+
+  .image {
+    position: absolute;
+    inset: 0;
+    height: inherit;
+  }
+
+  .form {
+    z-index: 2;
+    height: max-content;
+    margin: 50% 2rem;
+    transform: translateY(-50%);
+}
+
+}

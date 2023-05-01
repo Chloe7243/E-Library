@@ -2,29 +2,43 @@
 {%block title %}Sign Up{% endblock %}
 
 {% block content2 %}
-    <h2>Welcome Back</h2>
-    <p>The faster you</p>
-    <div>
-        <label for="firstname">Firstname</label>
-        <input type="firstname" id="firstname" name="firstname" placeholder="Enter Firstname"></input>
+    <h2>Keep It Quiet</h2>
+    <p>It's your library make as much noise as you want</p>
+<div class="form-group">
+    <label for="firstname">Firstname</label>
+    <input class="form-control" type="firstname" id="firstname" name="firstname" placeholder="Enter Firstname"></input>
 
+</div>
+
+<div class="form-group">
     <label for="lastname">Lastname</label>
-        <input type="lastname" id="lastname" name="lastname" placeholder="Enter Lastname"></input>
+    <input class="form-control" type="lastname" id="lastname" name="lastname" placeholder="Enter Lastname"></input>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Enter Email Address"></input>
+</div>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter Password"> </input>
+<div class="form-group">
+    <label for="email">Email</label>
+    <input class="form-control" type="email" id="email" name="email" placeholder="Enter Email Address"></input>
 
-        <label for="confirm_password">Confirm Password</label>
-        <input type="confirm_password" id="confirm_password" name="confirm_password" placeholder="Confirm Password"></input>
+</div>
 
-        <button type="submit">Login</button>
-    </div>
-    <p>Already have an account? <a href="/login">Login</a></p>
+<div class="form-group">
+    <label for="password">Password</label>
+    <input class="form-control" type="password" id="password" name="password" placeholder="Enter Password"> </input>
+
+</div>
+
+<div class="form-group">
+    <label for="confirm_password">Confirm Password</label>
+    <input class="form-control" type="confirm_password" id="confirm_password" name="confirm_password" placeholder="Confirm Password"></input>
+</div>
+
+
+<button type="submit" class="auth-btn">Sign up</button>
+<p>Already have an account? <a href="/login">Login</a></p>
+
 {% endblock %}
 
 {% block content3 %}
-    <img src="/static/images/IMG-20230422-WA0021.jpg" alt="">
+<img src="/static/images/sign-up-img.jpg" alt="">
 {% endblock %}
