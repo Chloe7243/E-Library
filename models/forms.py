@@ -1,6 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, SubmitField, TextAreaField, IntegerField, PasswordField, FileField, FileRequired, FileAllowed, Email, EqualTo
-from wtforms.validators import DataRequired, Length
+from flask_wtf.file import FileRequired, FileAllowed
+from wtforms import StringField, SubmitField, TextAreaField, IntegerField, PasswordField, FileField
+from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 class CategoryForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=100)])

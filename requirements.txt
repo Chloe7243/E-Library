@@ -15,3 +15,4 @@ flask_uploads
 flask_login
 flask_wtf
 werkzeug
+email-validator
