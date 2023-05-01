@@ -5,7 +5,6 @@ from wtforms.validators import DataRequired, Email, Length, EqualTo
 
 class CategoryForm(FlaskForm):
     name = StringField('Name', validators=[DataRequired(), Length(min=2, max=100)])
-    description = StringField('Name', validators=[DataRequired(), Length(min=10, max=1000)])
     submit = SubmitField('Submit')
 
 class BookForm(FlaskForm):

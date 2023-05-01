@@ -1,7 +1,7 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, request, session
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required, current_user
 from werkzeug.security import generate_password_hash, check_password_hash
-from models import db, User
+from models import db, User, ChangePasswordForm
 
 auth_bp = Blueprint('auth', __name__)
 
@@ -24,7 +24,7 @@ def login():
             flash('Invalid email or password.', 'error')
             return redirect(url_for('auth.login'))
     else:
-        return render_template('login.html')
+        return render_template('auth/login.html')
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
@@ -52,7 +52,7 @@ def register():
         flash('Your account has been created.', 'success')
         return redirect(url_for('auth.login'))
     else:
-        return render_template('signUp.html')
+        return render_template('auth/signUp.html')
 
 @auth_bp.route('/register-admin', methods=['GET', 'POST'])
 def register_admin():
@@ -86,11 +86,37 @@ def register_admin():
         flash('Admin account has been created.', 'success')
         return redirect(url_for('auth.login'))
     else:
-        return render_template('register_admin.html')
+        return render_template('auth/admin_signUp.html')
 
 @auth_bp.route('/logout')
 def logout():
     logout_user()
     flash('You have been logged out.', 'success')
     return redirect(url_for('home'))
+
+
+# Render the change password page
+@auth_bp.route('/change_password')
+@login_required
+def change_password():
+    return render_template('auth/password.html')
+
+# Handle the change password form submission
+@auth_bp.route('/change_password', methods=['POST'])
+@login_required
+def update_password():
+    user = current_user
+    form = ChangePasswordForm(request.form)
+    if form.validate():
+        if user.check_password(form.old_password.data):
+            user.password = form.new_password.data
+            db.session.commit()
+            flash('Your password has been updated.', 'success')
+            return redirect(url_for('user_profile'))
+        else:
+            flash('The current password is incorrect.', 'danger')
+            return redirect(url_for('change_password'))
+    else:
+        flash('There was an error updating your password.', 'danger')
+        return redirect(url_for('change_password'))
 

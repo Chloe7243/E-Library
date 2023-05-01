@@ -1,5 +1,5 @@
 from flask import Flask
-from models import db
+from models import db, User
 from flask_login import LoginManager
 from routes.auth import auth_bp
 from routes.views import views
@@ -20,8 +20,28 @@ app.secret_key = 'your-secret-key'
 
 login_manager = LoginManager()
 login_manager.init_app(app)
-login_manager.login_view = 'auth_bp.login'
+login_manager.login_view = 'auth.login'
 
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+@login_manager.request_loader
+def load_user_from_request(request):
+    # Check if the request contains a valid authentication token
+    auth_token = request.headers.get('Authorization')
+    if auth_token:
+        # Verify the token and return the corresponding user object
+        user = User.verify_auth_token(auth_token)
+        if user:
+            return user
+
+    # If no valid authentication token was found, return None
+    return None
+
+
+
+app.register_blueprint(views)
 app.register_blueprint(auth_bp)
 app.register_blueprint(admin_bp)
 app.register_blueprint(user_bp)

@@ -7,8 +7,4 @@ views = Blueprint('views', __name__)
 def home():
     return render_template("home.html")
 
-@views.route('/search')
-def search():
-    return render_template("search.html")
-
 

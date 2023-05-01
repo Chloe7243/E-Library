@@ -8,15 +8,21 @@ from datetime import datetime, timedelta
 
 admin_bp = Blueprint('admin_bp', __name__, url_prefix='/admin')
 
+
+def isAdmin():
+    return current_user.is_admin
+
 # Admin Routes
 @admin_bp.route('/dashboard')
 @login_required
+@isAdmin
 def dashboard():
     return render_template('admin/dashboard.html')
 
 # Profile Route
 @admin_bp.route('/profile', methods=['GET', 'POST'])
 @login_required
+@isAdmin
 def profile():
     if request.method == 'POST':
         form = ProfileForm()
@@ -32,6 +38,7 @@ def profile():
 # Reports
 @admin_bp.route('/reports')
 @login_required
+@isAdmin
 def reports():
     # do some data analysis using the existing database and generate some key statistics
 
@@ -62,7 +69,7 @@ def reports():
     total_users = User.query.count()
     total_rentals = Rental.query.count()
 
-    return render_template('reports.html', popular_books=popular_books, downloads_count=downloads_count,
+    return render_template('admin/reports.html', popular_books=popular_books, downloads_count=downloads_count,
                            rentals_count=rentals_count, access_requests_count=access_requests_count,
                            active_users=active_users, categories_books_counts=categories_books_counts,
                            categories_videos_counts=categories_videos_counts, avg_rental_duration=avg_rental_duration,
@@ -70,24 +77,11 @@ def reports():
 
     return render_template('admin/reports.html', reports=reports)
 
-# Change Password Route
-@admin_bp.route('/change_password', methods=['GET', 'POST'], boolean=True)
-@login_required
-def change_password():
-    if request.method == 'POST':
-        form = ChangePasswordForm()
-        if form.validate_on_submit():
-            if current_user.check_password(form.old_password.data):
-                current_user.password = form.new_password.data
-                db.session.commit()
-        flash('Password updated successfully!', 'success')
-        return redirect(url_for('admin_bp.change_password'))
-    else:
-        return render_template('password.html')
 
 # Category Routes
 @admin_bp.route('/categories')
 @login_required
+@isAdmin
 def categories():
     # get all categories from the database and pass them to the template
     categories = Category.query.all()
@@ -95,11 +89,12 @@ def categories():
 
 @admin_bp.route('/categories/new', methods=['GET', 'POST'])
 @login_required
+@isAdmin
 def new_category():
     if request.method == 'POST':
         form = CategoryForm()
         if form.validate_on_submit():
-            category = Category(name=form.name.data, description=form.description.data)
+            category = Category(name=form.name.data)
             db.session.add(category)
             db.session.commit()
             flash('Category created successfully!', 'success')
@@ -107,33 +102,21 @@ def new_category():
     else:
         return render_template('admin/new_category.html')
 
-@admin_bp.route('/categories/<int:id>/edit', methods=['GET', 'POST'])
-@login_required
-def edit_category(id):
-    if request.method == 'POST':
-        form = CategoryForm()
-        if form.validate_on_submit():
-            # Retrieve the category from the database
-            category = Category.query.get(id)
-
-            # Update the category attributes
-            category.name = form.name.data
-            category.description = form.description.data
-
-            # Commit the changes to the database
-            db.session.commit()
-            flash('Category updated successfully!', 'success')
-        return redirect(url_for('admin_bp.categories'))
-    else:
-        # get the category with the given id from the database and pass it to the template
-        return render_template('admin/edit_category.html')
 
 @admin_bp.route('/categories/<int:id>/delete', methods=['POST'])
 @login_required
+@isAdmin
 def delete_category(id):
     # delete the category with the given id from the database
     category = Category.query.get_or_404(id)
     db.session.delete(category)
+
+    # delete all books and videos in the category
+    for book in category.books:
+        db.session.delete(book)
+    for video in category.videos:
+        db.session.delete(video)
+
     db.session.commit()
     flash('Category deleted successfully!', 'success')
     return redirect(url_for('admin_bp.categories'))
@@ -141,6 +124,7 @@ def delete_category(id):
 # Book Routes
 @admin_bp.route('/books')
 @login_required
+@isAdmin
 def books():
     # get all books from the database and pass them to the template
     books = Book.query.all()
@@ -148,6 +132,7 @@ def books():
 
 @admin_bp.route('/books/new', methods=['GET', 'POST'])
 @login_required
+@isAdmin
 def new_book():
     if request.method == 'POST':
         form = BookForm()
@@ -177,6 +162,7 @@ def new_book():
 
 @admin_bp.route('/books/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
+@isAdmin
 def edit_book(id):
     # Retrieve the book from the database
     book = Book.query.get(id)
@@ -190,6 +176,17 @@ def edit_book(id):
             book.author = form.author.data
             book.category_id = form.category.data.id
 
+            # Update book cover photo
+            if form.cover.data:
+                # delete former cover 
+                if book.cover_path:
+                    os.remove(book.cover_path)
+
+                cover_filename = f'cover_{book.id}.jpg'
+                cover_path = os.path.join(current_app.root_path, 'static/images/covers', cover_filename)
+                form.cover.data.save(cover_path)
+                book.cover_path = cover_path
+
             # Commit the changes to the database
             db.session.commit()
             flash('Book updated successfully!', 'success')
@@ -200,9 +197,14 @@ def edit_book(id):
 
 @admin_bp.route('/books/<int:id>/delete', methods=['POST'])
 @login_required
+@isAdmin
 def delete_book(id):
     # delete the book with the given id from the database
     book = Book.query.get_or_404(id)
+
+    # delete the book cover
+    if book.cover_path:
+        os.remove(book.cover_path)
 
     # delete the book's file from the filesystem
     if book.file:
@@ -216,6 +218,7 @@ def delete_book(id):
 # Request routes
 @admin_bp.route('/requests')
 @login_required
+@isAdmin
 def requests():
     # get all access and download requests from the database and pass them to the template
     access_requests = AccessRequest.query.all()
@@ -225,6 +228,7 @@ def requests():
 
 @admin_bp.route('/grant-access-request/<int:request_id>', methods=['POST'])
 @login_required
+@isAdmin
 def grant_access_request(request_id):
     # grant access to the user's request with the given id
     request = AccessRequest.query.get_or_404(request_id)
@@ -246,6 +250,7 @@ def grant_access_request(request_id):
 
 @admin_bp.route('/grant-download-request/<int:request_id>', methods=['POST'])
 @login_required
+@isAdmin
 def grant_download_request(request_id):
     # grant download to the user's request with the given id
     request = DownloadRequest.query.get_or_404(request_id)
@@ -271,6 +276,7 @@ def grant_download_request(request_id):
 # Renders a list of all the videos
 @admin_bp.route('/videos')
 @login_required
+@isAdmin
 def videos():
     videos = Video.query.all()
     return render_template('admin/videos.html', videos=videos)
@@ -279,6 +285,7 @@ def videos():
 # Renders a form to create a new video
 @admin_bp.route('/videos/new', methods=['GET', 'POST'])
 @login_required
+@isAdmin
 def new_video():
     if request.method == 'POST':
         form = VideoForm()
@@ -310,6 +317,7 @@ def new_video():
 # Renders a form to edit a video
 @admin_bp.route('/videos/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
+@isAdmin
 def edit_video(id):
     # Retrieve the video from the database
     video = Video.query.get(id)
@@ -323,6 +331,19 @@ def edit_video(id):
             video.author = form.author.data
             video.category_id = form.category.data.id
 
+            # Upload the video cover
+            if form.cover.data:
+                # delete former cover photo
+                if video.cover_path:
+                    os.remove(video.cover_path)
+
+                # upload new cover photo
+                cover_filename = f'cover_{video.id}.jpg'
+                cover_path = os.path.join(current_app.root_path, 'static/images/covers', cover_filename)
+                form.cover.data.save(cover_path)
+                video.cover_path = cover_path
+
+
             # Commit the changes to the database
             db.session.commit()
             flash('Video updated successfully!', 'success')
@@ -335,6 +356,7 @@ def edit_video(id):
 # Deletes a video
 @admin_bp.route('/videos/<int:id>/delete', methods=['POST'])
 @login_required
+@isAdmin
 def delete_video(id):
     # delete the video with the given id from the database
     video = Video.query.get_or_404(id)

@@ -4,7 +4,7 @@ from models import User, Book, Rental, BookDownload, AccessRequest, DownloadRequ
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
-# render the search page, if they are logged in as users set a variable logged_in to true so that the frontend can allow them to request access to a book
+# render the search page
 @user_bp.route('/search')
 @login_required
 def search():
@@ -12,21 +12,21 @@ def search():
 
 
 # Render the user dashboard
-@user_bp.route('/')
+@user_bp.route('/dashboard')
 @login_required
 def user_dashboard():
     user = User.query.get(current_user.id)
     return render_template('user/dashboard.html', user=user)
 
 # Render the user profile page
-@user_bp.route('/profile')
+@user_bp.route('/edit_profile')
 @login_required
 def user_profile():
-    user = current_user
-    return render_template('user/profile.html', user=user)
+    user = User.query.get(current_user.id)
+    return render_template('user/edit_profile.html', user=user)
 
 # Handle the user profile form submission
-@user_bp.route('/profile', methods=['POST'])
+@user_bp.route('/edit_profile', methods=['POST'])
 @login_required
 def update_user_profile():
     user = current_user
@@ -40,45 +40,23 @@ def update_user_profile():
     else:
         flash('There was an error updating your profile.', 'danger')
         return redirect(url_for('user_profile'))
+    
 
-# Render the change password page
-@user_bp.route('/change_password')
+# Render the list of books requests made by the user
+@user_bp.route('/requests')
 @login_required
-def change_password():
-    form = ChangePasswordForm()
-    return render_template('user/change_password.html', form=form)
-
-# Handle the change password form submission
-@user_bp.route('/change_password', methods=['POST'])
-@login_required
-def update_password():
-    user = current_user
-    form = ChangePasswordForm(request.form)
-    if form.validate():
-        if user.check_password(form.old_password.data):
-            user.password = form.new_password.data
-            db.session.commit()
-            flash('Your password has been updated.', 'success')
-            return redirect(url_for('user_profile'))
-        else:
-            flash('The current password is incorrect.', 'danger')
-            return redirect(url_for('change_password'))
-    else:
-        flash('There was an error updating your password.', 'danger')
-        return redirect(url_for('change_password'))
-
-# Render the list of books available in the E-Library
-@user_bp.route('/books')
-@login_required
-def list_books():
-    books = Book.query.all()
-    return render_template('user/books.html', books=books)
+def list_requests():
+    access_requests = AccessRequest.query.filter_by(user_id=current_user.id)
+    download_requests = DownloadRequest.query.filter_by(user_id=current_user.id)
+    return render_template('user/requests.html', access_requests=access_requests, download_requests=download_requests)
 
 # Render the details of a specific book
 @user_bp.route('/books/<int:id>')
 @login_required
 def book_details(id):
     return render_template('user/book_details.html', book=Book.query.get(id))
+
+
 
 # Render the page to read the book online
 @user_bp.route('/books/<int:id>/read')
