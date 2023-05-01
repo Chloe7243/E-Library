@@ -1,7 +1,7 @@
 import os
 from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
 from flask_login import current_user, login_required
-from models import User, Book, Video, Rental, Category, BookDownload, AccessRequest, DownloadRequest, Report, db
+from models import User, Book, Video, Rental, Category, BookDownload, AccessRequest, DownloadRequest, db
 from models import ChangePasswordForm, ProfileForm, CategoryForm, BookForm, VideoForm
 from datetime import datetime, timedelta
  
