@@ -64,10 +64,5 @@ class AccessRequest(db.Model):
     date_due = db.Column(db.DateTime, nullable=False)
 
 
-class Report(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
-    activity = db.Column(db.String(100), nullable=False)
-    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
 
     

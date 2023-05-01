@@ -1,8 +1,9 @@
 import os
 from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
 from flask_login import current_user, login_required
-from models import User, Book, Rental,Category, BookDownload, AccessRequest, DownloadRequest, Report, db
-from models import ChangePasswordForm, ProfileForm, CategoryForm, BookForm
+from models import User, Book, Video, Rental, Category, BookDownload, AccessRequest, DownloadRequest, Report, db
+from models import ChangePasswordForm, ProfileForm, CategoryForm, BookForm, VideoForm
+from datetime import datetime, timedelta
  
 
 admin_bp = Blueprint('admin_bp', __name__, url_prefix='/admin')
@@ -32,7 +33,41 @@ def profile():
 @admin_bp.route('/reports')
 @login_required
 def reports():
-    reports = Report.query.all()
+    # do some data analysis using the existing database and generate some key statistics
+
+    # Most Popular Books
+    popular_books = Book.query.join(Rental).group_by(Book.id).order_by(db.func.count(Rental.id).desc()).limit(10).all()
+
+    # User Engagement
+    today = datetime.utcnow()
+    week_ago = today - timedelta(days=7)
+    downloads_count = BookDownload.query.filter(BookDownload.date_created >= week_ago).count()
+    rentals_count = Rental.query.filter(Rental.date_rented >= week_ago).count()
+    access_requests_count = AccessRequest.query.filter(AccessRequest.date_requested >= week_ago).count()
+
+    # Most Active Users
+    active_users = User.query.join(Rental).group_by(User.id).order_by(db.func.count(Rental.id).desc()).limit(10).all()
+
+    # Categories
+    categories = Category.query.all()
+    categories_books_counts = [(c.name, len(c.books)) for c in categories]
+    categories_videos_counts = [(c.name, len(c.videos)) for c in categories]
+
+    # Rental Duration
+    rentals_duration = Rental.query.all()
+    avg_rental_duration = sum((r.date_due - r.date_rented).days for r in rentals_duration) / len(rentals_duration)
+
+    # Total number of books, users, and rentals
+    total_books = Book.query.count()
+    total_users = User.query.count()
+    total_rentals = Rental.query.count()
+
+    return render_template('reports.html', popular_books=popular_books, downloads_count=downloads_count,
+                           rentals_count=rentals_count, access_requests_count=access_requests_count,
+                           active_users=active_users, categories_books_counts=categories_books_counts,
+                           categories_videos_counts=categories_videos_counts, avg_rental_duration=avg_rental_duration,
+                           total_books=total_books, total_users=total_users, total_rentals=total_rentals)
+
     return render_template('admin/reports.html', reports=reports)
 
 # Change Password Route
@@ -204,10 +239,6 @@ def grant_access_request(request_id):
     # delete the request from the database
     db.session.delete(request)
 
-    # add to reports table
-    report = Report(user_id=user.id, activity="Access Request Granted")
-    db.session.add(report)
-
     # commit the changes to the database
     db.session.commit()
 
@@ -228,12 +259,95 @@ def grant_download_request(request_id):
     # delete the request from the database
     db.session.delete(request)
 
-    # add to reports table
-    report = Report(user_id=user.id, activity="Download Request Granted")
-    db.session.add(report)
-
     # commit the changes to the database
     db.session.commit()
     
     return redirect(url_for('admin_bp.requests'))
 
+
+
+# Video Routes
+
+# Renders a list of all the videos
+@admin_bp.route('/videos')
+@login_required
+def videos():
+    videos = Video.query.all()
+    return render_template('admin/videos.html', videos=videos)
+
+
+# Renders a form to create a new video
+@admin_bp.route('/videos/new', methods=['GET', 'POST'])
+@login_required
+def new_video():
+    if request.method == 'POST':
+        form = VideoForm()
+        if form.validate_on_submit():
+            video = Video(title=form.title.data, description=form.description.data, author=form.author.data, category_id=form.category.data.id)
+            db.session.add(video)
+            
+
+            # upload video cover and video file (mp4)
+            if form.cover.data:
+                cover_filename = f'cover_{video.id}.jpg'
+                cover_path = os.path.join(current_app.root_path, 'static/images/covers', cover_filename)
+                form.cover.data.save(cover_path)
+                video.cover_path = cover_path
+
+            if form.file.data:
+                file_filename = f'video_{video.id}.mp4'
+                file_path = os.path.join(current_app.root_path, 'static/videos', file_filename)
+                form.file.data.save(file_path)
+                video.file_path = file_path
+            
+            db.session.commit()
+            flash('Video created successfully!', 'success')
+        return redirect(url_for('admin_bp.videos'))
+    else:
+        return render_template('admin/new_video.html')
+    
+
+# Renders a form to edit a video
+@admin_bp.route('/videos/<int:id>/edit', methods=['GET', 'POST'])
+@login_required
+def edit_video(id):
+    # Retrieve the video from the database
+    video = Video.query.get(id)
+    if request.method == 'POST':
+        form = VideoForm()
+        if form.validate_on_submit():
+
+            # Update the video attributes
+            video.title = form.title.data
+            video.description = form.description.data
+            video.author = form.author.data
+            video.category_id = form.category.data.id
+
+            # Commit the changes to the database
+            db.session.commit()
+            flash('Video updated successfully!', 'success')
+        return redirect(url_for('admin_bp.videos'))
+    else:
+        # get the video with the given id from the database and pass it to the template
+        return render_template('admin/edit_video.html', video=video)
+    
+
+# Deletes a video
+@admin_bp.route('/videos/<int:id>/delete', methods=['POST'])
+@login_required
+def delete_video(id):
+    # delete the video with the given id from the database
+    video = Video.query.get_or_404(id)
+
+    # delete the video's file from the filesystem
+    if video.file_path:
+        os.remove(os.path.join(current_app.root_path, 'static', video.file_path))
+
+    # delete the video's cover from the filesystem
+    if video.cover_path:
+        os.remove(os.path.join(current_app.root_path, 'static', video.cover_path))
+
+    db.session.delete(video)
+    db.session.commit()
+    flash('Video deleted successfully!', 'success')
+    return redirect(url_for('admin_bp.videos'))
