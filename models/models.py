@@ -16,6 +16,7 @@ class User(db.Model, UserMixin):
 class Category(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)
+    description = db.Column(db.String(1000), nullable=False)
     books = db.relationship('Book', backref='category', lazy=True)
     videos = db.relationship('Video', backref='category', lazy=True)
 
@@ -61,3 +62,12 @@ class AccessRequest(db.Model):
     book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
     date_requested = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
     date_due = db.Column(db.DateTime, nullable=False)
+
+
+class Report(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+    activity = db.Column(db.String(100), nullable=False)
+    timestamp = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+
+    
