@@ -78,7 +78,6 @@ def list_books():
 @user_bp.route('/books/<int:id>')
 @login_required
 def book_details(id):
-    book = Book.query.get(id)
     return render_template('user/book_details.html', book=book)
 
 # Render the page to read the book online

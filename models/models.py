@@ -25,7 +25,7 @@ class Book(db.Model):
     title = db.Column(db.String(100), nullable=False)
     author = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    cover_image = db.Column(db.String(100), nullable=False)
+    cover_path = db.Column(db.String(100), nullable=False)
     file_path = db.Column(db.String(100), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
     rentals = db.relationship('Rental', backref='book', lazy=True)
@@ -34,7 +34,7 @@ class Video(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String(100), nullable=False)
     description = db.Column(db.Text, nullable=False)
-    cover_image = db.Column(db.String(100), nullable=False)
+    cover_path = db.Column(db.String(100), nullable=False)
     file_path = db.Column(db.String(100), nullable=False)
     category_id = db.Column(db.Integer, db.ForeignKey('category.id'), nullable=False)
 

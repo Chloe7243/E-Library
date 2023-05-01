@@ -1,5 +1,5 @@
 import os
-from flask import Blueprint, render_template, redirect, url_for, flash, send_file, abort, request, current_app
+from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
 from flask_login import current_user, login_required
 from models import User, Book, Rental,Category, BookDownload, AccessRequest, DownloadRequest, Report, db
 from models import ChangePasswordForm, ProfileForm, CategoryForm, BookForm
@@ -119,6 +119,21 @@ def new_book():
         if form.validate_on_submit():
             book = Book(title=form.title.data, description=form.description.data, author=form.author.data, category_id=form.category.data.id)
             db.session.add(book)
+            
+
+            # upload book cover and book file (pdf)
+            if form.cover.data:
+                cover_filename = f'cover_{book.id}.jpg'
+                cover_path = os.path.join(current_app.root_path, 'static/images/covers', cover_filename)
+                form.cover.data.save(cover_path)
+                book.cover_path = cover_path
+
+            if form.file.data:
+                file_filename = f'book_{book.id}.pdf'
+                file_path = os.path.join(current_app.root_path, 'static/books', file_filename)
+                form.file.data.save(file_path)
+                book.file_path = file_path
+            
             db.session.commit()
             flash('Book created successfully!', 'success')
         return redirect(url_for('admin_bp.books'))
@@ -156,7 +171,7 @@ def delete_book(id):
 
     # delete the book's file from the filesystem
     if book.file:
-        os.remove(os.path.join(current_app.root_path, 'static', book.file))
+        os.remove(os.path.join(current_app.root_path, 'static', book.file_path))
 
     db.session.delete(book)
     db.session.commit()
