@@ -1,30 +1,68 @@
-{% extends "base_auth.html" %}
-{%block title %}Sign Up{% endblock %}
+{% extends "/auth/base_auth.html" %} {%block title %}Sign Up{% endblock %} {%
+block content2 %}
+<h2>Keep it Quiet</h2>
+<p>It's ypur library, you make the rules</p>
+<div class="form-group">
+  <label for="name">Name</label>
+  <input
+    class="form-control"
+    type="name"
+    id="name"
+    name="name"
+    placeholder="Your Name"
+  />
+</div>
 
-{% block content2 %}
-    <h2>Welcome Back</h2>
-    <p>The faster you</p>
-    <div>
-        <label for="name">Name</label>
-        <input type="name" id="name" name="name" placeholder="Enter your name"></input>
+<div class="form-group">
+  <label for="email">Email</label>
+  <input
+    class="form-control"
+    type="email"
+    id="email"
+    name="email"
+    placeholder="Enter Email Address"
+  />
+</div>
 
-        <label for="email">Email</label>
-        <input type="email" id="email" name="email" placeholder="Enter Email Address"></input>
+<div class="form-group pass">
+  <label for="password">Password</label>
+  <input
+    class="form-control"
+    type="password"
+    id="password"
+    name="password"
+    placeholder="Enter Password"
+  />
+  <i class="bi bi-eye"></i>
+</div>
 
-        <label for="password">Password</label>
-        <input type="password" id="password" name="password" placeholder="Enter Password"> </input>
+<div class="form-group pass">
+  <label for="confirm_password">Confirm Password</label>
+  <input
+    class="form-control"
+    type="confirm_password"
+    id="confirm_password"
+    name="confirm_password"
+    placeholder="Confirm Password"
+  />
+  <i class="bi bi-eye"></i>
+</div>
 
-        <label for="confirm_password">Confirm Password</label>
-        <input type="confirm_password" id="confirm_password" name="confirm_password" placeholder="Confirm Password"></input>
+<div class="form-group pass">
+  <label for="passkey">Enter PassKey</label>
+  <input
+    class="form-control"
+    type="passkey"
+    id="passkey"
+    name="passkey"
+    placeholder="Passkey"
+  />
+  <i class="bi bi-eye"></i>
+</div>
 
-        <label for="passkey">Enter PassKey</label>
-        <input type="passkey" id="passkey" name="passkey" placeholder="PassKey"></input>
+<button type="submit" class="auth-btn">Sign up</button>
+<p>Already have an account? <a href="/login">Login</a></p>
 
-        <button type="submit">Login</button>
-    </div>
-    <p>Already have an account? <a href="/login">Login</a></p>
-{% endblock %}
-
-{% block content3 %}
-    <img src="/static/images/sign-up-img.jpg" alt="">
+{% endblock %} {% block content3 %}
+<img src="/static/images/sign-up-img.jpg" alt="" />
 {% endblock %}
