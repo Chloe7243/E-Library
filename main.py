@@ -8,15 +8,14 @@ from routes.admin import admin_bp
 
 app = Flask(__name__)
 
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///library.db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+app.secret_key = 'your-secret-key'
+
 db.init_app(app)
 
 with app.app_context():
     db.create_all()
-
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///models/library.db'
-app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
-app.secret_key = 'your-secret-key'
-
 
 login_manager = LoginManager()
 login_manager.init_app(app)
