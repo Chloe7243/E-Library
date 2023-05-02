@@ -1,6 +1,4 @@
-{% extends "base.html" %}
-
-{% block content %}
+{% extends "base.html" %} {% block content %}
 <div id="hero-section">
   <div class="container">
     <div class="left-half">
@@ -14,12 +12,14 @@
         class="col-12 col-lg-auto mb-2 mb-lg-0 me-lg-auto search-input"
         role="search"
       >
-        <input
-          type="search"
-          class="form-control"
-          placeholder="Browse Books"
-          aria-label="Search"
-        />
+        <a href="/books">
+          <input
+            type="search"
+            class="form-control"
+            placeholder="Browse Books"
+            aria-label="Search"
+          />
+        </a>
         <i class="bi bi-search"></i>
       </form>
       <div class="partner">
@@ -55,19 +55,19 @@
       <div class="step">
         <div class="number"><p>1</p></div>
         <h3>Register</h3>
-        <p>Register yourself as a book-lite application user</p>
+        <p>Register and become a book-lite application user</p>
       </div>
       <div class="stepper"></div>
       <div class="step">
         <div class="number"><p>2</p></div>
-        <h3>Verify account</h3>
-        <p>Verify your email address</p>
+        <h3>Request</h3>
+        <p>Request a book</p>
       </div>
       <div class="stepper"></div>
       <div class="step">
         <div class="number"><p>3</p></div>
         <h3>Read</h3>
-        <p>Search and read books of your choice</p>
+        <p>Read book online or download</p>
       </div>
     </div>
   </div>

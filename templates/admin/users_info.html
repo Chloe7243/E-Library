@@ -1,5 +1,23 @@
-{% extends "base_admin.html" %} {%block title %}Users{% endblock %} {%block
-content %}
+{% extends "/admin/base_admin.html" %}
+{%block title %}Users{% endblock %}
+
+{% block top %}
+<div class="main-top">
+  <div class="search-bar">
+    <label for="d_search"></label>
+    <input
+      type="search"
+      name=""
+      id=""
+      placeholder="Search Users"
+    />
+    <i></i>
+  </div>
+
+</div>
+{% endblock %}
+
+{% block content %}
 <div class="all_users table">
   <table class="users_table">
     <thead>

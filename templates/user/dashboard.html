@@ -2,38 +2,99 @@
 
 {% block main %}
 <h3>Dashboard</h3>
-<p>Welcome back</p>
+<p>Welcome back, Let's get back to it</p>
 
-<div>
-  <div></div>
-  <div></div>
-  <div></div>
+<div class="statistics">
+  <div class="main">
+    <div class="category num_books">
+      <p class="number">0</p>
+      <p class="books-read">Books Read</p>
+    </div>
+    <div class="category num-downloaded">
+      <p class="number">0</p>
+      <p class="downloaded-books">Books Downloaded</p>
+    </div>
+    <div class="category num_downloads">
+      <p class="number">0</p>
+      <p class="requests">Requests</p>
+    </div>
+  </div>
 </div>
 
-<div>
-  <div>
-    <h3></h3>
-    <button></button>
-    <button></button>
+<div class="navigate-books">
+  <div class="navigation" id="navbarNav">
+    <ul class="nav">
+      <li class="nav-item {{book}}">
+        <a href="/user_books" class="nav-link">My Books</a>
+      </li>
+      <li class="nav-item {{video}}">
+        <a href="/user_videos" class="nav-link">My Videos</a>
+      </li>
+    </ul>
   </div>
-  <div class="users_books">
-    <div class="book">
-      <div class="about_book">
-        <img src="" alt="" />
-        <p class="book_title"></p>
-        <p class="book_author"></p>
-      </div>
 
-      <div class="progress">
-        <progress></progress>
-        <p>Progress: <span class="percentage"></span></p>
-      </div>
+  {% if book == "active" %}
+  <div class="users-books">
+    <div class="users-books-content">
+      <div class="book">
+        <div class="about_book">
+          <img src="/static/images/book.jpeg" alt="" /width="50">
+          <p class="book_title">The thousand flames</p>
+          <p class="book_author">Emilia Clark</p>
+        </div>
 
-      <div class="action">
-        <button></button>
-        <button></button>
+        <div class="actions">
+          <button><a href="/read">Read book</a></button>
+          <button>Request Download</button>
+        </div>
+      </div>
+      <div class="book">
+        <div class="about_book">
+          <img src="/static/images/book.jpeg" alt="" /width="50">
+          <p class="book_title">The thousand flames</p>
+          <p class="book_author">Emilia Clark</p>
+        </div>
+
+        <div class="actions">
+          <button>Read book</button>
+          <button>Request Download</button>
+        </div>
+      </div>
+      <div class="book">
+        <div class="about_book">
+          <img src="/static/images/book.jpeg" alt="" /width="50">
+          <p class="book_title">The thousand flames</p>
+          <p class="book_author">Emilia Clark</p>
+        </div>
+
+        <div class="actions">
+          <button>Read book</button>
+          <button>Request Download</button>
+        </div>
       </div>
     </div>
   </div>
+  {% endif %} {% if video == "active" %}
+  <div class="users-videos">
+      <div class="video">
+          <img src="/static/images/book.jpeg" alt="" />
+          <p>TItle: MY title</p>
+          <p>Description: MY Desc</p>
+          <i class="bi bi-play-fill"></i>
+      </div>
+      <div class="video">
+          <img src="/static/images/book.jpeg" alt="" />
+          <i class="bi bi-play-fill"></i>
+      </div>
+      <div class="video">
+          <img src="/static/images/book.jpeg" alt="" />
+          <i class="bi bi-play-fill"></i>
+      </div>
+      <div class="video">
+          <img src="/static/images/book.jpeg" alt="" />
+          <i class="bi bi-play-fill"></i>
+      </div>
+  </div>
+  {% endif%}
 </div>
 {% endblock %}

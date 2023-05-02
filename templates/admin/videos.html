@@ -1,0 +1,92 @@
+{% extends "/admin/base_admin.html" %}
+{%block title %}Books{% endblock %}
+
+
+{% block main %}
+<div class="main-top">
+  <div class="search-bar">
+    <label for="d_search"></label>
+    <input
+      type="search"
+      name=""
+      id=""
+      placeholder="Search videos"
+    />
+    <i></i>
+  </div>
+
+  <div class="add-buttons">
+    <button class="add-user">
+      <a href="/new_video">
+        <i class="bi bi-play-btn"></i>
+        Add Video
+      </a>
+    </button>
+  </div>
+</div>
+
+<div class="lib-item all-videos">
+  <div class="video-category">
+    <h3>Kids</h3>
+    <div class="video-category-content row">
+      <div class="col col-md-auto col-lg-auto">
+        <video width="3" controls>
+          <source src="/static/images/mov_bbb.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="desc">
+          <p>The Big white Bunny</p>
+          <p>descd</p>
+          <button><a href="/edit_video">Edit</a></button>
+          <button><a href="/delete_book">Delete</a></button>
+        </div>
+      </div>
+
+      <div class="col col-md-auto col-lg-auto">
+        <video width="3" controls>
+          <source src="/static/images/mov_bbb.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="desc">
+          <p>The Big white Bunny</p>
+          <p>descd</p>
+          <button><a href="/edit_video">Edit</a></button>
+          <button><a href="/delete_book">Delete</a></button>
+        </div>
+      </div>
+      <div class="col col-md-auto col-lg-auto">
+        <video width="3" controls>
+          <source src="/static/images/mov_bbb.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="desc">
+          <p>The Big white Bunny</p>
+          <p>descd</p>
+          <button><a href="/edit_video">Edit</a></button>
+          <button><a href="/delete_book">Delete</a></button>
+        </div>
+      </div>
+      <div class="col col-md-auto col-lg-auto">
+        <video width="3" controls>
+          <source src="/static/images/mov_bbb.mp4" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="desc">
+          <p>The Big white Bunny</p>
+          <p>descd</p>
+          <button><a href="/edit_video">Edit</a></button>
+          <button><a href="/delete_book">Delete</a></button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+
+
+
+
+

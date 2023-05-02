@@ -1,30 +1,67 @@
-{% extends "base_user.html" %} 
+{% extends "base_user.html" %} {% block main %}
+<h3>Discover</h3>
+<p>Knows which author and books to look out for</p>
 
-{% block main %}
-<h3>Dashboard</h3>
-<p>Welcome back</p>
+<div class="statistics discover-img">
+  <div class="main">
+    <div class="category img"></div>
+    <div class="category img"></div>
+  </div>
+</div>
 
-<img src="" alt="">
-<div>
-    <div class="navigation"> 
-        <ul>
-            <li></li>
-            <li></li>
-            <li></li>
-            <li></li>
-        </ul>
+<div class="navigate-books">
+  <div class="navigation" id="navbarNav">
+    <ul class="nav">
+      <li class="nav-item active">
+         <a href="#" class="nav-link">Most Popular</a>
+      </li>
+      <li class="nav-item">
+        <a href="#" class="nav-link">See All</a>
+      </li>
+    </ul>
+        <form class="form-inline my-2 ">
+      <input class="form-control mr-sm-2" type="search" placeholder="Search users, authors, titles" aria-label="Search">
+    </form>
+  </div>
+
+  <div class="discover-books">
+    <div class="book-d">
+      <img src="/static/images/book.jpeg" alt="" />
+      <div class="about-book-d">
+        <p class="title"> <strong> Know my name </strong></p>
+        <p class="blurb"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, sit! </p>
+        <button class="download">Request</button>
+        <button class="more">View More</button>
+      </div>
     </div>
-
-    <div class="discover_books">
-        <div class="book_d">
-            <img src="" alt="">
-            <div class="about_book_d">
-                <p class="title"></p>
-                <p class="blurb"></p>
-                <button class="download">Download</button>
-            </div>
-        </div>
+    <div class="book-d">
+      <img src="/static/images/book.jpeg" alt="" />
+      <div class="about-book-d">
+        <p class="title"> <strong> Know my name </strong></p>
+        <p class="blurb"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, sit! </p>
+        <button class="download">Request</button>
+        <button class="more">View More</button>
+      </div>
     </div>
+    <div class="book-d">
+      <img src="/static/images/book.jpeg" alt="" />
+      <div class="about-book-d">
+        <p class="title"> <strong> Know my name </strong></p>
+        <p class="blurb"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, sit! </p>
+        <button class="download">Request</button>
+        <button class="more">View More</button>
+      </div>
+    </div>
+    <div class="book-d">
+      <img src="/static/images/book.jpeg" alt="" />
+      <div class="about-book-d">
+        <p class="title"> <strong> Know my name </strong></p>
+        <p class="blurb"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, sit! </p>
+        <button class="download">Request</button>
+        <button class="more">View More</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 {% endblock %}

@@ -1,0 +1,69 @@
+{% extends "/base_dashboard.html" %}
+{%block title %}
+User
+{% endblock %} 
+{%block profile%}
+<div class="user-profile">
+  <div class="">
+    <img src="/static/images/purple-abstract-img.png" alt="" width="50"/>
+  </div>
+  <h3 class="fullname">David Hugh</h3>
+  <p class="username">@user1</p>
+</div>
+{% endblock %} {% block sidebar %}
+<ul class="nav nav-pills flex-column mb-auto">
+  <li>
+    <a href="/user_dashboard" class="nav-link big {{d_active}}">
+      <i class="bi bi-speedometer2 me-2"></i>
+      Dashboard
+    </a>
+  </li>
+  <li>
+    <a href="/user_dashboard" class="nav-link small {{d_active}}">
+      <i class="bi bi-speedometer2 me-2"></i>
+    </a>
+  </li>
+  <li>
+    <a href="/user_discover" class="nav-link big {{di_active}}">
+      <i class="bi bi-compass me-2"></i>
+      Discover
+    </a>
+  </li>
+  <li>
+    <a href="/user_discover" class="nav-link small {{di_active}}">
+      <i class="bi bi-compass me-2"></i>
+    </a>
+  </li>
+  <li>
+    <a href="/user_requests" class="nav-link big {{r_active}}">
+      <i class="bi bi-hand-index me-2"></i>
+      Requests
+    </a>
+  </li>
+  <li>
+    <a href="/user_requests" class="nav-link small {{r_active}}">
+      <i class="bi bi-hand-index me-2"></i>
+    </a>
+  </li>
+</ul>
+<hr />
+<div class="dropdown">
+  <a
+    href="#"
+    class="d-flex align-items-center text-decoration-none dropdown-toggle user"
+    data-bs-toggle="dropdown"
+    aria-expanded="false"
+  >
+    <i class="bi bi-gear me-2"></i>
+    <strong>Settings</strong>
+  </a>
+  <ul class="dropdown-menu text-small shadow admin-settings">
+    <li>
+      <a class="dropdown-item" href="/edit_account">View Profile</a>
+      <a class="dropdown-item" href="/change_password">Change Password</a>
+    </li>
+    <li><hr class="dropdown-divider" /></li>
+    <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+  </ul>
+</div>
+{% endblock %}

@@ -19,6 +19,10 @@
       rel="stylesheet"
       href="{{url_for('static', filename='css/admin.css')}}"
     />
+    <link
+      rel="stylesheet"
+      href="{{url_for('static', filename='css/user.css')}}"
+    />
 
   </head>
   <body>
@@ -39,11 +43,13 @@
       >
      <img src="/static/images/book-stack.png" alt="" width="40">
       </a>
+      
+      {% block profile %} {% endblock %}
       <hr />
       {% block sidebar %} {% endblock %}
     </div>
 
-    <main>
+    <main class="{{ 'no-scroll' if rep_active == 'active' else ''}}">
       <div class="container-2">
       {% block main %} {% endblock %}
     </div>

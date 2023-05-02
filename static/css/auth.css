@@ -127,6 +127,17 @@ form p a, .idk a {
   justify-content: space-between;
 }
 
+.pass {
+  position: relative;
+}
+
+.pass > i {
+  position: absolute;
+  top: 50%;
+  right: 2.5%;
+  cursor: pointer;
+}
+
 
 @media (max-width: 50em) {
   .container {

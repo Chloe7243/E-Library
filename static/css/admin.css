@@ -96,6 +96,11 @@ main {
   font-size: 2.3rem !important;
 }
 
+.form-control{
+  appearance:auto;
+  -webkit-appearance:auto;
+}
+
 .nav-pills .nav-link.active,
 .nav-pills .nav-link.active i {
   background: var(--secondary-color);
@@ -115,6 +120,7 @@ main {
 .dropdown-toggle::after {
   color: #000;
 }
+
 
 .main-top {
   display: flex;
@@ -229,10 +235,15 @@ table img {
 }
 
 .statistics .main {
+  overflow: scroll;
   display: flex;
   gap: 1rem;
   color: var(--light-primary-color);
   color: #fff;
+}
+
+.books_statistics, .users_statistics{
+  overflow: scroll;
 }
 
 .statistics .category {
@@ -249,6 +260,20 @@ table img {
   border-radius: 0.5rem;
   font-size: 1.5rem;
   padding: 1rem 1.2rem;
+  min-width: 250px;
+}
+
+.discover-img {
+  height: 27%;
+}
+
+.discover-img .main{
+  height: 100%;
+}
+
+.discover-img .img{
+  background: url("/static/images/reset-password-img.jpg");
+  background-size: contain;
 }
 
 .statistics .category p {
@@ -416,6 +441,28 @@ video {
   display: none !important;
 }
 
+.reports{
+  overflow: scroll;
+  height: 75%;
+}
+
+.no-scroll{
+  overflow:hidden;
+}
+
+.delete-category {
+  background-color: var(--secondary-color);
+  width: 100%;
+  padding: 1rem;
+  margin-top: 2rem;
+}
+
+.delete-category a{
+  font-size: 1.5rem;
+  text-decoration: none;
+  color: var(--light-primary-color);
+}
+
 @media (max-width: 1100px) {
   .content {
     flex-direction: column;
@@ -440,7 +487,6 @@ video {
   .books_statistics > div + div {
     margin: 0;
   }
-
 
   .top_rated > div + div{
     margin: 0;

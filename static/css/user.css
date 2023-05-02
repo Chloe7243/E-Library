@@ -1,0 +1,206 @@
+/* ===============
+    Global Styles
+================*/
+
+@import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Taviraj:ital,wght@0,100;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500;1,600&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  scroll-behavior: smooth;
+  color: black;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+*::-webkit-scrollbar {
+  display: none;
+}
+
+body {
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+}
+
+:root {
+  --secondary-color: #691852;
+  --light-primary-color: #fff;
+  --dark-primary-color: #000;
+  --grey-color: #cacaca;
+}
+
+.user-profile {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  flex-wrap: wrap;
+  margin-top: 2rem;
+}
+
+.user-profile > div {
+  margin-bottom: 2rem;
+}
+
+.fullname {
+  font-size: 1.2rem;
+}
+
+.username {
+  color: var(--grey-color);
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+}
+
+.users-books {
+  margin-top: 1rem;
+  max-height: 65%;
+  height: max-content;
+}
+
+.users-books-content {
+  gap: 2rem;
+  overflow-y: scroll;
+}
+
+.users-books-content .book {
+  display: flex;
+  padding: 0.5rem 2rem;
+  justify-content: space-between;
+  border-left: 1px solid;
+  border-right: 1px solid;
+}
+
+.about-book i {
+  height: max-content;
+  margin-top: 50%;
+}
+
+.book > div:first-of-type {
+  display: flex;
+}
+
+.users-books-content > div + div {
+  margin-top: 2rem;
+}
+
+.navigate-books {
+  margin-top: 1.5rem;
+  height: 60%;
+}
+
+.discover-books {
+  max-height: 80%;
+  overflow-y: scroll;
+  display: grid;
+  grid-template-columns: 47% 47%;
+  gap: 1rem;
+  height: max-content;
+}
+
+.book-d {
+  padding: 1rem;
+  display: flex;
+  gap: 2rem;
+  align-items: flex-end;
+}
+
+/* .about-book-d {
+    height: 70%;
+} */
+
+.about-book-d p:first-of-type {
+  font-size: 1.5rem;
+}
+
+.about-book-d p:last-of-type {
+  font-size: 1.3rem;
+}
+
+.about-book-d button + button {
+  margin-left: 1rem;
+}
+
+.about-book-d button {
+  padding: 0.2rem 1rem;
+  color: var(--light-primary-color);
+  background: var(--secondary-color);
+  border-radius: 0.5rem;
+}
+
+.book-d img {
+  width: 9rem;
+  height: 100%;
+}
+
+.navigation {
+  display: flex;
+  justify-content: space-between;
+}
+
+.navigation .form-inline {
+  width: 50%;
+}
+
+.navigation .form-control {
+  border: none;
+  border-bottom: 2px solid;
+  border-radius: unset;
+}
+
+input:focus,
+.navigation .form-control:focus {
+  box-shadow: none;
+  -moz-box-shadow: none;
+  -webkit-box-shadow: none;
+}
+
+.navigation .nav a {
+  font-size: 1.2rem;
+  color: rgb(105, 105, 105);
+}
+
+.navigation .nav .nav-item {
+  width: max-content;
+}
+
+.navigation .nav .active {
+  text-decoration: underline var(--secondary-color) solid 2px;
+}
+
+.users-videos {
+  overflow: scroll;
+  display: grid;
+  height:max-content;
+  max-height: 65%;
+  grid-template-columns: 47% 47%;
+  justify-content: space-evenly;
+  gap: 1rem;
+}
+
+.users-videos .video {
+  position: relative;
+  height: 50%;
+}
+
+.users-videos .video img {
+  height: 100%;
+  width: 100%;
+}
+
+.users-videos .video i {
+  color: var(--light-primary-color);
+  font-size: 10rem;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  z-index: 10;
+  transform: translate(-50%, -50%);
+}

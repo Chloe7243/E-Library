@@ -1,0 +1,78 @@
+{% extends "/admin/base_admin.html" %}
+{%block title %}Dashboard{% endblock %}
+
+{% block main %} 
+<form action="POST">
+  <h2>Edit Book</h2>
+  <div class="form-group row">
+    <label for="title" class="col-sm-2">Title</label>
+    <div class="col-sm-10">
+      <input
+        class="form-control col-sm-10"
+        type="text"
+        name="title"
+        id="title"
+        placeholder="Book title"
+      />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="author" class="col-sm-2">Author</label>
+    <div class="col-sm-10">
+      <input
+        class="form-control"
+        type="text"
+        name="author"
+        id="author"
+        placeholder="Book Author"
+      />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="category" class="col-sm-2">Category</label>
+    <div class="col-sm-10 categories-list">
+      <select class="form-control">
+        <option disabled>Select category</option>
+        <option>NO</option>
+        <option>Yes</option>
+      </select>
+    </div>
+  </div>
+  
+  <div class="form-group row">
+    <label for="pages" class="col-sm-2">No. of pages</label>
+    <div class="col-sm-10">
+      <input
+        class="form-control"
+        type="text"
+        name="pages"
+        id="pages"
+        placeholder="Pages"
+      />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="isbn" class="col-sm-2">ISBN</label>
+    <div class="col-sm-10">
+      <input
+        class="form-control"
+        type="text"
+        name="isbn"
+        id="isbn"
+        placeholder="ISBN"
+      />
+    </div>
+  </div>
+
+  <div class="form-group row">
+    <label for="cover-img" class="col-sm-2">Cover Image</label>
+    <div class="col-sm-10">
+      <input class="form-control" type="file" accept="image/*" alt="" />
+    </div>
+  </div>
+  <button type="submit" class="auth-btn">Save</button>
+</form>
+{% endblock %}

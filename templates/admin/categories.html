@@ -1,7 +1,30 @@
-{% extends "base_admin.html" %} {%block title %}Dashboard{% endblock %} {% block
-main %}
+{% extends "/admin/base_admin.html" %}
+{%block title %}Books{% endblock %}
+
+{%block main%}
+<div class="main-top">
+  <div class="search-bar">
+    <div class="col-sm-12 categories-list">
+      <select class="form-control">
+        <option disabled>Select category</option>
+        <option>All</option>
+        <option>NO</option>
+        <option>Yes</option>
+      </select>
+    </div>
+  </div>
+
+  <div class="add-buttons">
+    <button class="add-user">
+      <a href="/new_category">
+        <i class="bi bi-collection"></i>
+        Add Category
+      </a>
+    </button>
+  </div>
+</div>
+
 <div class="lib-item all-books">
-  <h2>Books</h2>
   <div class="book-category">
     <h3>Kids</h3>
     <div class="book-category-content row">
@@ -10,28 +33,6 @@ main %}
         <div class="text">
           <p>Author</p>
           <p>title</p>
-          <button><a href="/edit_book">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
-        </div>
-      </div>
-
-      <div class="col col-md-auto col-lg-3" >
-        <img src="/static/images/book.jpeg" alt="" />
-        <div class="text">
-          <p>Author</p>
-          <p>title</p>
-          <button><a href="/edit_book">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
-        </div>
-      </div>
-
-      <div class="col col-md-auto col-lg-auto">
-        <img src="/static/images/book.jpeg" alt="" />
-        <div class="text">
-          <p>Author</p>
-          <p>title</p>
-          <button><a href="/edit_book">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
         </div>
       </div>
 
@@ -40,80 +41,54 @@ main %}
         <div class="text">
           <p>Author</p>
           <p>title</p>
-          <button><a href="/edit_book">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
         </div>
       </div>
+
       <div class="col col-md-auto col-lg-auto">
         <img src="/static/images/book.jpeg" alt="" />
         <div class="text">
           <p>Author</p>
           <p>title</p>
-          <button><a href="/edit_book">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
+        </div>
+      </div>
+
+      <div class="col col-md-auto col-lg-3">
+        <img src="/static/images/book.jpeg" alt="" />
+        <div class="text">
+          <p>Author</p>
+          <p>title</p>
+        </div>
+      </div>
+
+      <div class="col col-md-auto col-lg-auto">
+        <img src="/static/images/book.jpeg" alt="" />
+        <div class="text">
+          <p>Author</p>
+          <p>title</p>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
-<div class="lib-item all-videos">
-  <h2>Videos</h2>
-  <div class="video-category">
-    <h3>Kids</h3>
-    <div class="video-category-content row">
-
-
-      <div class="col col-md-auto col-lg-auto">
-        <video width="3" controls>
-          <source src="/static/images/mov_bbb.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div class="desc">
-          <p>The Big white Bunny</p>
-          <p>descd</p>
-          <button><a href="/edit_book">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
-        </div>
-      </div>
-
-      <div class="col col-md-auto col-lg-auto">
-        <video width="3" controls>
-          <source src="/static/images/mov_bbb.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div class="desc">
-          <p>The Big white Bunny</p>
-          <p>descd</p>
-          <button><a href="/edit_book">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
-        </div>
-      </div>
-      <div class="col col-md-auto col-lg-auto">
-        <video width="3" controls>
-          <source src="/static/images/mov_bbb.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div class="desc">
-          <p>The Big white Bunny</p>
-          <p>descd</p>
-          <button><a href="/edit_book">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
-        </div>
-      </div>
-      <div class="col col-md-auto col-lg-auto">
-        <video width="3" controls>
-          <source src="/static/images/mov_bbb.mp4" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div class="desc">
-          <p>The Big white Bunny</p>
-          <p>descd</p>
-          <button><a href="/edit_book">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
-        </div>
-      </div>
-    </div>
+    <button class="delete-category"><a href="/delete_category">Delete</a></button>
   </div>
 </div>
 {% endblock %}
+<!--  {%block content2 %}
+<div class="books_statistics statistics">
+  <div class="category num_books">
+    <p class="number">0</p>
+    <p class="category_title">Total Books</p>
+  </div>
+  <div class="category book_categories">
+    <p class="number">0</p>
+    <p class="category_title">Categories</p>
+  </div>
+  <div class="category num_books">
+    <p class="number">0</p>
+    <p class="category_title">Total Downloded Books</p>
+  </div>
+  <div class="category audio">
+    <p class="number">0</p>
+    <p class="category_title">Total Videos</p>
+  </div>
+</div>
+{% endblock %} -->

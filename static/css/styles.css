@@ -43,18 +43,28 @@ body::-webkit-scrollbar {
   top: 0;
   z-index: -2;
 }
+
+.nav-item a{
+  color: var(--dark-primary-color);
+}
+
+ul + div button a{
+  text-decoration: none;
+  color: var(--light-primary-color);
+}
+
 /* HERO SECTION */
 #hero-section {
   position: relative;
-  background-image: url("/static/images/bg-home-page.jpg");
+  background-image: url("/static/images/hero-img-bg.jpeg");
   background-repeat: no-repeat;
   background-size: cover;
+  background-position: center;
   z-index: -1;
 }
 
 #hero-section .container {
   display: flex;
-  gap: 10rem;
 }
 
 #hero-section .left-half {
@@ -83,7 +93,7 @@ body::-webkit-scrollbar {
 }
 
 .left-half h1 {
-  font-size: 5rem;
+  font-size: clamp(4rem, 10vw, 7rem);
   font-weight: 600;
   font-family: "Oswald", sans-serif;
 }
@@ -94,13 +104,17 @@ body::-webkit-scrollbar {
 }
 
 .search-input {
+  width: 30rem;
   position: relative;
+}
+
+.search-input > a{
+text-decoration: none;
 }
 
 .form-control {
   padding: 1rem;
   border-radius: 1rem;
-  width: 25rem;
   font-size: 1.5rem;
 }
 
@@ -160,6 +174,27 @@ body::-webkit-scrollbar {
   transform: translateY(50%);
 }
 
+@media (max-width:1000px){
+.right-half {
+  display: none;
+}
+}
+
+@media (max-width:876px){
+
+.search-input {
+  width:100%;
+}
+
+.container{
+  padding:2rem;
+}
+
+#hero-section .right-half img {
+  width: 25rem;
+}
+}
+
 /* PROCESS SECTION */
 #process-section .container h2 {
   font-size: 3rem;
@@ -179,7 +214,7 @@ body::-webkit-scrollbar {
 
 .stepper {
   width: 15rem;
-  height: 2rem;
+  height: 1rem;
   border-bottom: 0.5rem dashed;
 }
 
@@ -219,6 +254,27 @@ body::-webkit-scrollbar {
   transform: translate(-50%, -50%);
 }
 
+@media (max-width:660px){
+
+  .process{
+    flex-direction: column;
+    margin:0;
+    gap: 1rem;
+  }
+
+  .stepper{
+    display:none;
+  }
+
+  .step{
+    flex-direction: row;
+    width: 100%;
+    align-items: start;
+    padding: 1rem 0;
+  }
+
+}
+
 /* BENEFITS SECTION */
 
 #benefits-section .container {
@@ -254,6 +310,10 @@ body::-webkit-scrollbar {
   border-radius: 2rem;
 }
 
+#benefits-section .right-half img{
+width:20rem;
+}
+
 .btn {
   background-color: var(--secondary-color);
 }
@@ -271,6 +331,7 @@ body::-webkit-scrollbar {
 margin: 5% 0 0 2%;
 }
 
+
 .text{
   float:right;
   width: 50%;
@@ -278,8 +339,35 @@ font-size: 2rem;
 padding: 5rem 0;
 }
 
+
 .text h4{
   font-size: 2rem;
+}
+
+@media (max-width:850px){
+.text{
+  float:unset;
+  width: 100%;
+  padding:2rem 0;
+}
+
+.carousel-item img{
+  width: 80%;
+  margin-top:15%;
+  margin-left: 50%;
+  transform:translatex(-50%);
+}
+
+
+.text h4{
+position: absolute;
+top: 0;
+width: 100%;
+font-size: 2.5rem;
+margin-left: 50%;
+transform:translatex(-50%);
+text-align: center;
+}
 }
 
 .text h2 {

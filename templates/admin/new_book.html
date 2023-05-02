@@ -1,0 +1,70 @@
+{% extends "./admin/base_admin.html" %}
+{%block title %}Dashboard{% endblock %}
+
+{% block main %}
+<form action="POST">
+  <h2>New Book</h2>
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input
+      class="form-control"
+      type="text"
+      name="title"
+      id="title"
+      placeholder="Book title"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="author">Author</label>
+    <input
+      class="form-control"
+      type="text"
+      name="author"
+      id="author"
+      placeholder="Book Author"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="category">Category</label>
+    <select class="form-control">
+      <option>Default select</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="pages">No. of pages</label>
+    <input
+      class="form-control"
+      type="text"
+      name="pages"
+      id="pages"
+      placeholder="Pages"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="isbn">ISBN</label>
+    <input
+      class="form-control"
+      type="text"
+      name="isbn"
+      id="isbn"
+      placeholder="ISBN"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="cover-img">Cover Image</label>
+    <input
+      class="form-control"
+      type="file"
+      accept="image/*"
+      alt=""
+      placeholder="Image"
+    />
+  </div>
+  <button type="submit" class="auth-btn">Save</button>
+</form>
+{% endblock %}

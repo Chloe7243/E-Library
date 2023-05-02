@@ -1,44 +1,56 @@
-{% extends "base_auth.html" %}
-{%block title %}Sign Up{% endblock %}
-
-{% block content2 %}
-    <h2>Keep It Quiet</h2>
-    <p>It's your library make as much noise as you want</p>
+{% extends "/auth/base_auth.html" %} {%block title %}Sign Up{% endblock %} {% block
+content2 %}
+<h2>Keep It Quiet</h2>
+<p>It's your library make as much noise as you want</p>
 <div class="form-group">
-    <label for="firstname">Firstname</label>
-    <input class="form-control" type="firstname" id="firstname" name="firstname" placeholder="Enter Firstname"></input>
-
+  <label for="name">Name</label>
+  <input
+    class="form-control"
+    type="name"
+    id="name"
+    name="name"
+    placeholder="Your Name"
+  />
 </div>
 
 <div class="form-group">
-    <label for="lastname">Lastname</label>
-    <input class="form-control" type="lastname" id="lastname" name="lastname" placeholder="Enter Lastname"></input>
-
+  <label for="email">Email</label>
+  <input
+    class="form-control"
+    type="email"
+    id="email"
+    name="email"
+    placeholder="Enter Email Address"
+  />
 </div>
 
-<div class="form-group">
-    <label for="email">Email</label>
-    <input class="form-control" type="email" id="email" name="email" placeholder="Enter Email Address"></input>
-
+<div class="form-group pass">
+  <label for="password">Password</label>
+  <input
+    class="form-control"
+    type="password"
+    id="password"
+    name="password"
+    placeholder="Enter Password"
+  />
+  <i class="bi bi-eye"></i>
 </div>
 
-<div class="form-group">
-    <label for="password">Password</label>
-    <input class="form-control" type="password" id="password" name="password" placeholder="Enter Password"> </input>
-
+<div class="form-group pass">
+  <label for="confirm_password">Confirm Password</label>
+  <input
+    class="form-control"
+    type="confirm_password"
+    id="confirm_password"
+    name="confirm_password"
+    placeholder="Confirm Password"
+  />
+  <i class="bi bi-eye"></i>
 </div>
-
-<div class="form-group">
-    <label for="confirm_password">Confirm Password</label>
-    <input class="form-control" type="confirm_password" id="confirm_password" name="confirm_password" placeholder="Confirm Password"></input>
-</div>
-
 
 <button type="submit" class="auth-btn">Sign up</button>
 <p>Already have an account? <a href="/login">Login</a></p>
 
-{% endblock %}
-
-{% block content3 %}
-<img src="/static/images/sign-up-img.jpg" alt="">
+{% endblock %} {% block content3 %}
+<img src="/static/images/sign-up-img.jpg" alt="" />
 {% endblock %}

@@ -36,52 +36,54 @@
           </a>
         </div>
 
+        <button
+          class="navbar-toggler"
+          type="button"
+          data-bs-toggle="collapse"
+          data-bs-target="#navbarNav"
+          aria-controls="navbarNav"
+          aria-expanded="false"
+          aria-label="Toggle navigation"
+        >
+          <span class="navbar-toggler-icon"></span>
+        </button>
         <div class="collapse navbar-collapse" id="navbarNav">
-          <ul class="nav justify-content-center">
+          <ul class="nav">
             <li class="nav-item">
               <a class="nav-link active" aria-current="page" href="/">Home</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link disabled" href="#">Books</a>
+              <a class="nav-link" href="/books">Books</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link disabled" href="#">Features</a>
+              <a class="nav-link" href="#about">About us</a>
             </li>
 
             <li class="nav-item">
-              <a class="nav-link" href="#">About us</a>
-            </li>
-
-            <li class="nav-item">
-              <a class="nav-link" href="#">Contact us</a>
-            </li>
-
-            <li>
-              <button type="button" class="btn btn-online-primary me-2">
-                <a href="/login">Login</a>
-              </button>
-            </li>
-
-            <li>
-              <button type="button" class="btn btn-primary">
-                <a href="/register">Sign Up</a>
-              </button>
+              <a class="nav-link" href="#contact">Contact us</a>
             </li>
           </ul>
-        </div>
 
-        <div class="col-md text-end"></div>
+          <div class="col-md text-end">
+            <button type="button" class="btn btn-online-primary me-2">
+              <a href="/login">Login</a>
+            </button>
+
+            <button type="button" class="btn btn-primary">
+              <a href="/register">Sign Up</a>
+            </button>
+          </div>
+        </div>
       </div>
     </nav>
-    <main>
-      {% block content %} {% endblock %}
-    </main>
+
+    <main>{% block content %} {% endblock %}</main>
     <footer>
       <div class="container">
         <div class="row">
-          <div class="col-md-3">
+          <div class="col-sm-auto col-md-4 col-lg-3">
             <h2>
               <img src="/static/images/book-stack.png" alt="logo" width="60" />
               BOOK-LITE
@@ -91,7 +93,7 @@
             </p>
           </div>
 
-          <div class="col">
+          <div class="col-sm-auto col-md-4 col-lg-2">
             <h2>Our Services</h2>
             <ul class="nav flex-column">
               <li class="nav-item mb-2">
@@ -108,7 +110,7 @@
             </ul>
           </div>
 
-          <div class="col">
+          <div class="col-sm-auto col-md-4 col-lg-2">
             <h2>Company</h2>
             <ul class="nav flex-column">
               <li class="nav-item mb-2">
@@ -125,7 +127,7 @@
             </ul>
           </div>
 
-          <div class="col-md-5">
+          <div class="col-sm-auto col-md-12 col-lg-5">
             <form>
               <h2>Subscribe to our newsletter</h2>
               <div class="d-flex flex-column flex-sm-row w-100 gap-2">

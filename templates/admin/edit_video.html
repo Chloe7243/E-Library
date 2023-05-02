@@ -1,0 +1,59 @@
+{% extends "./admin/base_admin.html" %}
+{%block title %}Dashboard{% endblock %}
+
+{% block main %}
+<form action="POST">
+  <h2>Edit Video</h2>
+  <div class="form-group">
+    <label for="title">Title</label>
+    <input
+      class="form-control"
+      type="text"
+      name="title"
+      id="title"
+      placeholder="Video title"
+    />
+  </div>
+  <div class="form-group">
+    <label for="desc">Description</label>
+    <input
+      class="form-control"
+      type="text"
+      name="desc"
+      id="desc"
+      placeholder="Video Description"
+    />
+  </div>
+
+  <div class="form-group">
+    <label for="category">Category</label>
+    <select class="form-control">
+      <option>Default select</option>
+    </select>
+  </div>
+
+  <div class="form-group">
+    <label for="video-cover">Cover Image</label>
+    <input
+      class="form-control"
+      type="file"
+      accept="image/*"
+      alt=""
+      placeholder="Video Thumbnail"
+    />
+  </div>
+  
+  <div class="form-group">
+    <label for="video">Video</label>
+    <input
+      class="form-control"
+      type="file"
+      name="video"
+      accept="video/*"
+      alt=""
+      id="video"
+    />
+  </div>
+  <button type="submit" class="auth-btn">Save</button>
+</form>
+{% endblock %}

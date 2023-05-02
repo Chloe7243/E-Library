@@ -17,7 +17,7 @@ def isAdmin():
 @login_required
 @isAdmin
 def dashboard():
-    return render_template('admin/dashboard.html')
+    return render_template('admin/dashboard.html', d_active="active")
 
 # Profile Route
 @admin_bp.route('/profile', methods=['GET', 'POST'])
@@ -33,7 +33,7 @@ def profile():
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('admin.profile'))
     else:
-        return render_template('admin/profile.html')
+        return render_template('admin/edit_profile.html', d_active="active")
 
 # Reports
 @admin_bp.route('/reports')
@@ -69,13 +69,11 @@ def reports():
     total_users = User.query.count()
     total_rentals = Rental.query.count()
 
-    return render_template('admin/reports.html', popular_books=popular_books, downloads_count=downloads_count,
+    return render_template('admin/reports.html', rep_active="active", popular_books=popular_books, downloads_count=downloads_count,
                            rentals_count=rentals_count, access_requests_count=access_requests_count,
                            active_users=active_users, categories_books_counts=categories_books_counts,
                            categories_videos_counts=categories_videos_counts, avg_rental_duration=avg_rental_duration,
                            total_books=total_books, total_users=total_users, total_rentals=total_rentals)
-
-    return render_template('admin/reports.html', reports=reports)
 
 
 # Category Routes
@@ -85,7 +83,7 @@ def reports():
 def categories():
     # get all categories from the database and pass them to the template
     categories = Category.query.all()
-    return render_template('admin/categories.html', categories=categories)
+    return render_template('admin/categories.html', categories=categories, c_active="active")
 
 @admin_bp.route('/categories/new', methods=['GET', 'POST'])
 @login_required
@@ -158,7 +156,7 @@ def new_book():
             flash('Book created successfully!', 'success')
         return redirect(url_for('admin.books'))
     else:
-        return render_template('admin/new_book.html')
+        return render_template('admin/new_book.html', b_active="active")
 
 @admin_bp.route('/books/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -193,7 +191,7 @@ def edit_book(id):
         return redirect(url_for('admin.books'))
     else:
         # get the book with the given id from the database and pass it to the template
-        return render_template('admin/edit_book.html', book=book)
+        return render_template('admin/edit_book.html', book=book, b_active="active")
 
 @admin_bp.route('/books/<int:id>/delete', methods=['POST'])
 @login_required
@@ -224,7 +222,7 @@ def requests():
     access_requests = AccessRequest.query.all()
     download_requests = DownloadRequest.query.all()
 
-    return render_template('admin/requests.html', access_requests=access_requests, download_requests=download_requests)
+    return render_template('admin/requests.html', access_requests=access_requests, download_requests=download_requests, req_active="active")
 
 @admin_bp.route('/grant-access-request/<int:request_id>', methods=['POST'])
 @login_required
@@ -279,7 +277,7 @@ def grant_download_request(request_id):
 @isAdmin
 def videos():
     videos = Video.query.all()
-    return render_template('admin/videos.html', videos=videos)
+    return render_template('admin/videos.html', videos=videos, v_active="active")
 
 
 # Renders a form to create a new video
@@ -311,7 +309,7 @@ def new_video():
             flash('Video created successfully!', 'success')
         return redirect(url_for('admin.videos'))
     else:
-        return render_template('admin/new_video.html')
+        return render_template('admin/new_video.html', v_active="active")
     
 
 # Renders a form to edit a video
