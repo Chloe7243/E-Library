@@ -82,6 +82,7 @@ def read_book(id):
     # Render the book reader page
     return render_template('user/read_book.html', book=book)
 
+
 # Handle the request to download a specific book
 @user_bp.route('/books/<int:id>/download-request', methods=['POST'])
 @login_required
@@ -124,3 +125,20 @@ def request_access(id):
     db.session.commit()
     flash('Your request to access this book has been submitted.', 'success')
     return redirect(url_for('book_details', id=id))
+
+
+
+# Render the page to watch a specific video online
+@user_bp.route('/videos/<int:id>/watch')
+@login_required
+def watch_video(id):
+    # Get the currently logged in user
+    user = User.query.get(current_user.id)
+    
+    # Get the video object
+    video = Book.query.get(id)
+    if not video:
+        abort(404, "Video not found")
+
+    # Render the book reader page
+    return render_template('user/watch_video.html', video=video)
