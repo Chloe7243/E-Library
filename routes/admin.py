@@ -31,7 +31,7 @@ def profile():
             current_user.email = form.email.data
             db.session.commit()
         flash('Profile updated successfully!', 'success')
-        return redirect(url_for('admin_bp.profile'))
+        return redirect(url_for('admin.profile'))
     else:
         return render_template('admin/profile.html')
 
@@ -98,7 +98,7 @@ def new_category():
             db.session.add(category)
             db.session.commit()
             flash('Category created successfully!', 'success')
-        return redirect(url_for('admin_bp.categories'))
+        return redirect(url_for('admin.categories'))
     else:
         return render_template('admin/new_category.html')
 
@@ -156,7 +156,7 @@ def new_book():
             
             db.session.commit()
             flash('Book created successfully!', 'success')
-        return redirect(url_for('admin_bp.books'))
+        return redirect(url_for('admin.books'))
     else:
         return render_template('admin/new_book.html')
 
@@ -190,7 +190,7 @@ def edit_book(id):
             # Commit the changes to the database
             db.session.commit()
             flash('Book updated successfully!', 'success')
-        return redirect(url_for('admin_bp.books'))
+        return redirect(url_for('admin.books'))
     else:
         # get the book with the given id from the database and pass it to the template
         return render_template('admin/edit_book.html', book=book)
@@ -213,7 +213,7 @@ def delete_book(id):
     db.session.delete(book)
     db.session.commit()
     flash('Book deleted successfully!', 'success')
-    return redirect(url_for('admin_bp.books'))
+    return redirect(url_for('admin.books'))
 
 # Request routes
 @admin_bp.route('/requests')
@@ -246,7 +246,7 @@ def grant_access_request(request_id):
     # commit the changes to the database
     db.session.commit()
 
-    return redirect(url_for('admin_bp.requests'))
+    return redirect(url_for('admin.requests'))
 
 @admin_bp.route('/grant-download-request/<int:request_id>', methods=['POST'])
 @login_required
@@ -267,7 +267,7 @@ def grant_download_request(request_id):
     # commit the changes to the database
     db.session.commit()
     
-    return redirect(url_for('admin_bp.requests'))
+    return redirect(url_for('admin.requests'))
 
 
 
@@ -309,7 +309,7 @@ def new_video():
             
             db.session.commit()
             flash('Video created successfully!', 'success')
-        return redirect(url_for('admin_bp.videos'))
+        return redirect(url_for('admin.videos'))
     else:
         return render_template('admin/new_video.html')
     
@@ -347,7 +347,7 @@ def edit_video(id):
             # Commit the changes to the database
             db.session.commit()
             flash('Video updated successfully!', 'success')
-        return redirect(url_for('admin_bp.videos'))
+        return redirect(url_for('admin.videos'))
     else:
         # get the video with the given id from the database and pass it to the template
         return render_template('admin/edit_video.html', video=video)
@@ -372,4 +372,4 @@ def delete_video(id):
     db.session.delete(video)
     db.session.commit()
     flash('Video deleted successfully!', 'success')
-    return redirect(url_for('admin_bp.videos'))
+    return redirect(url_for('admin.videos'))
