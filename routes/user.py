@@ -5,10 +5,14 @@ from models import User, Book, Rental, BookDownload, AccessRequest, DownloadRequ
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
 # render the search page
-@user_bp.route('/search')
+@user_bp.route('/discover')
 @login_required
 def search():
-    return render_template('user/search.html')
+    # get the most popular books from the database
+    popular_books = Book.query.join(Rental).group_by(Book.id).order_by(db.func.count(Rental.id).desc()).limit(10).all()
+
+
+    return render_template('user/discover.html')
 
 
 # Render the user dashboard
