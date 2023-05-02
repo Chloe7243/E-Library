@@ -24,7 +24,7 @@ def login():
             flash('Invalid email or password.', 'error')
             return redirect(url_for('auth.login'))
     else:
-        return render_template('auth/login.html')
+        return render_template('auth/login.html', href="/")
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
 def register():
@@ -53,7 +53,7 @@ def register():
         login_user(new_user)
         return redirect(url_for('auth.dashboard'))
     else:
-        return render_template('auth/signUp.html')
+        return render_template('auth/signUp.html',  href="/")
 
 @auth_bp.route('/register-admin', methods=['GET', 'POST'])
 def register_admin():
