@@ -38,8 +38,6 @@ def load_user_from_request(request):
     # If no valid authentication token was found, return None
     return None
 
-
-
 app.register_blueprint(views)
 app.register_blueprint(auth_bp)
 app.register_blueprint(admin_bp)
