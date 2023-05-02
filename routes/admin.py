@@ -1,5 +1,6 @@
 import os
 from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
+from functools import wraps
 from flask_login import current_user, login_required
 from models import User, Book, Video, Rental, Category, BookDownload, AccessRequest, DownloadRequest, db
 from models import ChangePasswordForm, ProfileForm, CategoryForm, BookForm, VideoForm
@@ -9,8 +10,13 @@ from datetime import datetime, timedelta
 admin_bp = Blueprint('admin_bp', __name__, url_prefix='/admin')
 
 
-def isAdmin():
-    return current_user.is_admin
+def isAdmin(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if not current_user.is_admin:
+            return redirect(url_for('views.home'))
+        return f(*args, **kwargs)
+    return decorated_function
 
 # Admin Routes
 @admin_bp.route('/dashboard')
