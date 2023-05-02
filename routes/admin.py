@@ -31,11 +31,10 @@ def dashboard():
 @isAdmin
 def profile():
     if request.method == 'POST':
-        form = ProfileForm()
-        if form.validate_on_submit():
-            current_user.name = form.name.data
-            current_user.email = form.email.data
-            db.session.commit()
+        form = request.form
+        current_user.name = form['name']
+        current_user.email = form['email']
+        db.session.commit()
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('admin.profile'))
     else:
@@ -171,29 +170,43 @@ def edit_book(id):
     # Retrieve the book from the database
     book = Book.query.get(id)
     if request.method == 'POST':
-        form = BookForm()
-        if form.validate_on_submit():
+        # Update details of the book available in the request form
+        form = request.form
 
-            # Update the book attributes
-            book.title = form.title.data
-            book.description = form.description.data
-            book.author = form.author.data
-            book.category_id = form.category.data.id
+        if form.get('title'):
+            book.title = form['title']
 
-            # Update book cover photo
-            if form.cover.data:
-                # delete former cover 
-                if book.cover_path:
-                    os.remove(book.cover_path)
+        if form.get('description'):
+            book.description = form['description']
 
-                cover_filename = f'cover_{book.id}.jpg'
-                cover_path = os.path.join(current_app.root_path, 'static/images/covers', cover_filename)
-                form.cover.data.save(cover_path)
-                book.cover_path = cover_path
+        if form.get('author'):
+            book.author = form['author']
 
-            # Commit the changes to the database
-            db.session.commit()
-            flash('Book updated successfully!', 'success')
+        if form.get('category'):
+            book.category_id = form['category_id']
+        
+        if form.get('cover'):
+            # delete old book cover and add new one
+            if book.cover_path:
+                os.remove(book.cover_path)
+            
+            cover_filename = f'cover_{book.id}.jpg'
+            cover_path = os.path.join(current_app.root_path, 'static/images/covers', cover_filename)
+            form['cover'].save(cover_path)
+            book.cover_path = cover_path
+
+        if form.get('file'):
+            # delete old book file and add new one
+            if book.file_path:
+                os.remove(book.file_path)
+
+            file_filename = f'book_{book.id}.pdf'
+            file_path = os.path.join(current_app.root_path, 'static/books', file_filename)
+            form['file'].save(file_path)
+            book.file_path = file_path
+
+        db.session.commit()
+        flash('Book updated successfully!', 'success')
         return redirect(url_for('admin.books'))
     else:
         # get the book with the given id from the database and pass it to the template
@@ -323,34 +336,47 @@ def new_video():
 @login_required
 @isAdmin
 def edit_video(id):
-    # Retrieve the video from the database
-    video = Video.query.get(id)
+    # get the video with the given id from the database
+    video = Video.query.get_or_404(id)
     if request.method == 'POST':
-        form = VideoForm()
-        if form.validate_on_submit():
+        form = request.form
 
-            # Update the video attributes
-            video.title = form.title.data
-            video.description = form.description.data
-            video.author = form.author.data
-            video.category_id = form.category.data.id
+        # update the video's details
+        if form.get('title'):
+            video.title = form.get('title')
 
-            # Upload the video cover
-            if form.cover.data:
-                # delete former cover photo
-                if video.cover_path:
-                    os.remove(video.cover_path)
+        if form.get('description'):
+            video.description = form.get('description')
 
-                # upload new cover photo
-                cover_filename = f'cover_{video.id}.jpg'
-                cover_path = os.path.join(current_app.root_path, 'static/images/covers', cover_filename)
-                form.cover.data.save(cover_path)
-                video.cover_path = cover_path
+        if form.get('author'):
+            video.author = form.get('author')
+        
+        if form.get('category'):
+            video.category_id = form.get('category')
 
+        if form.get('cover'):
+            # delete old book cover and add new one
+            if video.cover_path:
+                os.remove(video.cover_path)
+            
+            cover_filename = f'cover_{video.id}.jpg'
+            cover_path = os.path.join(current_app.root_path, 'static/images/covers', cover_filename)
+            form.get('cover').save(cover_path)
+            video.cover_path = cover_path
 
-            # Commit the changes to the database
-            db.session.commit()
-            flash('Video updated successfully!', 'success')
+        if form.get('file'):
+            # delete old book file and add new one
+            if video.file_path:
+                os.remove(video.file_path)
+            
+            file_filename = f'video_{video.id}.mp4'
+            file_path = os.path.join(current_app.root_path, 'static/videos', file_filename)
+            form.get('file').save(file_path)
+            video.file_path = file_path
+
+        db.session.commit()
+        
+        flash('Video updated successfully!', 'success')
         return redirect(url_for('admin.videos'))
     else:
         # get the video with the given id from the database and pass it to the template

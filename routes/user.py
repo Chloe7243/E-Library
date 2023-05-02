@@ -34,16 +34,12 @@ def user_profile():
 @login_required
 def update_user_profile():
     user = current_user
-    form = ProfileForm(request.form)
-    if form.validate():
-        user.name = form.name.data
-        user.email = form.email.data
-        db.session.commit()
-        flash('Your profile has been updated.', 'success')
-        return redirect(url_for('user_profile'))
-    else:
-        flash('There was an error updating your profile.', 'danger')
-        return redirect(url_for('user_profile'))
+    form = request.form
+    current_user.name = form['name']
+    current_user.email = form['email']
+    db.session.commit()
+    flash('Your profile has been updated.', 'success')
+    return redirect(url_for('user_profile'))
     
 
 # Render the list of books requests made by the user
