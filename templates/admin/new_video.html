@@ -2,58 +2,45 @@
 {%block title %}Dashboard{% endblock %}
 
 {% block main %}
-<form action="POST">
+<form action="{{ url_for('video_create') }}" method="POST" enctype="multipart/form-data">
+  {{ form.hidden_tag() }}
   <h2>New Video</h2>
   <div class="form-group">
-    <label for="title">Title</label>
-    <input
-      class="form-control"
-      type="text"
-      name="title"
-      id="title"
-      placeholder="Video title"
-    />
+    {{ form.title.label }}
+    {{ form.title(class_="form-control", placeholder="Video title") }}
+    {% for error in form.title.errors %}
+      <span class="invalid-feedback">{{ error }}</span>
+    {% endfor %}
   </div>
   <div class="form-group">
-    <label for="desc">Description</label>
-    <input
-      class="form-control"
-      type="text"
-      name="desc"
-      id="desc"
-      placeholder="Video Description"
-    />
+    {{ form.description.label }}
+    {{ form.description(class_="form-control", placeholder="Video Description") }}
+    {% for error in form.description.errors %}
+      <span class="invalid-feedback">{{ error }}</span>
+    {% endfor %}
   </div>
-
   <div class="form-group">
-    <label for="category">Category</label>
-    <select class="form-control">
-      <option>Default select</option>
-    </select>
+    {{ form.category_id.label }}
+    {{ form.category_id(class_="form-control") }}
+    {% for error in form.category_id.errors %}
+      <span class="invalid-feedback">{{ error }}</span>
+    {% endfor %}
   </div>
-
   <div class="form-group">
-    <label for="video-cover">Cover Image</label>
-    <input
-      class="form-control"
-      type="file"
-      accept="image/*"
-      alt=""
-      placeholder="Video Thumbnail"
-    />
+    {{ form.cover.label }}
+    {{ form.cover(class_="form-control", accept=".jpg,.jpeg,.png", alt="Video Thumbnail") }}
+    {% for error in form.cover.errors %}
+      <span class="invalid-feedback">{{ error }}</span>
+    {% endfor %}
   </div>
-  
   <div class="form-group">
-    <label for="video">Video</label>
-    <input
-      class="form-control"
-      type="file"
-      name="video"
-      accept="video/*"
-      alt=""
-      id="video"
-    />
+    {{ form.file.label }}
+    {{ form.file(class_="form-control", accept=".mp4", alt="Video") }}
+    {% for error in form.file.errors %}
+      <span class="invalid-feedback">{{ error }}</span>
+    {% endfor %}
   </div>
   <button type="submit" class="auth-btn">Save</button>
 </form>
+{% endblock %}
 {% endblock %}

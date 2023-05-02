@@ -2,28 +2,23 @@
 {%block title %}Dashboard{% endblock %}
 
 {% block main %}
-<form action="POST">
+<form method="POST" enctype="multipart/form-data">
+  {{ form.csrf_token }}
   <h2>Edit Account</h2>
   <div class="form-group">
-    <label for="name">Name</label>
-    <input
-      class="form-control"
-      type="text"
-      name="name"
-      id="name"
-      placeholder="Enter your name"
-    />
+    {{ form.name.label(class="form-label") }}
+    {{ form.name(class="form-control") }}
+    {% for error in form.name.errors %}
+      <span class="text-danger">{{ error }}</span>
+    {% endfor %}
   </div>
   <div class="form-group">
-    <label for="email">Email Address</label>
-    <input
-      class="form-control"
-      type="text"
-      name="email"
-      id="email"
-      placeholder="Email Adrdress"
-    />
+    {{ form.email.label(class="form-label") }}
+    {{ form.email(class="form-control") }}
+    {% for error in form.email.errors %}
+      <span class="text-danger">{{ error }}</span>
+    {% endfor %}
   </div>
-  <button type="submit" class="auth-btn">Save Changes</button>
+  <button type="submit" class="btn btn-primary">Save Changes</button>
 </form>
 {% endblock %}
