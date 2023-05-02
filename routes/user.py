@@ -12,7 +12,7 @@ def search():
     popular_books = Book.query.join(Rental).group_by(Book.id).order_by(db.func.count(Rental.id).desc()).limit(10).all()
 
 
-    return render_template('user/discover.html')
+    return render_template('user/discover.html',di_active="active")
 
 
 # Render the user dashboard
@@ -20,14 +20,14 @@ def search():
 @login_required
 def user_dashboard():
     user = User.query.get(current_user.id)
-    return render_template('user/dashboard.html', user=user)
+    return render_template('user/dashboard.html', user=user, d_active="active")
 
 # Render the user profile page
 @user_bp.route('/edit_profile')
 @login_required
 def user_profile():
     user = User.query.get(current_user.id)
-    return render_template('user/edit_profile.html', user=user)
+    return render_template('user/edit_profile.html', user=user, d_active="active")
 
 # Handle the user profile form submission
 @user_bp.route('/edit_profile', methods=['POST'])
@@ -54,7 +54,7 @@ def list_requests():
 @user_bp.route('/books/<int:id>')
 @login_required
 def book_details(id):
-    return render_template('user/book_details.html', book=Book.query.get(id))
+    return render_template('user/book_details.html', book=Book.query.get(id), di_active="active")
 
 
 

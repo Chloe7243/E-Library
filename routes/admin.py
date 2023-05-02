@@ -380,7 +380,7 @@ def edit_video(id):
         return redirect(url_for('admin.videos'))
     else:
         # get the video with the given id from the database and pass it to the template
-        return render_template('admin/edit_video.html', video=video)
+        return render_template('admin/edit_video.html', video=video, v_active="active")
     
 
 # Deletes a video
