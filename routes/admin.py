@@ -7,7 +7,7 @@ from models import ChangePasswordForm, ProfileForm, CategoryForm, BookForm, Vide
 from datetime import datetime, timedelta
  
 
-admin_bp = Blueprint('admin_bp', __name__, url_prefix='/admin')
+admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
 
 def isAdmin(f):
