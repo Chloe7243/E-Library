@@ -18,7 +18,7 @@ def search():
 # Render the user dashboard
 @user_bp.route('/dashboard')
 @login_required
-def user_dashboard():
+def dashboard():
     user = User.query.get(current_user.id)
     return render_template('user/dashboard.html', user=user, d_active="active")
 

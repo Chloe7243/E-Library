@@ -17,9 +17,9 @@ def login():
             login_user(user)
             flash('You are now logged in.', 'success')
             if user.is_admin:
-                return redirect(url_for('admin_bp.dashboard'))
+                return redirect(url_for('admin.dashboard'))
             else:
-                return redirect(url_for('user_bp.dashboard'))
+                return redirect(url_for('user.dashboard'))
         else:
             flash('Invalid email or password.', 'error')
             return redirect(url_for('auth.login'))
