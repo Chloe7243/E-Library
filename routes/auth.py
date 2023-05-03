@@ -50,7 +50,8 @@ def register():
         db.session.commit()
 
         flash('Your account has been created.', 'success')
-        return redirect(url_for('auth.login'))
+        login_user(new_user)
+        return redirect(url_for('auth.dashboard'))
     else:
         return render_template('auth/signUp.html',  href="/")
 
@@ -84,7 +85,8 @@ def register_admin():
         db.session.commit()
 
         flash('Admin account has been created.', 'success')
-        return redirect(url_for('auth.login'))
+        login_user(new_admin)
+        return redirect(url_for('admin.dashboard'))
     else:
         return render_template('auth/admin_signUp.html')
 
@@ -92,7 +94,7 @@ def register_admin():
 def logout():
     logout_user()
     flash('You have been logged out.', 'success')
-    return redirect(url_for('home'))
+    return redirect(url_for('views.home'))
 
 
 # Render the change password page
