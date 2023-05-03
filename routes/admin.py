@@ -162,14 +162,15 @@ def new_book():
 
             # upload book cover and book file (pdf)
             if form.cover.data:
-                cover_filename = f'cover_{book.id}.jpg'
+                timestamp = datetime.now().timestamp()
+                cover_filename = f'cover_{timestamp}.jpg'
                 cover_path = os.path.join(
                     current_app.root_path, 'static/images/covers', cover_filename)
                 form.cover.data.save(cover_path)
                 book.cover_path = cover_path
 
             if form.file.data:
-                file_filename = f'book_{book.id}.pdf'
+                file_filename = f'book_{timestamp}.pdf'
                 file_path = os.path.join(
                     current_app.root_path, 'static/books', file_filename)
                 form.file.data.save(file_path)
