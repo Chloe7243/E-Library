@@ -33,7 +33,7 @@ def dashboard():
 @admin_bp.route('/profile', methods=['GET', 'POST'])
 @login_required
 @isAdmin
-def profile():
+def edit_profile():
     if request.method == 'POST':
         form = request.form
         current_user.name = form['name']
@@ -42,7 +42,7 @@ def profile():
         flash('Profile updated successfully!', 'success')
         return redirect(url_for('admin.profile'))
     else:
-        return render_template('admin/edit_profile.html', d_active="active")
+        return render_template('admin/edit_profile.html')
 
 # Reports
 
@@ -60,8 +60,7 @@ def reports():
     # User Engagement
     today = datetime.utcnow()
     week_ago = today - timedelta(days=7)
-    downloads_count = BookDownload.query.filter(
-        BookDownload.date_created >= week_ago).count()
+    downloads_count = BookDownload.query.count()
     rentals_count = Rental.query.filter(Rental.date_rented >= week_ago).count()
     access_requests_count = AccessRequest.query.filter(
         AccessRequest.date_requested >= week_ago).count()
@@ -78,7 +77,7 @@ def reports():
     # Rental Duration
     rentals_duration = Rental.query.all()
     avg_rental_duration = sum(
-        (r.date_due - r.date_rented).days for r in rentals_duration) / len(rentals_duration)
+        (r.date_due - r.date_rented).days for r in rentals_duration) / (len(rentals_duration) or 1)
 
     # Total number of books, users, and rentals
     total_books = Book.query.count()
@@ -90,6 +89,16 @@ def reports():
                            active_users=active_users, categories_books_counts=categories_books_counts,
                            categories_videos_counts=categories_videos_counts, avg_rental_duration=avg_rental_duration,
                            total_books=total_books, total_users=total_users, total_rentals=total_rentals)
+
+# Render list of users
+
+
+@admin_bp.route('/users')
+@login_required
+@isAdmin
+def users():
+    users = User.query.all()
+    return render_template('admin/users_info.html', users=users, u_active="active")
 
 
 # Category Routes
@@ -145,7 +154,7 @@ def delete_category(id):
 def books():
     # get all books from the database and pass them to the template
     books = Book.query.all()
-    return render_template('admin/books.html', books=books)
+    return render_template('admin/books.html', books=books, b_active="active")
 
 
 @admin_bp.route('/books/new', methods=['GET', 'POST'])

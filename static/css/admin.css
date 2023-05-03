@@ -443,7 +443,14 @@ video {
 
 .reports{
   overflow: scroll;
-  height: 75%;
+  display: grid;
+  grid-template-columns: 30% 30% 30%;
+  gap: 1.5rem;
+  justify-content: space-evenly;
+}
+
+.reports div + div{
+  margin:0;
 }
 
 .no-scroll{

@@ -1,79 +1,82 @@
 {% extends "/base_dashboard.html" %} {% block sidebar %}
 <ul class="nav nav-pills flex-column mb-auto">
   <li>
-    <a href="/admin_dashboard" class="nav-link big {{d_active}}">
+    <a href="{{url_for('admin.dashboard')}}" class="nav-link big {{d_active}}">
       <i class="bi bi-speedometer2 me-2"></i>
       Dashboard
     </a>
   </li>
   <li>
-    <a href="/admin_dashboard" class="nav-link small {{d_active}}">
+    <a
+      href="{{url_for('admin.dashboard')}}"
+      class="nav-link small {{d_active}}"
+    >
       <i class="bi bi-speedometer2 me-2"></i>
     </a>
   </li>
   <li>
-    <a href="/admin_users" class="nav-link big {{u_active}}">
+    <a href="{{url_for('admin.users')}}" class="nav-link big {{u_active}}">
       <i class="bi bi-people me-2"></i>
       Users
     </a>
   </li>
   <li>
-    <a href="/admin_users" class="nav-link small {{u_active}}">
+    <a href="{{url_for('admin.users')}}" class="nav-link small {{u_active}}">
       <i class="bi bi-people me-2"></i>
     </a>
   </li>
   <li>
-    <a href="/admin_books" class="nav-link big {{b_active}}">
+    <a href="{{url_for('admin.books')}}" class="nav-link big {{b_active}}">
       <i class="bi bi-book me-2"></i>
       Books
     </a>
   </li>
   <li>
-    <a href="/admin_books" class="nav-link small {{b_active}}">
+    <a href="{{url_for('admin.books')}}" class="nav-link small {{b_active}}">
       <i class="bi bi-book me-2"></i>
     </a>
   </li>
   <li>
-    <a href="/admin_videos" class="nav-link big {{v_active}}">
+    <a href="{{url_for('admin.videos')}}" class="nav-link big {{v_active}}">
       <i class="bi bi-play-btn-fill me-2"></i>
       Videos
     </a>
   </li>
   <li>
-    <a href="/admin_videos" class="nav-link small {{v_active}}">
+    <a href="{{url_for('admin.videos')}}" class="nav-link small {{v_active}}">
       <i class="bi bi-play-btn-fill me-2"></i>
     </a>
   </li>
   <li>
-    <a href="/admin_categories" class="nav-link big {{c_active}}">
+    <a href="{{url_for('admin.categories')}}" class="nav-link big {{c_active}}">
       <i class="bi bi-collection me-2"></i>
       Categories
     </a>
   </li>
   <li>
-    <a href="/admin_categories" class="nav-link small {{c_active}}">
+    <a href="{{url_for('admin.categories')}}" class="nav-link small {{c_active}}">
       <i class="bi bi-collection me-2"></i>
     </a>
   </li>
   <li>
-    <a href="/admin_requests" class="nav-link big {{req_active}}">
+    <a href="{{url_for('admin.requests')}}" class="nav-link big {{req_active}}">
       <i class="bi bi-hand-index me-2"></i>
       Requests
     </a>
   </li>
   <li>
-    <a href="/admin_requests" class="nav-link small {{req_active}}">
+    <a href="{{url_for('admin.requests')}}" class="nav-link small {{req_active}}">
       <i class="bi bi-hand-index me-2"></i>
     </a>
   </li>
   <li>
-    <a href="/admin_reports" class="nav-link big {{rep_active}}">
+    <a href="{{url_for('admin.reports')}}" class="nav-link big {{rep_active}}">
       <i class="bi bi-journal-text me-2"></i>
       Reports
     </a>
   </li>
   <li>
-    <a href="/admin_reports" class="nav-link small {{rep_active}}">
+    <a href="{{url_for('admin.reports')}}" class="nav-link small {{rep_active}}">
       <i class="bi bi-journal-text me-2"></i>
     </a>
   </li>
@@ -91,18 +94,16 @@
   </a>
   <ul class="dropdown-menu text-small shadow admin-settings">
     <li>
-      <a class="dropdown-item" href="/edit_account">Edit Account</a>
-      <a class="dropdown-item" href="/change_password">Change Password</a>
+      <a class="dropdown-item" href="{{url_for('admin.edit_profile')}}">Edit Account</a>
+      <a class="dropdown-item" href="{{url_for('auth.change_password')}}">Change Password</a>
     </li>
     <li><hr class="dropdown-divider" /></li>
-    <li><a class="dropdown-item" href="{{url_for('auth.logout')}}">Sign out</a></li>
+    <li>
+      <a class="dropdown-item" href="{{url_for('auth.logout')}}">Sign out</a>
+    </li>
   </ul>
 </div>
-{% endblock %}
-
-{% block main %}
-
-{%block top %} {% endblock %}
+{% endblock %} {% block main %} {%block top %} {% endblock %}
 
 <div class="content">
   <div class="bigger">{% block content %} {% endblock %}</div>

@@ -5,13 +5,16 @@ from models import User, Book, Rental, BookDownload, AccessRequest, DownloadRequ
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
 # render the search page
+
+
 @user_bp.route('/discover')
 @login_required
-def search():
+def discover():
     # get the most popular books from the database
-    popular_books = Book.query.join(Rental).group_by(Book.id).order_by(db.func.count(Rental.id).desc()).limit(10).all()
+    popular_books = Book.query.join(Rental).group_by(Book.id).order_by(
+        db.func.count(Rental.id).desc()).limit(10).all()
 
-    return render_template('user/discover.html',di_active="active")
+    return render_template('user/discover.html', di_active="active")
 
 
 # Render the user dashboard
@@ -22,6 +25,8 @@ def dashboard():
     return render_template('user/dashboard.html', user=user, d_active="active")
 
 # Render the user profile page
+
+
 @user_bp.route('/edit_profile')
 @login_required
 def user_profile():
@@ -29,6 +34,8 @@ def user_profile():
     return render_template('user/edit_profile.html', user=user)
 
 # Handle the user profile form submission
+
+
 @user_bp.route('/edit_profile', methods=['POST'])
 @login_required
 def update_user_profile():
@@ -39,17 +46,20 @@ def update_user_profile():
     db.session.commit()
     flash('Your profile has been updated.', 'success')
     return redirect(url_for('user_profile'))
-    
+
 
 # Render the list of books requests made by the user
 @user_bp.route('/requests')
 @login_required
-def list_requests():
+def requests():
     access_requests = AccessRequest.query.filter_by(user_id=current_user.id)
-    download_requests = DownloadRequest.query.filter_by(user_id=current_user.id)
+    download_requests = DownloadRequest.query.filter_by(
+        user_id=current_user.id)
     return render_template('user/requests.html', access_requests=access_requests, download_requests=download_requests)
 
 # Render the details of a specific book
+
+
 @user_bp.route('/books/<int:id>')
 @login_required
 def book_details(id):
@@ -62,12 +72,12 @@ def book_details(id):
 def read_book(id):
     # Get the currently logged in user
     user = User.query.get(current_user.id)
-    
+
     # Check if the user has permission to download the book
     rented = Rental.query.filter_by(book_id=id, user_id=user.id).first()
     if not rented:
         abort(403, "You don't have permission to read this book")
-    
+
     # Get the book object
     book = Book.query.get(id)
     if not book:
@@ -82,29 +92,33 @@ def read_book(id):
 @login_required
 def request_download(id):
     book = Book.query.get(id)
-    download_request = DownloadRequest(user_id=current_user.id, book_id=book.id)
+    download_request = DownloadRequest(
+        user_id=current_user.id, book_id=book.id)
     db.session.add(download_request)
     db.session.commit()
     flash('Your request to download this book has been submitted.', 'success')
     return redirect(url_for('book_details', id=id))
 
 # Handle the download of a specific book
+
+
 @user_bp.route('/books/<int:id>/download')
 @login_required
 def download_book(id):
     # Get the currently logged in user
     user = User.query.get(current_user.id)
-    
+
     # Check if the user has permission to download the book
-    book_download = BookDownload.query.filter_by(book_id=id, user_id=user.id).first()
+    book_download = BookDownload.query.filter_by(
+        book_id=id, user_id=user.id).first()
     if not book_download:
         abort(403, "You don't have permission to download this book")
-    
+
     # Get the book object
     book = Book.query.get(id)
     if not book:
         abort(404, "Book not found")
-    
+
     # Serve the book file to the user's browser
     return send_file(book.file_path, as_attachment=True, attachment_filename=book.title)
 
@@ -121,14 +135,13 @@ def request_access(id):
     return redirect(url_for('book_details', id=id))
 
 
-
 # Render the page to watch a specific video online
 @user_bp.route('/videos/<int:id>/watch')
 @login_required
 def watch_video(id):
     # Get the currently logged in user
     user = User.query.get(current_user.id)
-    
+
     # Get the video object
     video = Book.query.get(id)
     if not video:

@@ -18,7 +18,7 @@
 
   <div class="add-buttons">
     <button class="add-user">
-      <a href="/new_book">
+      <a href="{{url_for('admin.new_book')}}">
         <i class="bi bi-journal-plus"></i>
         Add Book
       </a>
@@ -29,14 +29,14 @@
 <div class="lib-item all-books">
 
   <div class="book-category">
-    <div class="book-category-content row">
+     <div class="book-category-content row">
       <div class="col col-md-auto col-lg-auto">
         <img src="/static/images/book.jpeg" alt="" />
         <div class="text">
           <p>Author</p>
           <p>title</p>
-          <button><a href="/edit_book">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
+          <button><a href="{{url_for('admin.edit_book')}}">Edit</a></button>
+          <button><a href="{{url_for('admin.delete_book')}}">Delete</a></button>
         </div>
       </div>
 
@@ -45,8 +45,8 @@
         <div class="text">
           <p>Author</p>
           <p>title</p>
-          <button><a href="/edit_book">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
+          <button><a href="{{url_for('admin.edit_book')}}">Edit</a></button>
+          <button><a href="{{url_for('admin.delete_book')}}">Delete</a></button>
         </div>
       </div>
 
@@ -55,8 +55,8 @@
         <div class="text">
           <p>Author</p>
           <p>title</p>
-          <button><a href="/edit_book">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
+          <button><a href="{{url_for('admin.edit_book')}}">Edit</a></button>
+          <button><a href="{{url_for('admin.delete_book')}}">Delete</a></button>
         </div>
       </div>
 
@@ -65,8 +65,8 @@
         <div class="text">
           <p>Author</p>
           <p>title</p>
-          <button><a href="/edit_book">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
+          <button><a href="{{url_for('admin.edit_book')}}">Edit</a></button>
+          <button><a href="{{url_for('admin.delete_book')}}">Delete</a></button>
         </div>
       </div>
       <div class="col col-md-auto col-lg-auto">
@@ -74,11 +74,11 @@
         <div class="text">
           <p>Author</p>
           <p>title</p>
-          <button><a href="/edit_book">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
+          <button><a href="{{url_for('admin.edit_book')}}">Edit</a></button>
+          <button><a href="{{url_for('admin.delete_book')}}">Delete</a></button>
         </div>
       </div>
-    </div>
+    </div> 
   </div>
 </div>
 {% endblock %}

@@ -101,7 +101,7 @@ def logout():
 @auth_bp.route('/change_password')
 @login_required
 def change_password():
-    return render_template('auth/password.html')
+    return render_template('auth/password.html', boolean=True)
 
 # Handle the change password form submission
 @auth_bp.route('/change_password', methods=['POST'])

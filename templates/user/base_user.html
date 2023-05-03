@@ -1,11 +1,8 @@
-{% extends "/base_dashboard.html" %}
-{%block title %}
-User
-{% endblock %} 
+{% extends "/base_dashboard.html" %} {%block title %} User {% endblock %}
 {%block profile%}
 <div class="user-profile">
   <div class="">
-    <img src="/static/images/purple-abstract-img.png" alt="" width="50"/>
+    <img src="/static/images/purple-abstract-img.png" alt="" width="50" />
   </div>
   <h3 class="fullname">David Hugh</h3>
   <p class="username">@user1</p>
@@ -13,13 +10,13 @@ User
 {% endblock %} {% block sidebar %}
 <ul class="nav nav-pills flex-column mb-auto">
   <li>
-    <a href="{{url_for('usser.dashboard')}}" class="nav-link big {{d_active}}">
+    <a href="{{url_for('user.dashboard')}}" class="nav-link big {{d_active}}">
       <i class="bi bi-speedometer2 me-2"></i>
       Dashboard
     </a>
   </li>
   <li>
-    <a href="{{url_for('usser.dashboard')}}" class="nav-link small {{d_active}}">
+    <a href="{{url_for('user.dashboard')}}" class="nav-link small {{d_active}}">
       <i class="bi bi-speedometer2 me-2"></i>
     </a>
   </li>
@@ -59,11 +56,17 @@ User
   </a>
   <ul class="dropdown-menu text-small shadow admin-settings">
     <li>
-      <a class="dropdown-item" href="{{url_for('auth.edit_profile')}}">Edit Profile</a>
-      <a class="dropdown-item" href="{{url_for('auth.chanage_password')}}">Change Password</a>
+      <a class="dropdown-item" href="{{url_for('admin.edit_profile')}}"
+        >Edit Profile</a
+      >
+      <a class="dropdown-item" href="{{url_for('auth.change_password')}}"
+        >Change Password</a
+      >
     </li>
     <li><hr class="dropdown-divider" /></li>
-    <li><a class="dropdown-item" href="{{url_for('auth.logout')}}">Sign out</a></li>
+    <li>
+      <a class="dropdown-item" href="{{url_for('auth.logout')}}">Sign out</a>
+    </li>
   </ul>
 </div>
 {% endblock %}

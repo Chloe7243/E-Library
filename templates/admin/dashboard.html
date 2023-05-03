@@ -75,7 +75,7 @@
         <p>18+ downloads</p>
       </div>
     </div>
-    <button class="view_all"><a href="/admin_library">View all books</a></button>
+    <button class="view_all"><a href="{{url_for('admin.books')}}">View all books</a></button>
   </div>
 
   <div class="top_rated_category col col-md-auto col-lg-auto">
@@ -97,7 +97,7 @@
         <p>18+ downloads</p>
       </div>
     </div>
-    <button class="view_all"><a href="/admin_library">View all books</a></button>
+    <button class="view_all"><a href="{{url_for('admin.categories')}}">View all categories</a></button>
   </div>
 </div>
 {% endblock %}
