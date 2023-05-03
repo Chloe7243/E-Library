@@ -1,8 +1,5 @@
-{% extends "/admin/base_admin.html" %} 
-{%block title %}Books{% endblock %}
-
-
-{% block main %}
+{% extends "/admin/base_admin.html" %} {%block title %}Books{% endblock %} {%
+block main %}
 
 <div class="main-top">
   <div class="search-bar">
@@ -27,59 +24,22 @@
 </div>
 
 <div class="lib-item all-books">
-
   <div class="book-category">
-     <div class="book-category-content row">
+    <div class="book-category-content row">
+      {% for book in books %}
       <div class="col col-md-auto col-lg-auto">
-        <img src="/static/images/book.jpeg" alt="" />
+        <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
         <div class="text">
-          <p>Author</p>
-          <p>title</p>
-          <button><a href="{{url_for('admin.edit_book')}}">Edit</a></button>
-          <button><a href="{{url_for('admin.delete_book')}}">Delete</a></button>
+          <p>{{ book.author }}</p>
+          <p>{{ book.title }}</p>
+          <button><a href="/admin/books/{{ book.id }}/edit">Edit</a></button>
+          <button>
+            <a href="/admin/books/{{ book.id }}/delete">Delete</a>
+          </button>
         </div>
       </div>
-
-      <div class="col col-md-auto col-lg-auto">
-        <img src="/static/images/book.jpeg" alt="" />
-        <div class="text">
-          <p>Author</p>
-          <p>title</p>
-          <button><a href="{{url_for('admin.edit_book')}}">Edit</a></button>
-          <button><a href="{{url_for('admin.delete_book')}}">Delete</a></button>
-        </div>
-      </div>
-
-      <div class="col col-md-auto col-lg-auto">
-        <img src="/static/images/book.jpeg" alt="" />
-        <div class="text">
-          <p>Author</p>
-          <p>title</p>
-          <button><a href="{{url_for('admin.edit_book')}}">Edit</a></button>
-          <button><a href="{{url_for('admin.delete_book')}}">Delete</a></button>
-        </div>
-      </div>
-
-      <div class="col col-md-auto col-lg-auto">
-        <img src="/static/images/book.jpeg" alt="" />
-        <div class="text">
-          <p>Author</p>
-          <p>title</p>
-          <button><a href="{{url_for('admin.edit_book')}}">Edit</a></button>
-          <button><a href="{{url_for('admin.delete_book')}}">Delete</a></button>
-        </div>
-      </div>
-      <div class="col col-md-auto col-lg-auto">
-        <img src="/static/images/book.jpeg" alt="" />
-        <div class="text">
-          <p>Author</p>
-          <p>title</p>
-          <button><a href="{{url_for('admin.edit_book')}}">Edit</a></button>
-          <button><a href="{{url_for('admin.delete_book')}}">Delete</a></button>
-        </div>
-      </div>
-    </div> 
+      {% endfor %}
+    </div>
   </div>
 </div>
 {% endblock %}
-

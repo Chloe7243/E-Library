@@ -176,14 +176,14 @@ def new_book():
                 cover_path = os.path.join(
                     current_app.root_path, 'static/images/covers', cover_filename)
                 form.cover.data.save(cover_path)
-                book.cover_path = cover_path
+                book.cover_path = cover_filename
 
             if form.file.data:
                 file_filename = f'book_{timestamp}.pdf'
                 file_path = os.path.join(
                     current_app.root_path, 'static/books', file_filename)
                 form.file.data.save(file_path)
-                book.file_path = file_path
+                book.file_path = file_filename
 
             db.session.commit()
             flash('Book created successfully!', 'success')
@@ -223,7 +223,7 @@ def edit_book(id):
             cover_path = os.path.join(
                 current_app.root_path, 'static/images/covers', cover_filename)
             form['cover'].save(cover_path)
-            book.cover_path = cover_path
+            book.cover_path = cover_filename
 
         if form.get('file'):
             # delete old book file and add new one
@@ -234,7 +234,7 @@ def edit_book(id):
             file_path = os.path.join(
                 current_app.root_path, 'static/books', file_filename)
             form['file'].save(file_path)
-            book.file_path = file_path
+            book.file_path = file_filename
 
         db.session.commit()
         flash('Book updated successfully!', 'success')
@@ -352,14 +352,14 @@ def new_video():
                 cover_path = os.path.join(
                     current_app.root_path, 'static/images/covers', cover_filename)
                 form.cover.data.save(cover_path)
-                video.cover_path = cover_path
+                video.cover_path = '/static/videos/'.join(cover_filename)
 
             if form.file.data:
                 file_filename = f'video_{video.id}.mp4'
                 file_path = os.path.join(
                     current_app.root_path, 'static/videos', file_filename)
                 form.file.data.save(file_path)
-                video.file_path = file_path
+                video.file_path = '/static/videos/'.join(file_filename)
 
             db.session.commit()
             flash('Video created successfully!', 'success')
@@ -400,7 +400,7 @@ def edit_video(id):
             cover_path = os.path.join(
                 current_app.root_path, 'static/images/covers', cover_filename)
             form.get('cover').save(cover_path)
-            video.cover_path = cover_path
+            video.cover_path = '/static/videos/'.join(cover_filename)
 
         if form.get('file'):
             # delete old book file and add new one
@@ -411,7 +411,7 @@ def edit_video(id):
             file_path = os.path.join(
                 current_app.root_path, 'static/videos', file_filename)
             form.get('file').save(file_path)
-            video.file_path = file_path
+            video.file_path = '/static/videos/'.join(file_filename)
 
         db.session.commit()
 
