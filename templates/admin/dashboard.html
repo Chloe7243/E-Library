@@ -3,21 +3,21 @@
 
 {% block content %}
 <div class="statistics">
-  <h3>In the last <span class="time">30 days</span></h3>
+  <h3>In the last <span class="time">7 days</span></h3>
   <div class="main">
-  <div class="category num_books">
-    <p class="number">{{ rental_count }}</p>
-    <p class="category_title">Rentals</p>
-  </div>
-  <div class="category num_users">
-    <p class="number">0</p>
-    <p class="category_title">Access Requests</p>
-  </div>
-  <div class="category num_downloads">
-    <p class="number">0</p>
-    <p class="category_title">Downloads</p>
-  </div>
+    <div class="category num_books">
+      <p class="number">{{ rentals_count }}</p>
+      <p class="category_title">Rentals</p>
     </div>
+    <div class="category num_users">
+      <p class="number">{{ access_requests_count }}</p>
+      <p class="category_title">Access Requests</p>
+    </div>
+    <div class="category num_downloads">
+      <p class="number">{{ downloads_count }}</p>
+      <p class="category_title">Downloads</p>
+    </div>
+  </div>
 </div>
 
 <div class="all_users">
@@ -27,29 +27,33 @@
       <div class="search_bar">
         <label for="d_search"></label>
         <input type="search" name="" id="" placeholder="search_users" />
-        <i></i>
       </div>
-
     </div>
   </div>
 
   <div class="table">
     <table class="users_table">
       <thead>
-      <tr>
-        <th>Username</th>
-        <th>Lastname</th>
-        <th>Firstname</th>
-        <th>Email Address</th>
-        <th>PFP</th>
-      </tr>
+        <tr>
+          <th>Id</th>
+          <th>Name</th>
+          <th>Email Address</th>
+        </tr>
       </thead>
+
+      {% for user in users %}
+      <tr>
+        <td>{{user.id}}</td>
+        <td>{{user.name}}</td>
+        <td>{{user.email}}</td>
+      </tr>
+      {% endfor %}
     </table>
 
-      <div class="empty ">
-    <h1>NOTHING YET</h1>
-    <i class="bi bi-emoji-frown-fill"></i>
-  </div>
+    <div class="empty {{ 'hidden' if total_users > 0 }}">
+      <h1>NOTHING YET</h1>
+      <i class="bi bi-emoji-frown-fill"></i>
+    </div>
   </div>
 </div>
 {% endblock %}

@@ -25,8 +25,16 @@ def isAdmin(f):
 @login_required
 @isAdmin
 def dashboard():
-    rental_count = Rental.query.count()
-    return render_template('admin/dashboard.html', d_active="active", rental_count=rental_count)
+    today = datetime.utcnow()
+    week_ago = today - timedelta(days=7)
+    downloads_count = BookDownload.query.count()
+    rentals_count = Rental.query.filter(Rental.date_rented >= week_ago).count()
+    access_requests_count = AccessRequest.query.filter(
+        AccessRequest.date_requested >= week_ago).count()
+    total_users = User.query.count()
+    users = User.query.all()
+    return render_template('admin/dashboard.html', d_active="active", downloads_count=downloads_count,
+                           rentals_count=rentals_count, access_requests_count=access_requests_count, total_users=total_users, users=users)
 
 # Profile Route
 
@@ -59,12 +67,12 @@ def reports():
         db.func.count(Rental.id).desc()).limit(10).all()
 
     # User Engagement
-    today = datetime.utcnow()
-    week_ago = today - timedelta(days=7)
-    downloads_count = BookDownload.query.count()
-    rentals_count = Rental.query.filter(Rental.date_rented >= week_ago).count()
-    access_requests_count = AccessRequest.query.filter(
-        AccessRequest.date_requested >= week_ago).count()
+    # today = datetime.utcnow()
+    # week_ago = today - timedelta(days=7)
+    # downloads_count = BookDownload.query.count()
+    # rentals_count = Rental.query.filter(Rental.date_rented >= week_ago).count()
+    # access_requests_count = AccessRequest.query.filter(
+    #     AccessRequest.date_requested >= week_ago).count()
 
     # Most Active Users
     active_users = User.query.join(Rental).group_by(User.id).order_by(
@@ -85,8 +93,7 @@ def reports():
     total_categories = Category.query.count()
     total_videos = Video.query.count()
 
-    return render_template('admin/reports.html', rep_active="active", popular_books=popular_books, downloads_count=downloads_count,
-                           rentals_count=rentals_count, access_requests_count=access_requests_count,
+    return render_template('admin/reports.html', rep_active="active", popular_books=popular_books, 
                            active_users=active_users, total_categories=total_categories, avg_rental_duration=avg_rental_duration,
                            total_books=total_books, total_users=total_users, total_rentals=total_rentals, total_videos=total_videos)
 
@@ -198,6 +205,8 @@ def new_book():
 def edit_book(id):
     # Retrieve the book from the database
     book = Book.query.get(id)
+    all_categories = Category.query.all()
+
     if request.method == 'POST':
         # Update details of the book available in the request form
         form = request.form
@@ -241,7 +250,7 @@ def edit_book(id):
         return redirect(url_for('admin.books'))
     else:
         # get the book with the given id from the database and pass it to the template
-        return render_template('admin/edit_book.html', book=book, b_active="active")
+        return render_template('admin/edit_book.html', book=book, b_active="active", all_categories=all_categories)
 
 
 @admin_bp.route('/books/<int:id>/delete', methods=['POST'])
