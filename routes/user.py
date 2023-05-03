@@ -11,7 +11,6 @@ def search():
     # get the most popular books from the database
     popular_books = Book.query.join(Rental).group_by(Book.id).order_by(db.func.count(Rental.id).desc()).limit(10).all()
 
-
     return render_template('user/discover.html',di_active="active")
 
 
@@ -27,7 +26,7 @@ def dashboard():
 @login_required
 def user_profile():
     user = User.query.get(current_user.id)
-    return render_template('user/edit_profile.html', user=user, d_active="active")
+    return render_template('user/edit_profile.html', user=user)
 
 # Handle the user profile form submission
 @user_bp.route('/edit_profile', methods=['POST'])
@@ -55,7 +54,6 @@ def list_requests():
 @login_required
 def book_details(id):
     return render_template('user/book_details.html', book=Book.query.get(id), di_active="active")
-
 
 
 # Render the page to read the book online
