@@ -94,8 +94,8 @@ def categories():
 @login_required
 @isAdmin
 def new_category():
+    form = CategoryForm()
     if request.method == 'POST':
-        form = CategoryForm()
         if form.validate_on_submit():
             category = Category(name=form.name.data)
             db.session.add(category)
@@ -103,7 +103,7 @@ def new_category():
             flash('Category created successfully!', 'success')
         return redirect(url_for('admin.categories'))
     else:
-        return render_template('admin/new_category.html')
+        return render_template('admin/new_category.html', form=form)
 
 
 @admin_bp.route('/categories/<int:id>/delete', methods=['POST'])
@@ -137,8 +137,9 @@ def books():
 @login_required
 @isAdmin
 def new_book():
+    form = BookForm()
     if request.method == 'POST':
-        form = BookForm()
+        
         if form.validate_on_submit():
             book = Book(title=form.title.data, description=form.description.data, author=form.author.data, category_id=form.category.data.id)
             db.session.add(book)
@@ -161,7 +162,7 @@ def new_book():
             flash('Book created successfully!', 'success')
         return redirect(url_for('admin.books'))
     else:
-        return render_template('admin/new_book.html', b_active="active")
+        return render_template('admin/new_book.html', b_active="active", form=form)
 
 @admin_bp.route('/books/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -328,7 +329,7 @@ def new_video():
             flash('Video created successfully!', 'success')
         return redirect(url_for('admin.videos'))
     else:
-        return render_template('admin/new_video.html', v_active="active")
+        return render_template('admin/new_video.html', v_active="active", form=form)
     
 
 # Renders a form to edit a video
