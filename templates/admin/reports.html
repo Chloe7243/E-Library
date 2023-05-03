@@ -1,30 +1,28 @@
-{% extends "/admin/base_admin.html" %}
-
-{%block title %}Books{% endblock %}
+{% extends "/admin/base_admin.html" %} {%block title %}Books{% endblock %}
 {%block main %}
 <div class="reports statistics">
   <div class="category num_books">
-    <p class="number">0</p>
+    <p class="number">{{ total_books }}</p>
     <p class="category_title">Total Books</p>
   </div>
   <div class="category book_categories">
-    <p class="number">0</p>
+    <p class="number">{{ total_categories }}</p>
     <p class="category_title">Total Categories</p>
   </div>
-  <div class="category num_books">
-    <p class="number">0</p>
+  <div class="category num_users">
+    <p class="number">{{ total_users }}</p>
     <p class="category_title">Total Users</p>
   </div>
-  <div class="category audio">
-    <p class="number">0</p>
+  <div class="category video">
+    <p class="number">{{ total_videos }}</p>
     <p class="category_title">Total Videos</p>
   </div>
-  <div class="category audio">
-    <p class="number">0</p>
+  <div class="category rentals">
+    <p class="number">{{ rentals_count }}</p>
     <p class="category_title">Total Rentals</p>
   </div>
-  <div class="category audio">
-    <p class="number">0</p>
+  <div class="category avg-rentals">
+    <p class="number">{{ avg_rental_duration }}</p>
     <p class="category_title">Average Rental Duration</p>
   </div>
 </div>

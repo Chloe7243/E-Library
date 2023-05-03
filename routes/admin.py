@@ -25,7 +25,8 @@ def isAdmin(f):
 @login_required
 @isAdmin
 def dashboard():
-    return render_template('admin/dashboard.html', d_active="active")
+    rental_count = Rental.query.count()
+    return render_template('admin/dashboard.html', d_active="active", rental_count=rental_count)
 
 # Profile Route
 
@@ -71,8 +72,6 @@ def reports():
 
     # Categories
     categories = Category.query.all()
-    categories_books_counts = [(c.name, len(c.books)) for c in categories]
-    categories_videos_counts = [(c.name, len(c.videos)) for c in categories]
 
     # Rental Duration
     rentals_duration = Rental.query.all()
@@ -83,12 +82,13 @@ def reports():
     total_books = Book.query.count()
     total_users = User.query.count()
     total_rentals = Rental.query.count()
+    total_categories = Category.query.count()
+    total_videos = Video.query.count()
 
     return render_template('admin/reports.html', rep_active="active", popular_books=popular_books, downloads_count=downloads_count,
                            rentals_count=rentals_count, access_requests_count=access_requests_count,
-                           active_users=active_users, categories_books_counts=categories_books_counts,
-                           categories_videos_counts=categories_videos_counts, avg_rental_duration=avg_rental_duration,
-                           total_books=total_books, total_users=total_users, total_rentals=total_rentals)
+                           active_users=active_users, total_categories=total_categories, avg_rental_duration=avg_rental_duration,
+                           total_books=total_books, total_users=total_users, total_rentals=total_rentals, total_videos=total_videos)
 
 # Render list of users
 
