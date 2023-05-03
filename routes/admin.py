@@ -5,7 +5,7 @@ from flask_login import current_user, login_required
 from models import User, Book, Video, Rental, Category, BookDownload, AccessRequest, DownloadRequest, db
 from models import ChangePasswordForm, ProfileForm, CategoryForm, BookForm, VideoForm
 from datetime import datetime, timedelta
- 
+
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
@@ -19,6 +19,8 @@ def isAdmin(f):
     return decorated_function
 
 # Admin Routes
+
+
 @admin_bp.route('/dashboard')
 @login_required
 @isAdmin
@@ -26,6 +28,8 @@ def dashboard():
     return render_template('admin/dashboard.html', d_active="active")
 
 # Profile Route
+
+
 @admin_bp.route('/profile', methods=['GET', 'POST'])
 @login_required
 @isAdmin
@@ -41,6 +45,8 @@ def profile():
         return render_template('admin/edit_profile.html', d_active="active")
 
 # Reports
+
+
 @admin_bp.route('/reports')
 @login_required
 @isAdmin
@@ -48,17 +54,21 @@ def reports():
     # do some data analysis using the existing database and generate some key statistics
 
     # Most Popular Books
-    popular_books = Book.query.join(Rental).group_by(Book.id).order_by(db.func.count(Rental.id).desc()).limit(10).all()
+    popular_books = Book.query.join(Rental).group_by(Book.id).order_by(
+        db.func.count(Rental.id).desc()).limit(10).all()
 
     # User Engagement
     today = datetime.utcnow()
     week_ago = today - timedelta(days=7)
-    downloads_count = BookDownload.query.filter(BookDownload.date_created >= week_ago).count()
+    downloads_count = BookDownload.query.filter(
+        BookDownload.date_created >= week_ago).count()
     rentals_count = Rental.query.filter(Rental.date_rented >= week_ago).count()
-    access_requests_count = AccessRequest.query.filter(AccessRequest.date_requested >= week_ago).count()
+    access_requests_count = AccessRequest.query.filter(
+        AccessRequest.date_requested >= week_ago).count()
 
     # Most Active Users
-    active_users = User.query.join(Rental).group_by(User.id).order_by(db.func.count(Rental.id).desc()).limit(10).all()
+    active_users = User.query.join(Rental).group_by(User.id).order_by(
+        db.func.count(Rental.id).desc()).limit(10).all()
 
     # Categories
     categories = Category.query.all()
@@ -67,7 +77,8 @@ def reports():
 
     # Rental Duration
     rentals_duration = Rental.query.all()
-    avg_rental_duration = sum((r.date_due - r.date_rented).days for r in rentals_duration) / len(rentals_duration)
+    avg_rental_duration = sum(
+        (r.date_due - r.date_rented).days for r in rentals_duration) / len(rentals_duration)
 
     # Total number of books, users, and rentals
     total_books = Book.query.count()
@@ -89,6 +100,7 @@ def categories():
     # get all categories from the database and pass them to the template
     categories = Category.query.all()
     return render_template('admin/categories.html', categories=categories, c_active="active")
+
 
 @admin_bp.route('/categories/new', methods=['GET', 'POST'])
 @login_required
@@ -125,6 +137,8 @@ def delete_category(id):
     return redirect(url_for('admin_bp.categories'))
 
 # Book Routes
+
+
 @admin_bp.route('/books')
 @login_required
 @isAdmin
@@ -133,36 +147,40 @@ def books():
     books = Book.query.all()
     return render_template('admin/books.html', books=books)
 
+
 @admin_bp.route('/books/new', methods=['GET', 'POST'])
 @login_required
 @isAdmin
 def new_book():
     form = BookForm()
     if request.method == 'POST':
-        
+
         if form.validate_on_submit():
-            book = Book(title=form.title.data, description=form.description.data, author=form.author.data, category_id=form.category.data.id)
+            book = Book(title=form.title.data, description=form.description.data,
+                        author=form.author.data, category_id=form.category_id.data)
             db.session.add(book)
-            
 
             # upload book cover and book file (pdf)
             if form.cover.data:
                 cover_filename = f'cover_{book.id}.jpg'
-                cover_path = os.path.join(current_app.root_path, 'static/images/covers', cover_filename)
+                cover_path = os.path.join(
+                    current_app.root_path, 'static/images/covers', cover_filename)
                 form.cover.data.save(cover_path)
                 book.cover_path = cover_path
 
             if form.file.data:
                 file_filename = f'book_{book.id}.pdf'
-                file_path = os.path.join(current_app.root_path, 'static/books', file_filename)
+                file_path = os.path.join(
+                    current_app.root_path, 'static/books', file_filename)
                 form.file.data.save(file_path)
                 book.file_path = file_path
-            
+
             db.session.commit()
             flash('Book created successfully!', 'success')
         return redirect(url_for('admin.books'))
     else:
         return render_template('admin/new_book.html', b_active="active", form=form)
+
 
 @admin_bp.route('/books/<int:id>/edit', methods=['GET', 'POST'])
 @login_required
@@ -185,14 +203,15 @@ def edit_book(id):
 
         if form.get('category'):
             book.category_id = form['category_id']
-        
+
         if form.get('cover'):
             # delete old book cover and add new one
             if book.cover_path:
                 os.remove(book.cover_path)
-            
+
             cover_filename = f'cover_{book.id}.jpg'
-            cover_path = os.path.join(current_app.root_path, 'static/images/covers', cover_filename)
+            cover_path = os.path.join(
+                current_app.root_path, 'static/images/covers', cover_filename)
             form['cover'].save(cover_path)
             book.cover_path = cover_path
 
@@ -202,7 +221,8 @@ def edit_book(id):
                 os.remove(book.file_path)
 
             file_filename = f'book_{book.id}.pdf'
-            file_path = os.path.join(current_app.root_path, 'static/books', file_filename)
+            file_path = os.path.join(
+                current_app.root_path, 'static/books', file_filename)
             form['file'].save(file_path)
             book.file_path = file_path
 
@@ -212,6 +232,7 @@ def edit_book(id):
     else:
         # get the book with the given id from the database and pass it to the template
         return render_template('admin/edit_book.html', book=book, b_active="active")
+
 
 @admin_bp.route('/books/<int:id>/delete', methods=['POST'])
 @login_required
@@ -234,6 +255,8 @@ def delete_book(id):
     return redirect(url_for('admin.books'))
 
 # Request routes
+
+
 @admin_bp.route('/requests')
 @login_required
 @isAdmin
@@ -243,6 +266,7 @@ def requests():
     download_requests = DownloadRequest.query.all()
 
     return render_template('admin/requests.html', access_requests=access_requests, download_requests=download_requests, req_active="active")
+
 
 @admin_bp.route('/grant-access-request/<int:request_id>', methods=['POST'])
 @login_required
@@ -266,6 +290,7 @@ def grant_access_request(request_id):
 
     return redirect(url_for('admin.requests'))
 
+
 @admin_bp.route('/grant-download-request/<int:request_id>', methods=['POST'])
 @login_required
 @isAdmin
@@ -284,9 +309,8 @@ def grant_download_request(request_id):
 
     # commit the changes to the database
     db.session.commit()
-    
-    return redirect(url_for('admin.requests'))
 
+    return redirect(url_for('admin.requests'))
 
 
 # Video Routes
@@ -308,29 +332,31 @@ def new_video():
     if request.method == 'POST':
         form = VideoForm()
         if form.validate_on_submit():
-            video = Video(title=form.title.data, description=form.description.data, author=form.author.data, category_id=form.category.data.id)
+            video = Video(title=form.title.data, description=form.description.data,
+                          author=form.author.data, category_id=form.category.data.id)
             db.session.add(video)
-            
 
             # upload video cover and video file (mp4)
             if form.cover.data:
                 cover_filename = f'cover_{video.id}.jpg'
-                cover_path = os.path.join(current_app.root_path, 'static/images/covers', cover_filename)
+                cover_path = os.path.join(
+                    current_app.root_path, 'static/images/covers', cover_filename)
                 form.cover.data.save(cover_path)
                 video.cover_path = cover_path
 
             if form.file.data:
                 file_filename = f'video_{video.id}.mp4'
-                file_path = os.path.join(current_app.root_path, 'static/videos', file_filename)
+                file_path = os.path.join(
+                    current_app.root_path, 'static/videos', file_filename)
                 form.file.data.save(file_path)
                 video.file_path = file_path
-            
+
             db.session.commit()
             flash('Video created successfully!', 'success')
         return redirect(url_for('admin.videos'))
     else:
         return render_template('admin/new_video.html', v_active="active", form=form)
-    
+
 
 # Renders a form to edit a video
 @admin_bp.route('/videos/<int:id>/edit', methods=['GET', 'POST'])
@@ -351,7 +377,7 @@ def edit_video(id):
 
         if form.get('author'):
             video.author = form.get('author')
-        
+
         if form.get('category'):
             video.category_id = form.get('category')
 
@@ -359,9 +385,10 @@ def edit_video(id):
             # delete old book cover and add new one
             if video.cover_path:
                 os.remove(video.cover_path)
-            
+
             cover_filename = f'cover_{video.id}.jpg'
-            cover_path = os.path.join(current_app.root_path, 'static/images/covers', cover_filename)
+            cover_path = os.path.join(
+                current_app.root_path, 'static/images/covers', cover_filename)
             form.get('cover').save(cover_path)
             video.cover_path = cover_path
 
@@ -369,20 +396,21 @@ def edit_video(id):
             # delete old book file and add new one
             if video.file_path:
                 os.remove(video.file_path)
-            
+
             file_filename = f'video_{video.id}.mp4'
-            file_path = os.path.join(current_app.root_path, 'static/videos', file_filename)
+            file_path = os.path.join(
+                current_app.root_path, 'static/videos', file_filename)
             form.get('file').save(file_path)
             video.file_path = file_path
 
         db.session.commit()
-        
+
         flash('Video updated successfully!', 'success')
         return redirect(url_for('admin.videos'))
     else:
         # get the video with the given id from the database and pass it to the template
         return render_template('admin/edit_video.html', video=video, v_active="active")
-    
+
 
 # Deletes a video
 @admin_bp.route('/videos/<int:id>/delete', methods=['POST'])
@@ -398,7 +426,8 @@ def delete_video(id):
 
     # delete the video's cover from the filesystem
     if video.cover_path:
-        os.remove(os.path.join(current_app.root_path, 'static', video.cover_path))
+        os.remove(os.path.join(current_app.root_path,
+                  'static', video.cover_path))
 
     db.session.delete(video)
     db.session.commit()
