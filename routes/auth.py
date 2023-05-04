@@ -51,7 +51,7 @@ def register():
 
         flash('Your account has been created.', 'success')
         login_user(new_user)
-        return redirect(url_for('admin.dashboard'))
+        return redirect(url_for('user.dashboard'))
     else:
         return render_template('auth/signUp.html',  href="/")
 
