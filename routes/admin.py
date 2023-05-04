@@ -1,20 +1,23 @@
 import os
 from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
 from functools import wraps
-from flask_login import current_user, login_required
+from flask_login import current_user, login_required, logout_user
 from models import User, Book, Video, Rental, Category, BookDownload, AccessRequest, DownloadRequest, db
-from models import ChangePasswordForm, ProfileForm, CategoryForm, BookForm, VideoForm
+from models import CategoryForm, BookForm, VideoForm
 from datetime import datetime, timedelta
+
+from routes.auth import logout
 
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
-
+# Decorator to verify if a user is an admin before they can acccess admin routes
 def isAdmin(f):
     @wraps(f)
     def decorated_function(*args, **kwargs):
         if not current_user.is_admin:
-            return redirect(url_for('views.home'))
+            logout_user(current_user)
+            return redirect(url_for('auth.login'))
         return f(*args, **kwargs)
     return decorated_function
 

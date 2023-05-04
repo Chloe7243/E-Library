@@ -24,6 +24,10 @@ def login():
             flash('Invalid email or password.', 'error')
             return redirect(url_for('auth.login'))
     else:
+        if (current_user.is_authenticated and current_user.is_admin):
+            return redirect(url_for('admin.dashboard'))
+        elif (current_user.is_authenticated):
+            return redirect(url_for('user.dashboard'))
         return render_template('auth/login.html', href="/")
 
 @auth_bp.route('/register', methods=['GET', 'POST'])
