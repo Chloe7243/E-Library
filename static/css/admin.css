@@ -693,7 +693,7 @@ video {
 .description {
   display: flex;
   align-items: center;
-  padding: 1rem 0;
+  padding: 1rem;
   justify-content: space-evenly;
   margin:  1.5rem auto;
   box-shadow: 0 2px 6px rgba(0, 0, 0, 0.35);
@@ -952,7 +952,6 @@ justify-content: space-evenly;
 
 }
 
-
 .bars > div{
   display:flex;
   flex-direction: row-reverse;
@@ -1013,10 +1012,6 @@ justify-content: space-evenly;
 .bars :first-child {
   height: 100%;
 }
-/* 
-#weekly-charts + .description{
-  width: 100%;
-} */
 
 .description p{
     margin: 0;
