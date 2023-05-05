@@ -2,7 +2,7 @@
 {%block title %}Dashboard{% endblock %}
 
 {% block main %}
-<form action="POST">
+<form action="/admin/videos/{{video.id}}/edit" method="POST">
   <h2>Edit Video</h2>
   <div class="form-group">
     <label for="title">Title</label>

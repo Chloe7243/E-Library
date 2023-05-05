@@ -175,13 +175,13 @@ def new_book():
     if request.method == 'POST':
 
         if form.validate_on_submit():
-            book = Book(title=form.title.data, description=form.description.data,
+            timestamp = str(datetime.now().timestamp()).replace('.','')
+            book = Book(id=timestamp, title=form.title.data, description=form.description.data,
                         author=form.author.data, category_id=form.category_id.data)
             db.session.add(book)
 
             # upload book cover and book file (pdf)
             if form.cover.data:
-                timestamp = datetime.now().timestamp()
                 cover_filename = f'cover_{timestamp}.jpg'
                 cover_path = os.path.join(
                     current_app.root_path, 'static/images/covers', cover_filename)
@@ -351,27 +351,28 @@ def videos():
 @login_required
 @isAdmin
 def new_video():
+    form = VideoForm()
     if request.method == 'POST':
-        form = VideoForm()
         if form.validate_on_submit():
-            video = Video(title=form.title.data, description=form.description.data,
-                          author=form.author.data, category_id=form.category.data.id)
+            timestamp = str(datetime.now().timestamp()).replace('.','')
+            video = Video(id=timestamp, title=form.title.data, description=form.description.data,
+                          category_id=form.category_id.data)
             db.session.add(video)
 
             # upload video cover and video file (mp4)
             if form.cover.data:
-                cover_filename = f'cover_{video.id}.jpg'
+                cover_filename = f'cover_{timestamp}.jpg'
                 cover_path = os.path.join(
                     current_app.root_path, 'static/images/covers', cover_filename)
                 form.cover.data.save(cover_path)
-                video.cover_path = '/static/videos/'.join(cover_filename)
+                video.cover_path = cover_filename
 
             if form.file.data:
-                file_filename = f'video_{video.id}.mp4'
+                file_filename = f'video_{timestamp}.mp4'
                 file_path = os.path.join(
                     current_app.root_path, 'static/videos', file_filename)
                 form.file.data.save(file_path)
-                video.file_path = '/static/videos/'.join(file_filename)
+                video.file_path = file_filename
 
             db.session.commit()
             flash('Video created successfully!', 'success')
@@ -396,10 +397,7 @@ def edit_video(id):
 
         if form.get('description'):
             video.description = form.get('description')
-
-        if form.get('author'):
-            video.author = form.get('author')
-
+            
         if form.get('category'):
             video.category_id = form.get('category')
 

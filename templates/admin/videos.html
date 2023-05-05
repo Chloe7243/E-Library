@@ -78,6 +78,24 @@
           <button><a href="/delete_book">Delete</a></button>
         </div>
       </div>
+
+      {% for video in videos %}
+
+      <div class="col col-md-auto col-lg-auto">
+        <video width="3" controls>
+          <source src="/static/videos/{{video.file_path}}" type="video/mp4" />
+          Your browser does not support the video tag.
+        </video>
+        <div class="desc">
+          <p>{{ video.title }}</p>
+          <p>{{ video.description }}</p>
+          <button><a href="/admin/videos/{{video.id}}/edit">Edit</a></button>
+          <button><a href="/admin/videos/{{video.id}}/delete">Delete</a></button>
+        </div>
+      </div>
+    
+    {% endfor %}
+    
     </div>
   </div> 
 </div>
