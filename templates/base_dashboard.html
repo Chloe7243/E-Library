@@ -49,7 +49,7 @@
       {% block sidebar %} {% endblock %}
     </div>
 
-    <main class="{{ 'no-scroll' if rep_active == 'active' else ''}}">
+    <main>
       <div class="container-2">
       {% block main %} {% endblock %}
     </div>
@@ -62,5 +62,6 @@
     ></script>
 
       <script src="{{url_for('static', filename='js/user.js')}}"></script>
+      <script src="{{url_for('static', filename='js/admin.js')}}"></script>
   </body>
 </html>

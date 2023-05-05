@@ -1,29 +1,235 @@
 {% extends "/admin/base_admin.html" %} {%block title %}Books{% endblock %}
 {%block main %}
-<div class="reports statistics">
-  <div class="category num_books">
-    <p class="number">{{ total_books }}</p>
-    <p class="category_title">Total Books</p>
-  </div>
-  <div class="category book_categories">
-    <p class="number">{{ total_categories }}</p>
-    <p class="category_title">Total Categories</p>
-  </div>
-  <div class="category num_users">
-    <p class="number">{{ total_users }}</p>
-    <p class="category_title">Total Users</p>
-  </div>
-  <div class="category video">
-    <p class="number">{{ total_videos }}</p>
-    <p class="category_title">Total Videos</p>
-  </div>
-  <div class="category rentals">
-    <p class="number">{{ rentals_count }}</p>
-    <p class="category_title">Total Rentals</p>
-  </div>
-  <div class="category avg-rentals">
-    <p class="number">{{ avg_rental_duration }}</p>
-    <p class="category_title">Average Rental Duration</p>
+
+<!-- ========== BUDGET OVERVIEW ========== -->
+<div id="navigation">
+  <h1>Report Overview</h1>
+
+  <div id="links">
+    <div class="white">
+      <a href="#navigation"
+        ><i class="bi bi-index-finger purple"></i>Total Stats</a
+      >
+    </div>
+
+    <div>
+      <a href="#total"
+        ><i class="bi bi-index-finger purple"></i>Requests status</a
+      >
+    </div>
+
+    <div>
+      <a href="#requests"><i class="bi bi-index-finger purple"></i>Downloads</a>
+    </div>
+
+    <div>
+      <a href="#downloads"
+        ><i class="bi bi-index-finger purple"></i>New Users</a
+      >
+    </div>
   </div>
 </div>
+
+<!-- ========== PROJECTS =========== -->
+<section id="total">
+  <!-- <div id="body-section"> -->
+  <div class="reports statistics">
+    <div class="category num_books">
+      <p class="number">{{ total_books }}</p>
+      <p class="category_title">Total Books</p>
+    </div>
+
+    <div class="category book_categories">
+      <p class="number">{{ total_categories }}</p>
+      <p class="category_title">Total Categories</p>
+    </div>
+
+    <div class="category num_users">
+      <p class="number">{{ total_users }}</p>
+      <p class="category_title">Total Users</p>
+    </div>
+
+    <div class="category video">
+      <p class="number">{{ total_videos }}</p>
+      <p class="category_title">Total Videos</p>
+    </div>
+
+    <div class="category rentals">
+      <p class="number">{{ total_rentals }}</p>
+      <p class="category_title">Total Rentals</p>
+    </div>
+
+    <div class="category avg-rentals">
+      <p class="number">{{ avg_rental_duration }}</p>
+      <p class="category_title">Average Rental Duration</p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FREELANCE HEALTH SECTION =========== -->
+<section id="requests">
+  <div>
+    <h1>Requests Status</h1>
+
+    <!-- ========= SEMI CIRCLES ========= -->
+    <div id="percentage-circles">
+      <div class="circle-1 bigger-circle">
+        <p>
+          60% <br />
+          <span>Accepted Download Requests</span>
+        </p>
+      </div>
+
+      <div class="circle-2 bigger-circle">
+        <p>
+          25% <br />
+          <span>Accepted Access Requests</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- ======= STRT LINE ======== -->
+    <div id="percentage-linear">
+      <div class="perc">
+        <div class="big-line line-1"></div>
+        <p>60% Accepted Download Requests</p>
+      </div>
+
+      <div>
+        <div class="big-line line-2"></div>
+        <p>25% Accepted Access Requests</p>
+      </div>
+    </div>
+    <!-- PAID UNPAID UN....... COMPLETED -->
+    <div class="description">
+      <div class="t-des">
+        <span></span>
+        <p>Accepted download requests</p>
+      </div>
+
+      <div class="t-des">
+        <span></span>
+        <p>Unaccepted requests</p>
+      </div>
+
+      <div class="t-des">
+        <span></span>
+        <p>Accepted access requests</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+  <!-- ======= TOTAL INCOME ======== -->
+  <section id="weekly-charts">
+    <h1>Weekly Chart</h1>
+    <div class="increase">
+      <div class="increase-div white-2">
+        <p class="right3">
+          <span class="green"> <i class="bi bi-caret-up-fill"></i> +20% </span>
+          this week
+        </p>
+        <i class="bi bi-download"></i>
+        <p class="downloads">
+          0<br />
+          <span class="desc">Downloads today</span>
+        </p>
+      </div>
+
+      <div class="increase-div white-2">
+        <p class="right3">
+          <span class="green">  <i class="bi bi-caret-up-fill"></i></i> +20% </span>
+          this week
+        </p>
+
+        <i class="bi bi-person"></i>
+        <p class="users">
+          0 <br />
+          <span class="desc">New users today</span>
+        </p>
+      </div>
+    </div>
+
+    <!-- CHART SECTION 2 in monthly income -->
+    <div class="chart-section-2">
+      <div class="money-made">
+        <ul class="values">
+          <li>15+</li>
+          <li>12</li>
+          <li>9</li>
+          <li>6</li>
+          <li>3</li>
+          <li>0</li>
+        </ul>
+      </div>
+
+      <div class="monthly-bars">
+        <!-- <div class="avg">
+          <div class="avg-money">
+            <p class="val">
+              $4500 USD <br />
+              <span class="desc-4">average</span>
+            </p>
+            <span class="pointer"></span>
+          </div>
+
+          <div class="dotted-line"></div>
+        </div> -->
+
+        <div class="bars">
+          <div>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+          <div>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+          <div>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+          <div>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+          <div>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+          <div>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+          <div>
+            <span class="bar"></span>
+            <span class="bar"></span>
+          </div>
+        </div>
+
+        <div class="days">
+          <p>Mon</p>
+          <p>Tue</p>
+          <p>Wed</p>
+          <p>Thu</p>
+          <p>Fri</p>
+          <p>Sat</p>
+          <p>Sun</p>
+        </div>
+      </div>
+    </div>
+
+  </section>
+      <div class="description">
+      <div class="t-des">
+        <span></span>
+        <p>New Users</p>
+      </div>
+
+      <div class="t-des">
+        <span></span>
+        <p>Downloads</p>
+      </div>
+    </div>  
+
 {% endblock %}
