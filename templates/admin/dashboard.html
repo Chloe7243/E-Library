@@ -20,41 +20,17 @@
   </div>
 </div>
 
-<div class="all_users">
-  <div class="header">
-    <h3>All Users</h3>
-    <div class="sort">
-      <div class="search_bar">
-        <label for="d_search"></label>
-        <input type="search" name="" id="" placeholder="search_users" />
-      </div>
-    </div>
-  </div>
+<div class="latest-requests">
+<h1>Latest Requests</h1>
+<div>
+<p>Book</p>
+<p>User who Requested</p>
+<p>Type of Request</p>
 
-  <div class="table">
-    <table class="users_table">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Email Address</th>
-        </tr>
-      </thead>
+<p>Date due</p>
+<button>Grant Request</button>
+</div>
 
-      {% for user in users %}
-      <tr>
-        <td>{{user.id}}</td>
-        <td>{{user.name}}</td>
-        <td>{{user.email}}</td>
-      </tr>
-      {% endfor %}
-    </table>
-
-    <div class="empty {{ 'hidden' if total_users > 0 }}">
-      <h1>NOTHING YET</h1>
-      <i class="bi bi-emoji-frown-fill"></i>
-    </div>
-  </div>
 </div>
 {% endblock %}
 
