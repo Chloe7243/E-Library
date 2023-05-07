@@ -26,11 +26,20 @@ def delete_file(file_path):
     os.remove(os.path.join(current_app.root_path, 'static', file_path))
 
 
+# update the rentals
+def update_rentals():
+    today = datetime.utcnow()
+    rentals = Rental.query.filter(Rental.date_due < today).all()
+    for rental in rentals:
+        db.session.delete(rental)
+    db.session.commit()
+
 # Admin Routes
 @admin_bp.route('/dashboard')
 @login_required
 @isAdmin
 def dashboard():
+    update_rentals()
     today = datetime.utcnow()
     week_ago = today - timedelta(days=7)
     downloads_count = BookDownload.query.count()
@@ -42,9 +51,8 @@ def dashboard():
     return render_template('admin/dashboard.html', d_active="active", downloads_count=downloads_count,
                            rentals_count=rentals_count, access_requests_count=access_requests_count, total_users=total_users, users=users)
 
+
 # Profile Route
-
-
 @admin_bp.route('/profile', methods=['GET', 'POST'])
 @login_required
 @isAdmin
@@ -306,11 +314,27 @@ def grant_access_request(request_id):
     request = AccessRequest.query.get_or_404(request_id)
     user = request.user
     book = request.book
-    date_due = request.date_due
+    date_due = datetime.now() + timedelta(days=request.form.get('date_due'))
 
     # add the Access Request to the Rentals Table
     rental = Rental(user_id=user.id, book_id=book.id, date_due=date_due)
     db.session.add(rental)
+
+    # delete the request from the database
+    db.session.delete(request)
+
+    # commit the changes to the database
+    db.session.commit()
+
+    return redirect(url_for('admin.requests'))
+
+# Reject access request
+@admin_bp.route('/reject-access-request/<int:request_id>', methods=['POST'])
+@login_required
+@isAdmin
+def reject_access_request(request_id):
+    # reject access to the user's request with the given id
+    request = AccessRequest.query.get_or_404(request_id)
 
     # delete the request from the database
     db.session.delete(request)
@@ -337,6 +361,24 @@ def grant_download_request(request_id):
     # delete the request from the database
     db.session.delete(request)
 
+    # commit the changes to the database
+    db.session.commit()
+
+    return redirect(url_for('admin.requests'))
+
+
+@admin_bp.route('/reject-download-request/<int:request_id>', methods=['POST'])
+@login_required
+@isAdmin
+def reject_download_request(request_id):
+    # reject download to the user's request with the given id
+    request = DownloadRequest.query.get_or_404(request_id)
+    user = request.user
+    book = request.book
+    
+    # delete the request from the database
+    db.session.delete(request)
+    
     # commit the changes to the database
     db.session.commit()
 
