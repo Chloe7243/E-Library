@@ -21,6 +21,11 @@ def isAdmin(f):
         return f(*args, **kwargs)
     return decorated_function
 
+# delete a file
+def delete_file(file_path):
+    os.remove(os.path.join(current_app.root_path, 'static', file_path))
+
+
 # Admin Routes
 @admin_bp.route('/dashboard')
 @login_required
@@ -146,8 +151,12 @@ def delete_category(id):
     # delete all books and videos in the category
     for book in category.books:
         db.session.delete(book)
+        delete_file('images/covers/' + book.cover_path)
+        delete_file('books/' + book.file_path)
     for video in category.videos:
         db.session.delete(video)
+        delete_file('cover/' + book.cover_path)
+        delete_file('images/covers/' + book.file_path)
 
     db.session.delete(category)
     db.session.commit()
