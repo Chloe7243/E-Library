@@ -22,8 +22,6 @@ def isAdmin(f):
     return decorated_function
 
 # Admin Routes
-
-
 @admin_bp.route('/dashboard')
 @login_required
 @isAdmin
@@ -142,19 +140,21 @@ def new_category():
 @login_required
 @isAdmin
 def delete_category(id):
-    # delete the category with the given id from the database
+    # delete all videos in the category
     category = Category.query.get_or_404(id)
-    db.session.delete(category)
-
-    # delete all books and videos in the category
-    for book in category.books:
-        db.session.delete(book)
     for video in category.videos:
         db.session.delete(video)
 
+    # delete all books in the category
+    for book in category.books:
+        db.session.delete(book)
+
+    # delete the category with the given id from the database
+    db.session.delete(category)
+
     db.session.commit()
     flash('Category deleted successfully!', 'success')
-    return redirect(url_for('admin_bp.categories'))
+    return redirect(url_for('admin.categories'))
 
 # Book Routes
 
