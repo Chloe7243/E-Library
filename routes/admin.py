@@ -144,7 +144,6 @@ def new_category():
 def delete_category(id):
     # delete the category with the given id from the database
     category = Category.query.get_or_404(id)
-    db.session.delete(category)
 
     # delete all books and videos in the category
     for book in category.books:
@@ -152,9 +151,10 @@ def delete_category(id):
     for video in category.videos:
         db.session.delete(video)
 
+    db.session.delete(category)
     db.session.commit()
     flash('Category deleted successfully!', 'success')
-    return redirect(url_for('admin_bp.categories'))
+    return redirect(url_for('admin.categories'))
 
 # Book Routes
 

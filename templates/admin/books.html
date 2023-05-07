@@ -24,18 +24,20 @@ block main %}
 </div>
 
 <div class="all-books">
-    {% for book in books %}
-    <div class="book-container">
-      <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
-      <div class="text">
-        <p>{{ book.author }}</p>
-        <p>{{ book.title }}</p>
-        <button><a href="/admin/books/{{ book.id }}/edit">Edit</a></button>
-        <button>
-          <a href="/admin/books/{{ book.id }}/delete">Delete</a>
-        </button>
-      </div>
+  {% for book in books %}
+  <div class="book-container">
+    <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
+    <div class="text">
+      <p>{{ book.author }}</p>
+      <p>{{ book.title }}</p>
+      <form action="/admin/books/{{ book.id }}/edit" method="post">
+        <button>Delete</button>
+      </form>
+      <form action="/admin/books/{{ book.id }}/delete" method="post">
+        <button>Delete</button>
+      </form>
     </div>
-    {% endfor %}
+  </div>
+  {% endfor %}
 </div>
 {% endblock %}
