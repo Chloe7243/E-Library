@@ -1,7 +1,7 @@
 {% extends "/admin/base_admin.html" %} {%block title %}Books{% endblock %}
 {%block main%}
 <div class="main-top">
-  <div class="search-bar">
+  <div class="search-bar" style="border: none;">
     <div class="col-sm-12 categories-list">
       <select class="form-control">
         <option disabled>Select category</option>
@@ -14,7 +14,7 @@
   </div>
 
   <div class="add-buttons">
-    <button class="add-user">
+    <button class="add">
       <a href="{{url_for('admin.new_category')}}">
         <i class="bi bi-collection"></i>
         Add Category
@@ -34,10 +34,12 @@
       <div class="text">
         <p>{{ book.author }}</p>
         <p>{{ book.title }}</p>
-        <button><a href="/admin/books/{{ book.id }}/edit">Edit</a></button>
-        <button>
-          <a href="/admin/books/{{ book.id }}/delete">Delete</a>
-        </button>
+        <form action="/admin/books/{{ book.id }}/edit" method="get">
+          <button type="submit">Edit</button>
+        </form>
+        <form action="/admin/books/{{ book.id }}/delete" method="post">
+          <button type="submit">Delete</button>
+        </form>
       </div>
     </div>
     {% endfor %}
@@ -52,13 +54,19 @@
       <div class="desc">
         <p><b>Title:</b> {{ video.title }}</p>
         <p><b>Description:</b> {{ video.description }}</p>
-        <button><a href="/admin/videos/{{video.id}}/edit">Edit</a></button>
-        <button><a href="/admin/videos/{{video.id}}/delete">Delete</a></button>
+
+        <form action="/admin/videos/{{video.id}}/edit" method="get">
+          <button type="submit">Edit</button>
+        </form>
+
+        <form action="/admin/videos/{{video.id}}/delete" method="post">
+          <button type="submit">Delete</button>
+        </form>
       </div>
     </div>
     {% endfor %}
   </div>
-  
+
   <form action="/admin/categories/{{category.id}}/delete" method="post">
     <button type="submit" class="delete-category">Delete Category</button>
   </form>

@@ -8,13 +8,13 @@ block main %}
       type="search"
       name=""
       id=""
-      placeholder="search books, authors, users, categories"
+      placeholder="Search books, authors"
     />
     <i></i>
   </div>
 
   <div class="add-buttons">
-    <button class="add-user">
+    <button class="add">
       <a href="{{url_for('admin.new_book')}}">
         <i class="bi bi-journal-plus"></i>
         Add Book
@@ -30,11 +30,11 @@ block main %}
     <div class="text">
       <p>{{ book.author }}</p>
       <p>{{ book.title }}</p>
-      <form action="/admin/books/{{ book.id }}/edit" method="post">
-        <button>Delete</button>
+      <form action="/admin/books/{{ book.id }}/edit" method="get">
+        <button type="submit">Edit</button>
       </form>
       <form action="/admin/books/{{ book.id }}/delete" method="post">
-        <button>Delete</button>
+        <button type="submit">Delete</button>
       </form>
     </div>
   </div>

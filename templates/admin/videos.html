@@ -8,7 +8,7 @@ block main %}
   </div>
 
   <div class="add-buttons">
-    <button class="add-user">
+    <button class="add">
       <a href="{{url_for('admin.new_video')}}">
         <i class="bi bi-play-btn"></i>
         Add Video
@@ -28,12 +28,12 @@ block main %}
       <p><b>Title:</b> {{ video.title }}</p>
       <p><b>Description:</b> {{ video.description }}</p>
 
-      <form action="/admin/videos/{{video.id}}/edit" method="post">
-        <button>Edit</button>
+      <form action="/admin/videos/{{video.id}}/edit" method="get">
+        <button type="submit">Edit</button>
       </form>
 
       <form action="/admin/videos/{{video.id}}/delete" method="post">
-        <button>Delete</button>
+        <button type="submit">Delete</button>
       </form>
     </div>
   </div>
