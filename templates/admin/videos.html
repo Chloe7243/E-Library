@@ -27,8 +27,14 @@ block main %}
     <div class="desc">
       <p><b>Title:</b> {{ video.title }}</p>
       <p><b>Description:</b> {{ video.description }}</p>
-      <button><a href="/admin/videos/{{video.id}}/edit">Edit</a></button>
-      <button><a href="/admin/videos/{{video.id}}/delete">Delete</a></button>
+
+      <form action="/admin/videos/{{video.id}}/edit" method="post">
+        <button>Edit</button>
+      </form>
+
+      <form action="/admin/videos/{{video.id}}/delete" method="post">
+        <button>Delete</button>
+      </form>
     </div>
   </div>
 
