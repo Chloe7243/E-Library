@@ -2,4 +2,30 @@
 {%block title %}Dashboard{% endblock %}
 
 {% block main %}
+
+<h1>Requests</h1>
+<div>
+    <div class="requests table">
+        <table class="requests_table">
+            <thead>
+                <tr>
+                    <th>Book</th>
+                    <th>Date requested</th>
+                </tr>
+            </thead>
+
+            {% for access_request in access_requests %}
+            <tr>
+                <td>{{ access_request.book.title }}</td>
+                <td>{{ access_request.date_requested }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+
+        <div class="empty hidden">
+            <h1>NOTHING YET</h1>
+            <i class="bi bi-emoji-frown-fill"></i>
+        </div>
+    </div>
+</div>
 {% endblock %}

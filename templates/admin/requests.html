@@ -16,10 +16,11 @@
         </tr>
       </thead>
 
+      {% for access_request in access_requests %}
       <tr>
-        <td>24567890876</td>
-        <td>My stone heart</td>
-        <td>Stephanie</td>
+        <td>{{ access_request.id }}</td>
+        <td>{{ access_request.book.title }}</td>
+        <td>{{ access_request.user_id }}</td>
         <td>
           <select name="" id="days">
             <option disabled>Select due date</option>
@@ -41,6 +42,7 @@
           </form>
         </td>
       </tr>
+      {% endfor %}
     </table>
 
     <div class="empty hidden">

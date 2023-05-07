@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, send_file, abort, request
 from flask_login import current_user, login_required
 from models import User, Book, Rental, BookDownload, AccessRequest, DownloadRequest, db, ChangePasswordForm, ProfileForm
+from random import sample
+from sqlalchemy import func
 
 user_bp = Blueprint('user', __name__, url_prefix='/user')
 
@@ -10,19 +12,19 @@ user_bp = Blueprint('user', __name__, url_prefix='/user')
 @user_bp.route('/discover')
 @login_required
 def discover():
-    # get the most popular books from the database
-    popular_books = Book.query.join(Rental).group_by(Book.id).order_by(
-        db.func.count(Rental.id).desc()).limit(10).all()
+     # Get 4 random books from the database
+    random_books = Book.query.order_by(func.random()).limit(4).all()
 
-    return render_template('user/discover.html', di_active="active")
+    return render_template('user/discover.html', di_active="active", random_books=random_books)
 
 
 # Render the user dashboard
 @user_bp.route('/dashboard')
 @login_required
 def dashboard():
+    access_requests = AccessRequest.query.filter_by(user_id=current_user.id).count()
     user = User.query.get(current_user.id)
-    return render_template('user/dashboard.html', user=user, d_active="active")
+    return render_template('user/dashboard.html', user=user, d_active="active", access_requests=access_requests)
 
 # Render the user profile page
 
@@ -53,6 +55,8 @@ def update_user_profile():
 @login_required
 def requests():
     access_requests = AccessRequest.query.filter_by(user_id=current_user.id)
+    total_access_requests = AccessRequest.query.filter_by(user_id=current_user.id).count()
+    print(total_access_requests)
     download_requests = DownloadRequest.query.filter_by(
         user_id=current_user.id)
     return render_template('user/requests.html', access_requests=access_requests, download_requests=download_requests)
@@ -124,15 +128,15 @@ def download_book(id):
 
 
 # Handle the access request for specific book
-@user_bp.route('/books/<int:id>/request-access', methods=['POST'])
+@user_bp.route('/books/<int:id>/request-access', methods=['GET', 'POST'])
 @login_required
 def request_access(id):
     book = Book.query.get(id)
     access_request = AccessRequest(user_id=current_user.id, book_id=book.id)
     db.session.add(access_request)
     db.session.commit()
-    flash('Your request to access this book has been submitted.', 'success')
-    return redirect(url_for('book_details', id=id))
+    message = f'Your request to access "{book.title}" has been submitted.'
+    return message
 
 
 # Render the page to watch a specific video online

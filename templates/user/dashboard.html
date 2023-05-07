@@ -15,7 +15,7 @@
       <p class="downloaded-books">Books Downloaded</p>
     </div>
     <div class="category num_downloads">
-      <p class="number">0</p>
+      <p class="number">{{ access_requests }}</p>
       <p class="requests">Requests</p>
     </div>
   </div>
@@ -76,24 +76,24 @@
   </div>
   {% endif %} {% if video == "active" %}
   <div class="users-videos">
-      <div class="video">
-          <img src="/static/images/book.jpeg" alt="" />
-          <p>TItle: MY title</p>
-          <p>Description: MY Desc</p>
-          <i class="bi bi-play-fill"></i>
-      </div>
-      <div class="video">
-          <img src="/static/images/book.jpeg" alt="" />
-          <i class="bi bi-play-fill"></i>
-      </div>
-      <div class="video">
-          <img src="/static/images/book.jpeg" alt="" />
-          <i class="bi bi-play-fill"></i>
-      </div>
-      <div class="video">
-          <img src="/static/images/book.jpeg" alt="" />
-          <i class="bi bi-play-fill"></i>
-      </div>
+    <div class="video">
+      <img src="/static/images/book.jpeg" alt="" />
+      <p>TItle: MY title</p>
+      <p>Description: MY Desc</p>
+      <i class="bi bi-play-fill"></i>
+    </div>
+    <div class="video">
+      <img src="/static/images/book.jpeg" alt="" />
+      <i class="bi bi-play-fill"></i>
+    </div>
+    <div class="video">
+      <img src="/static/images/book.jpeg" alt="" />
+      <i class="bi bi-play-fill"></i>
+    </div>
+    <div class="video">
+      <img src="/static/images/book.jpeg" alt="" />
+      <i class="bi bi-play-fill"></i>
+    </div>
   </div>
   {% endif%}
 </div>

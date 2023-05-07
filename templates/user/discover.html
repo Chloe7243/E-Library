@@ -13,54 +13,39 @@
   <div class="navigation" id="navbarNav">
     <ul class="nav">
       <li class="nav-item active">
-         <a href="#" class="nav-link">Most Popular</a>
+        <a href="#" class="nav-link">Most Popular</a>
       </li>
       <li class="nav-item">
         <a href="#" class="nav-link">See All</a>
       </li>
     </ul>
-        <form class="form-inline my-2 ">
+    <form class="form-inline my-2 ">
       <input class="form-control mr-sm-2" type="search" placeholder="Search users, authors, titles" aria-label="Search">
     </form>
   </div>
 
+  {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+  {% for category, message in messages %}
+  <div class="alert alert-{{ category }}">
+    {{ message }}
+  </div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+
   <div class="discover-books">
+    {% for book in random_books %}
     <div class="book-d">
-      <img src="/static/images/book.jpeg" alt="" />
+      <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
       <div class="about-book-d">
-        <p class="title"> <strong> Know my name </strong></p>
-        <p class="blurb"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, sit! </p>
-        <button class="download">Request</button>
-        <button class="more">View More</button>
+        <p class="title"><strong>{{ book.title }}</strong></p>
+        <p class="blurb">{{ book.author }}</p>
+        <button class="btn download" onclick="requestAccess({{ book.id }})">Request</button>
+        <a class="btn more" href="#">View More</a>
       </div>
     </div>
-    <div class="book-d">
-      <img src="/static/images/book.jpeg" alt="" />
-      <div class="about-book-d">
-        <p class="title"> <strong> Know my name </strong></p>
-        <p class="blurb"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, sit! </p>
-        <button class="download">Request</button>
-        <button class="more">View More</button>
-      </div>
-    </div>
-    <div class="book-d">
-      <img src="/static/images/book.jpeg" alt="" />
-      <div class="about-book-d">
-        <p class="title"> <strong> Know my name </strong></p>
-        <p class="blurb"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, sit! </p>
-        <button class="download">Request</button>
-        <button class="more">View More</button>
-      </div>
-    </div>
-    <div class="book-d">
-      <img src="/static/images/book.jpeg" alt="" />
-      <div class="about-book-d">
-        <p class="title"> <strong> Know my name </strong></p>
-        <p class="blurb"> Lorem ipsum dolor sit, amet consectetur adipisicing elit. Excepturi, sit! </p>
-        <button class="download">Request</button>
-        <button class="more">View More</button>
-      </div>
-    </div>
+    {% endfor %}
   </div>
 </div>
 

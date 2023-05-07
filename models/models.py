@@ -60,6 +60,8 @@ class AccessRequest(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
     book_id = db.Column(db.Integer, db.ForeignKey('book.id'), nullable=False)
     date_requested = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    date_due = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
+    book = db.relationship('Book', backref='access_requests')
     
 
 
