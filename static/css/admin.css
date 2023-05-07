@@ -271,6 +271,7 @@ table img {
 }
 
 .requests_table tr td button  {
+  width: 100%;
   color: var(--light-primary-color);
 }
 
@@ -504,7 +505,6 @@ video {
   background-color: var(--secondary-color);
   width: 100%;
   padding:.5rem 2rem;
-  border-radius: 1rem;
   border: none;
   margin: 2rem 0;
   align-self: center;
