@@ -23,23 +23,19 @@ block main %}
   </div>
 </div>
 
-<div class="lib-item all-books">
-  <div class="book-category">
-    <div class="book-category-content row">
-      {% for book in books %}
-      <div class="col col-md-auto col-lg-auto">
-        <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
-        <div class="text">
-          <p>{{ book.author }}</p>
-          <p>{{ book.title }}</p>
-          <button><a href="/admin/books/{{ book.id }}/edit">Edit</a></button>
-          <button>
-            <a href="/admin/books/{{ book.id }}/delete">Delete</a>
-          </button>
-        </div>
+<div class="all-books">
+    {% for book in books %}
+    <div class="book-container">
+      <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
+      <div class="text">
+        <p>{{ book.author }}</p>
+        <p>{{ book.title }}</p>
+        <button><a href="/admin/books/{{ book.id }}/edit">Edit</a></button>
+        <button>
+          <a href="/admin/books/{{ book.id }}/delete">Delete</a>
+        </button>
       </div>
-      {% endfor %}
     </div>
-  </div>
+    {% endfor %}
 </div>
 {% endblock %}

@@ -107,8 +107,9 @@ def reports():
 @login_required
 @isAdmin
 def users():
+    total_users = User.query.count()
     users = User.query.all()
-    return render_template('admin/users_info.html', users=users, u_active="active")
+    return render_template('admin/users_info.html', users=users, u_active="active", total_users=total_users)
 
 
 # Category Routes

@@ -1,8 +1,8 @@
 {% extends "/admin/base_admin.html" %}
 {%block title %}Users{% endblock %}
 
-{% block top %}
-<div class="main-top">
+{% block main %}
+<div class="main-top" style="margin-bottom: 2rem;">
   <div class="search-bar">
     <label for="d_search"></label>
     <input
@@ -13,11 +13,12 @@
     />
     <i></i>
   </div>
-
+  
+  <div style="padding:1rem 1rem 0; background-color: var(--secondary-color); vertical-align: middle; border-radius: .4rem;">
+    <p style="font-size:1rem; color: var(--light-primary-color);">Total users: {{total_users}}</p>
+  </div>
 </div>
-{% endblock %}
 
-{% block content %}
   <div class="all_users table">
     <table class="users_table">
       <thead>
@@ -42,20 +43,4 @@
       <i class="bi bi-emoji-frown-fill"></i>
     </div>
   </div>
-  
-{% endblock %} {%block content2 %}
-<div class="users_statistics statistics">
-  <div class="category num_users">
-    <p class="number">0</p>
-    <p class="category_title">Total Users</p>
-  </div>
-  <div class="category verfied_users">
-    <p class="number">0</p>
-    <p class="category_title">Verified Users</p>
-  </div>
-  <div class="category inactive_users">
-    <p class="number">0</p>
-    <p class="category_title">Inactive Users</p>
-  </div>
-</div>
 {% endblock %}

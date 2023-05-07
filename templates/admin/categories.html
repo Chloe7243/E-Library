@@ -1,15 +1,14 @@
-{% extends "/admin/base_admin.html" %}
-{%block title %}Books{% endblock %}
-
+{% extends "/admin/base_admin.html" %} {%block title %}Books{% endblock %}
 {%block main%}
 <div class="main-top">
   <div class="search-bar">
     <div class="col-sm-12 categories-list">
       <select class="form-control">
         <option disabled>Select category</option>
-        <option>All</option>
-        <option>NO</option>
-        <option>Yes</option>
+        <option value="all">All</option>
+        {% for category in categories %}
+        <option value="{{category.name}}">{{category.name}}</option>
+        {% endfor %}
       </select>
     </div>
   </div>
@@ -24,52 +23,47 @@
   </div>
 </div>
 
-<div class="lib-item all-books">
-  <div class="book-category">
-    <h3>Kids</h3>
-    <div class="book-category-content row">
-      <div class="col col-md-auto col-lg-auto">
-        <img src="/static/images/book.jpeg" alt="" />
-        <div class="text">
-          <p>Author</p>
-          <p>title</p>
-        </div>
-      </div>
+<div class="all-categories">
+  {% for category in categories %}
+  <h3>{{category.name}}</h3>
 
-      <div class="col col-md-auto col-lg-3">
-        <img src="/static/images/book.jpeg" alt="" />
-        <div class="text">
-          <p>Author</p>
-          <p>title</p>
-        </div>
-      </div>
-
-      <div class="col col-md-auto col-lg-auto">
-        <img src="/static/images/book.jpeg" alt="" />
-        <div class="text">
-          <p>Author</p>
-          <p>title</p>
-        </div>
-      </div>
-
-      <div class="col col-md-auto col-lg-3">
-        <img src="/static/images/book.jpeg" alt="" />
-        <div class="text">
-          <p>Author</p>
-          <p>title</p>
-        </div>
-      </div>
-
-      <div class="col col-md-auto col-lg-auto">
-        <img src="/static/images/book.jpeg" alt="" />
-        <div class="text">
-          <p>Author</p>
-          <p>title</p>
-        </div>
+  <div class="all-books">
+    {% for book in category.books %}
+    <div class="book-container">
+      <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
+      <div class="text">
+        <p>{{ book.author }}</p>
+        <p>{{ book.title }}</p>
+        <button><a href="/admin/books/{{ book.id }}/edit">Edit</a></button>
+        <button>
+          <a href="/admin/books/{{ book.id }}/delete">Delete</a>
+        </button>
       </div>
     </div>
-    <button class="delete-category"><a href="/delete_category">Delete</a></button>
+    {% endfor %}
   </div>
+  <div class="all-videos">
+    {% for video in category.videos %}
+    <div class="video-container">
+      <video controls>
+        <source src="/static/videos/{{video.file_path}}" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="desc">
+        <p><b>Title:</b> {{ video.title }}</p>
+        <p><b>Description:</b> {{ video.description }}</p>
+        <button><a href="/admin/videos/{{video.id}}/edit">Edit</a></button>
+        <button><a href="/admin/videos/{{video.id}}/delete">Delete</a></button>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+  
+  <form action="/admin/categories/{{category.id}}/delete" method="post">
+    <button type="submit" class="delete-category">Delete Category</button>
+  </form>
+
+  {% endfor %}
 </div>
 {% endblock %}
 <!--  {%block content2 %}

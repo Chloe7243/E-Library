@@ -1,17 +1,9 @@
-{% extends "/admin/base_admin.html" %}
-{%block title %}Books{% endblock %}
-
-
-{% block main %}
+{% extends "/admin/base_admin.html" %} {%block title %}Books{% endblock %} {%
+block main %}
 <div class="main-top">
   <div class="search-bar">
     <label for="d_search"></label>
-    <input
-      type="search"
-      name=""
-      id=""
-      placeholder="Search videos"
-    />
+    <input type="search" name="" id="" placeholder="Search videos" />
     <i></i>
   </div>
 
@@ -25,49 +17,21 @@
   </div>
 </div>
 
-<div class="lib-item all-videos">
-  <div class="video-category">
-    <div class="video-category-content row">
-           {% for video in videos %}
-      <div class="col col-md-auto col-lg-auto">
-        <video width="3" controls>
-          <source src="{{video.file_path}}" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div class="desc">
-          <p>{{ video.title }}</p>
-          <p>{{ video.description }}</p>
-          <button><a href="/edit_video">Edit</a></button>
-          <button><a href="/delete_book">Delete</a></button>
-        </div>
-      </div>
-
-      {% for video in videos %}
-
-      <div class="col col-md-auto col-lg-auto">
-        <video width="3" controls>
-          <source src="/static/videos/{{video.file_path}}" type="video/mp4" />
-          Your browser does not support the video tag.
-        </video>
-        <div class="desc">
-          <p>{{ video.title }}</p>
-          <p>{{ video.description }}</p>
-          <button><a href="/admin/videos/{{video.id}}/edit">Edit</a></button>
-          <button><a href="/admin/videos/{{video.id}}/delete">Delete</a></button>
-        </div>
-      </div>
-    
-    {% endfor %}
-    
+<div class="all-videos">
+  {% for video in videos %}
+  <div class="video-container">
+    <video controls>
+      <source src="/static/videos/{{video.file_path}}" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="desc">
+      <p><b>Title:</b> {{ video.title }}</p>
+      <p><b>Description:</b> {{ video.description }}</p>
+      <button><a href="/admin/videos/{{video.id}}/edit">Edit</a></button>
+      <button><a href="/admin/videos/{{video.id}}/delete">Delete</a></button>
     </div>
-  </div> 
+  </div>
+
+  {% endfor %}
 </div>
 {% endblock %}
-
-
-
-
-
-
-
-
