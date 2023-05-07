@@ -163,8 +163,8 @@ def delete_category(id):
         delete_file('books/' + book.file_path)
     for video in category.videos:
         db.session.delete(video)
-        delete_file('cover/' + book.cover_path)
-        delete_file('images/covers/' + book.file_path)
+        delete_file('images/covers/' + video.cover_path)
+        delete_file('videos/' + video.file_path)
 
     db.session.delete(category)
     db.session.commit()
@@ -245,7 +245,7 @@ def edit_book(id):
         if form.get('cover'):
             # delete old book cover and add new one
             if book.cover_path:
-                os.remove(book.cover_path)
+                delete_file('images/covers/' + book.cover_path)
 
             cover_filename = f'cover_{book.id}.jpg'
             cover_path = os.path.join(
@@ -256,7 +256,8 @@ def edit_book(id):
         if form.get('file'):
             # delete old book file and add new one
             if book.file_path:
-                os.remove(book.file_path)
+                delete_file('books/' + book.file_path)
+
 
             file_filename = f'book_{book.id}.pdf'
             file_path = os.path.join(
@@ -281,11 +282,11 @@ def delete_book(id):
 
     # delete the book cover
     if book.cover_path:
-        os.remove(book.cover_path)
+        delete_file('images/covers/' + book.cover_path)
 
-    # delete the book's file from the filesystem
-    if book.file:
-        os.remove(os.path.join(current_app.root_path, 'static', book.file_path))
+    # delete the book's file from the file ssystem
+    if book.file_path:
+       delete_file('books/' + book.file_path)
 
     db.session.delete(book)
     db.session.commit()
@@ -454,7 +455,7 @@ def edit_video(id):
         if form.get('cover'):
             # delete old book cover and add new one
             if video.cover_path:
-                os.remove(video.cover_path)
+                       delete_file('images/covers/' + video.cover_path)
 
             cover_filename = f'cover_{video.id}.jpg'
             cover_path = os.path.join(
@@ -465,7 +466,8 @@ def edit_video(id):
         if form.get('file'):
             # delete old book file and add new one
             if video.file_path:
-                os.remove(video.file_path)
+                       delete_file('videos/' + video.file_path)
+
 
             file_filename = f'video_{video.id}.mp4'
             file_path = os.path.join(
@@ -492,12 +494,12 @@ def delete_video(id):
 
     # delete the video's file from the filesystem
     if video.file_path:
-        os.remove(os.path.join(current_app.root_path, 'static', video.file_path))
+                delete_file('videos/' + video.file_path)
+
 
     # delete the video's cover from the filesystem
     if video.cover_path:
-        os.remove(os.path.join(current_app.root_path,
-                  'static', video.cover_path))
+        delete_file('images/covers/' + video.cover_path)
 
     db.session.delete(video)
     db.session.commit()
