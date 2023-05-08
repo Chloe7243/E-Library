@@ -3,16 +3,15 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 import random, string
 
-def generate_id(start):
-    """Generate a 6-character ID."""
-    id = start + ''.join(random.choice(string.digits) for _ in range(6))
-    return id
+def generate_id():
+    """Generate an ID."""
+    return ''.join(random.choice(string.digits) for _ in range(6))
 
 
 db = SQLAlchemy()
 
 class User(db.Model, UserMixin):
-    id = db.Column(db.String, primary_key=True, default=generate_id('UID'))
+    id = db.Column(db.String, primary_key=True, default=lambda: 'USR' + generate_id())
     name = db.Column(db.String(100), nullable=False)
     email = db.Column(db.String(100), unique=True, nullable=False)
     password = db.Column(db.String(100), nullable=False)
@@ -20,7 +19,7 @@ class User(db.Model, UserMixin):
     rentals = db.relationship('Rental', backref='user', lazy=True)
 
 class Category(db.Model):
-    id = db.Column(db.String, primary_key=True, default=generate_id('C'))
+    id = db.Column(db.String, primary_key=True, default=lambda: 'C' + generate_id())
     name = db.Column(db.String(100), nullable=False)
     books = db.relationship('Book', backref='category', lazy=True)
     videos = db.relationship('Video', backref='category', lazy=True)
@@ -45,7 +44,7 @@ class Video(db.Model):
 
 
 class Rental(db.Model):
-    id = db.Column(db.String, primary_key=True, default=generate_id('RNT'))
+    id = db.Column(db.String, primary_key=True, default=lambda: 'RNT' + generate_id())
     user_id = db.Column(db.String, db.ForeignKey('user.id'), nullable=False)
     book_id = db.Column(db.String, db.ForeignKey('book.id'), nullable=False)
     downloadable = db.Column(db.Boolean, default=False)
@@ -53,13 +52,13 @@ class Rental(db.Model):
     date_due = db.Column(db.DateTime, nullable=False)
 
 class DownloadRequest(db.Model):
-    id = db.Column(db.String, primary_key=True, default=generate_id('DR'))
+    id = db.Column(db.String, primary_key=True, default=lambda: 'DR' + generate_id())
     user_id = db.Column(db.String, db.ForeignKey('user.id'), nullable=False)
     book_id = db.Column(db.String, db.ForeignKey('book.id'), nullable=False)
 
 
 class AccessRequest(db.Model):
-    id = db.Column(db.String, primary_key=True, default=generate_id('AR'))
+    id = db.Column(db.String, primary_key=True, default=lambda: 'AR' + generate_id())
     user_id = db.Column(db.String, db.ForeignKey('user.id'), nullable=False)
     book_id = db.Column(db.String, db.ForeignKey('book.id'), nullable=False)
     date_requested = db.Column(db.DateTime, nullable=False, default=datetime.utcnow)
