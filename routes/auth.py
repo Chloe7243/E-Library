@@ -118,11 +118,14 @@ def update_password():
             user.password = form.new_password.data
             db.session.commit()
             flash('Your password has been updated.', 'success')
-            return redirect(url_for('user_profile'))
+            if current_user.is_admin:
+                return redirect(url_for('admin.dashboard'))
+            else:
+                return redirect(url_for('user.dashboard'))
         else:
             flash('The current password is incorrect.', 'danger')
-            return redirect(url_for('change_password'))
+            return redirect(url_for('auth.change_password'))
     else:
         flash('There was an error updating your password.', 'danger')
-        return redirect(url_for('change_password'))
+        return redirect(url_for('auth.change_password'))
 
