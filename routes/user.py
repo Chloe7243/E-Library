@@ -13,7 +13,7 @@ user_bp = Blueprint('user', __name__, url_prefix='/user')
 @login_required
 def discover():
      # Get 4 random books from the database
-    random_books = Book.query.order_by(func.random()).limit(4).all()
+    random_books = Book.query.order_by(func.random()).limit(10).all()
 
     return render_template('user/discover.html', di_active="active", random_books=random_books)
 
