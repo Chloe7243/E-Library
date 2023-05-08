@@ -6,8 +6,6 @@ from models import User, Book, Video, Rental, Category, AccessRequest, DownloadR
 from models import CategoryForm, BookForm, VideoForm
 from datetime import datetime, timedelta
 
-from routes.auth import logout
-
 
 admin_bp = Blueprint('admin', __name__, url_prefix='/admin')
 
