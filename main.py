@@ -1,6 +1,6 @@
 from flask import Flask
 from models import db, User
-from flask_login import LoginManager
+from flask_login import LoginManager, current_user
 from routes.auth import auth_bp
 from routes.views import views
 from routes.user import user_bp
@@ -37,6 +37,14 @@ def load_user_from_request(request):
 
     # If no valid authentication token was found, return None
     return None
+
+
+# Inject global variables into all templates
+@app.context_processor
+def inject_global_vars():
+    return dict(
+        user=current_user
+    )
 
 app.register_blueprint(views)
 app.register_blueprint(auth_bp)

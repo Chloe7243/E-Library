@@ -4,8 +4,8 @@
   <div class="">
     <img src="/static/images/purple-abstract-img.png" alt="" width="50" />
   </div>
-  <h3 class="fullname">David Hugh</h3>
-  <p class="username">@user1</p>
+  <h3 class="fullname">{{ user.name }}</h3>
+  <p class="username">{{ user.email }}</p>
 </div>
 {% endblock %} {% block sidebar %}
 <ul class="nav nav-pills flex-column mb-auto">
