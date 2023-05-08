@@ -2,7 +2,7 @@ import os
 from flask import Blueprint, render_template, redirect, url_for, flash, request, current_app
 from functools import wraps
 from flask_login import current_user, login_required, logout_user
-from models import User, Book, Video, Rental, Category, BookDownload, AccessRequest, DownloadRequest, db
+from models import User, Book, Video, Rental, Category, AccessRequest, DownloadRequest, db
 from models import CategoryForm, BookForm, VideoForm
 from datetime import datetime, timedelta
 
@@ -42,18 +42,19 @@ def dashboard():
     update_rentals()
     popular_books = Book.query.join(Rental).group_by(Book.id).order_by(
         db.func.count(Rental.id).desc()).limit(3).all()
-    popular_categories = Category.query.group_by(Category.id).order_by(
-        db.func.count.desc()).limit(3).all()
+    
+
     today = datetime.utcnow()
     week_ago = today - timedelta(days=7)
-    downloads_count = BookDownload.query.count()
+
+
     rentals_count = Rental.query.filter(Rental.date_rented >= week_ago).count()
     access_requests_count = AccessRequest.query.filter(
         AccessRequest.date_requested >= week_ago).count()
     total_users = User.query.count()
     users = User.query.all()
-    return render_template('admin/dashboard.html', d_active="active", downloads_count=downloads_count,
-                           rentals_count=rentals_count, access_requests_count=access_requests_count, total_users=total_users, users=users, popular_books=popular_books, popular_categories=popular_categories)
+    return render_template('admin/dashboard.html', d_active="active",
+                           rentals_count=rentals_count, access_requests_count=access_requests_count, total_users=total_users, users=users, popular_books=popular_books)
 
 
 # Profile Route
@@ -85,7 +86,6 @@ def reports():
     # User Engagement
     # today = datetime.utcnow()
     # week_ago = today - timedelta(days=7)
-    # downloads_count = BookDownload.query.count()
     # rentals_count = Rental.query.filter(Rental.date_rented >= week_ago).count()
     # access_requests_count = AccessRequest.query.filter(
     #     AccessRequest.date_requested >= week_ago).count()
@@ -151,7 +151,7 @@ def new_category():
         return render_template('admin/new_category.html', form=form)
 
 
-@admin_bp.route('/categories/<int:id>/delete', methods=['POST'])
+@admin_bp.route('/categories/<string:id>/delete', methods=['POST'])
 @login_required
 @isAdmin
 def delete_category(id):
@@ -220,7 +220,7 @@ def new_book():
         return render_template('admin/new_book.html', b_active="active", form=form)
 
 
-@admin_bp.route('/books/<int:id>/edit', methods=['GET', 'POST'])
+@admin_bp.route('/books/<string:id>/edit', methods=['GET', 'POST'])
 @login_required
 @isAdmin
 def edit_book(id):
@@ -243,27 +243,20 @@ def edit_book(id):
 
         if form.get('category'):
             book.category_id = form['category_id']
-
-        if form.get('cover'):
-            # delete old book cover and add new one
-            if book.cover_path:
-                os.remove(book.cover_path)
-
+            
+        
+        if request.files['cover'].filename != '':
             cover_filename = f'cover_{book.id}.jpg'
             cover_path = os.path.join(
                 current_app.root_path, 'static/images/covers', cover_filename)
-            form['cover'].save(cover_path)
+            request.files['cover'].save(cover_path)
             book.cover_path = cover_filename
 
-        if form.get('file'):
-            # delete old book file and add new one
-            if book.file_path:
-                os.remove(book.file_path)
-
+        if request.files['file'].filename != '':
             file_filename = f'book_{book.id}.pdf'
             file_path = os.path.join(
                 current_app.root_path, 'static/books', file_filename)
-            form['file'].save(file_path)
+            request.files['file'].save(file_path)
             book.file_path = file_filename
 
         db.session.commit()
@@ -274,7 +267,7 @@ def edit_book(id):
         return render_template('admin/edit_book.html', book=book, b_active="active", all_categories=all_categories)
 
 
-@admin_bp.route('/books/<int:id>/delete', methods=['POST'])
+@admin_bp.route('/books/<string:id>/delete', methods=['POST'])
 @login_required
 @isAdmin
 def delete_book(id):
@@ -283,11 +276,11 @@ def delete_book(id):
 
     # delete the book cover
     if book.cover_path:
-        os.remove(book.cover_path)
+        os.remove(os.path.join(current_app.root_path, 'static/images/covers', book.cover_path))
 
     # delete the book's file from the filesystem
-    if book.file:
-        os.remove(os.path.join(current_app.root_path, 'static', book.file_path))
+    if book.file_path:
+        os.remove(os.path.join(current_app.root_path, 'static/books', book.file_path))
 
     db.session.delete(book)
     db.session.commit()
@@ -308,22 +301,22 @@ def requests():
     return render_template('admin/requests.html', access_requests=access_requests, download_requests=download_requests, req_active="active")
 
 
-@admin_bp.route('/grant-access-request/<int:request_id>', methods=['POST'])
+@admin_bp.route('/grant-access-request/<string:request_id>', methods=['POST'])
 @login_required
 @isAdmin
 def grant_access_request(request_id):
     # grant access to the user's request with the given id
-    request = AccessRequest.query.get_or_404(request_id)
-    user = request.user
-    book = request.book
-    date_due = datetime.now() + timedelta(days=request.form.get('date_due'))
+    access_request = AccessRequest.query.get_or_404(request_id)
+    user = access_request.user_id
+    book = access_request.book_id
+    date_due = datetime.now() + timedelta(days=int(request.form.get('due_date')))
 
     # add the Access Request to the Rentals Table
-    rental = Rental(user_id=user.id, book_id=book.id, date_due=date_due)
+    rental = Rental(user_id=user, book_id=book, date_due=date_due)
     db.session.add(rental)
 
     # delete the request from the database
-    db.session.delete(request)
+    db.session.delete(access_request)
 
     # commit the changes to the database
     db.session.commit()
@@ -331,7 +324,7 @@ def grant_access_request(request_id):
     return redirect(url_for('admin.requests'))
 
 # Reject access request
-@admin_bp.route('/reject-access-request/<int:request_id>', methods=['POST'])
+@admin_bp.route('/reject-access-request/<string:request_id>', methods=['POST'])
 @login_required
 @isAdmin
 def reject_access_request(request_id):
@@ -347,21 +340,21 @@ def reject_access_request(request_id):
     return redirect(url_for('admin.requests'))
 
 
-@admin_bp.route('/grant-download-request/<int:request_id>', methods=['POST'])
+@admin_bp.route('/grant-download-request/<string:request_id>', methods=['POST'])
 @login_required
 @isAdmin
 def grant_download_request(request_id):
     # grant download to the user's request with the given id
-    request = DownloadRequest.query.get_or_404(request_id)
-    user = request.user
-    book = request.book
+    download_request = DownloadRequest.query.get_or_404(request_id)
+    user = download_request.user_id
+    book = download_request.book_id
 
-    # add the Access Request to the Rentals Table
-    download = BookDownload(user_id=user.id, book_id=book.id)
-    db.session.add(download)
+    # make book downloadable in rentals table
+    rental = Rental.query.filter_by(user_id=user, book_id=book).first()
+    rental.downloadable = True
 
     # delete the request from the database
-    db.session.delete(request)
+    db.session.delete(download_request)
 
     # commit the changes to the database
     db.session.commit()
@@ -369,7 +362,7 @@ def grant_download_request(request_id):
     return redirect(url_for('admin.requests'))
 
 
-@admin_bp.route('/reject-download-request/<int:request_id>', methods=['POST'])
+@admin_bp.route('/reject-download-request/<string:request_id>', methods=['POST'])
 @login_required
 @isAdmin
 def reject_download_request(request_id):
@@ -434,7 +427,7 @@ def new_video():
 
 
 # Renders a form to edit a video
-@admin_bp.route('/videos/<int:id>/edit', methods=['GET', 'POST'])
+@admin_bp.route('/videos/<string:id>/edit', methods=['GET', 'POST'])
 @login_required
 @isAdmin
 def edit_video(id):
@@ -453,26 +446,18 @@ def edit_video(id):
         if form.get('category'):
             video.category_id = form.get('category')
 
-        if form.get('cover'):
-            # delete old book cover and add new one
-            if video.cover_path:
-                os.remove(video.cover_path)
-
+        if request.files['cover'].filename != '':
             cover_filename = f'cover_{video.id}.jpg'
             cover_path = os.path.join(
                 current_app.root_path, 'static/images/covers', cover_filename)
-            form.get('cover').save(cover_path)
+            request.files['cover'].save(cover_path)
             video.cover_path = '/static/videos/'.join(cover_filename)
 
-        if form.get('file'):
-            # delete old book file and add new one
-            if video.file_path:
-                os.remove(video.file_path)
-
+        if request.files['file'].filename != '':
             file_filename = f'video_{video.id}.mp4'
             file_path = os.path.join(
                 current_app.root_path, 'static/videos', file_filename)
-            form.get('file').save(file_path)
+            request.files['file'].save(file_path)
             video.file_path = '/static/videos/'.join(file_filename)
 
         db.session.commit()
@@ -485,7 +470,7 @@ def edit_video(id):
 
 
 # Deletes a video
-@admin_bp.route('/videos/<int:id>/delete', methods=['POST'])
+@admin_bp.route('/videos/<string:id>/delete', methods=['POST'])
 @login_required
 @isAdmin
 def delete_video(id):

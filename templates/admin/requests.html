@@ -31,13 +31,13 @@
           </select>
         </td>
         <td>
-          <form class="grant-request" action="/grant-access-request/<int:request_id>" method="post">
-            <input style="display:none" type="number" name="due_date" id="due_date" value="">
+          <form class="grant-request" action="/admin/grant-access-request/{{ access_request.id }}" method="post">
+            <input style="display:none" type="number" name="due_date" id="due_date" value="7">
             <button type="submit">Accept Request</button>
           </form>
         </td>
         <td>
-          <form action="/reject-access-request/<int:request_id>" method="post">
+          <form action="/admin/reject-access-request/{{ access_request.id }}" method="post">
             <button type="submit">Reject Request</button>
           </form>
         </td>

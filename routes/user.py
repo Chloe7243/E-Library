@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, redirect, url_for, flash, send_file, abort, request
 from flask_login import current_user, login_required
-from models import User, Book, Rental, BookDownload, AccessRequest, DownloadRequest, db, ChangePasswordForm, ProfileForm
+from models import User, Book, Rental, AccessRequest, DownloadRequest, db, ChangePasswordForm, ProfileForm
 from random import sample
 from sqlalchemy import func
 
@@ -113,9 +113,9 @@ def download_book(id):
     user = User.query.get(current_user.id)
 
     # Check if the user has permission to download the book
-    book_download = BookDownload.query.filter_by(
+    book_download = Rental.query.filter_by(
         book_id=id, user_id=user.id).first()
-    if not book_download:
+    if not book_download.downloadable:
         abort(403, "You don't have permission to download this book")
 
     # Get the book object

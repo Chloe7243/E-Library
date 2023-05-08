@@ -12,7 +12,7 @@ class BookForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(min=2, max=100)])
     author = StringField('Author', validators=[DataRequired(), Length(min=2, max=100)])
     description = TextAreaField('Description', validators=[DataRequired()])
-    category_id = SelectField('Category', validators=[DataRequired()], coerce=int)
+    category_id = SelectField('Category', validators=[DataRequired()], coerce=str)
     cover = FileField('Cover Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')])
     file = FileField('Book File', validators=[FileRequired(), FileAllowed(['pdf'], 'PDFs only!')])
     submit = SubmitField('Submit')
@@ -24,7 +24,7 @@ class BookForm(FlaskForm):
 class VideoForm(FlaskForm):
     title = StringField('Title', validators=[DataRequired(), Length(min=2, max=100)])
     description = TextAreaField('Description', validators=[DataRequired()])
-    category_id = SelectField('Category', validators=[DataRequired()], coerce=int)
+    category_id = SelectField('Category', validators=[DataRequired()], coerce=str)
     cover = FileField('Cover Image', validators=[FileAllowed(['jpg', 'jpeg', 'png'], 'Images only!')])
     file = FileField('Video File', validators=[FileRequired(), FileAllowed(['mp4'], 'MP4s only!')])
     submit = SubmitField('Submit')
