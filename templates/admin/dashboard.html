@@ -21,7 +21,7 @@
 </div>
 
 <div class="latest-requests">
-<h1>Latest Requests</h1>
+  <h1>Latest Requests</h1>
   <div class="table">
     <table class="requests_table">
       <thead>
@@ -35,7 +35,35 @@
         </tr>
       </thead>
 
+      {% for access_request in access_requests %}
       <tr>
+        <td>{{ access_request.id }}</td>
+        <td>{{ access_request.book.title }}</td>
+        <td>{{ access_request.user_id }}</td>
+        <td>
+          <select name="" id="days">
+            <option disabled>Select due date</option>
+            <option value="7">7 days</option>
+            <option value="14">14 days</option>
+            <option value="21">21 days</option>
+            <option value="28">28 days</option>
+          </select>
+        </td>
+        <td>
+          <form class="grant-request" action="/grant-access-request/<int:request_id>" method="post">
+            <input style="display:none" type="number" name="due_date" id="due_date" value="">
+            <button type="submit">Accept Request</button>
+          </form>
+        </td>
+        <td>
+          <form action="/reject-access-request/<int:request_id>" method="post">
+            <button type="submit">Reject Request</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %}
+
+      <!-- <tr>
         <td>24567890876</td>
         <td>My stone heart</td>
         <td>Stephanie</td>
@@ -59,11 +87,11 @@
             <button type="submit">Reject Request</button>
           </form>
         </td>
-      </tr>
+      </tr> -->
     </table>
 
-    <div class="empty hidden">
-      <h1>NOTHING YET</h1>
+    <div class="empty {{ hidden if access_requests_count < 1}}">
+      <h1>NO REQUESTS</h1>
       <i class="bi bi-emoji-frown-fill"></i>
     </div>
   </div>
@@ -75,21 +103,13 @@
   <div class="top_rated_book col col-md-auto col-lg-auto">
     <h4>Top rated books</h4>
     <div class="items">
+      {% for book in popular_books %}
       <div class="row-book">
-        <img src="/static/images/girl-reading.png" alt="" width="60" />
-        <p> <b>honest woman</b> </br> <span>Igne Moore</span></p>
-        <p>18+ downloads</p>
+        <img src="/static/images/{{book.cover_path}}" alt="" width="60" />
+        <p> <b>{{book.title}}</b> </br> <span>{{book.author}}</span></p>
+        <!-- <p>18+ downloads</p> -->
       </div>
-      <div class="row-book">
-        <img src="/static/images/girl-reading.png" alt="" width="60" />
-        <p> <b>honest woman</b> </br> <span>Igne Moore</span></p>
-        <p>18+ downloads</p>
-      </div>
-      <div class="row-book">
-        <img src="/static/images/girl-reading.png" alt="" width="60" />
-        <p> <b>honest woman</b> </br> <span>Igne Moore</span></p>
-        <p>18+ downloads</p>
-      </div>
+      {% endfor %}
     </div>
     <button class="view_all"><a href="{{url_for('admin.books')}}">View all books</a></button>
   </div>
@@ -98,20 +118,10 @@
     <h4>Top rated categories</h4>
     <div class="items">
       <div class="row-book">
-        <img src="/static/images/girl-reading.png" alt="" width="60" />
-        <p> <b>honest woman</b> </br> <span>Igne Moore</span></p>
-        <p>18+ downloads</p>
+        {% for category in popular_categories %}
+        <h1>{{category.name}}</h1>
       </div>
-      <div class="row-book">
-        <img src="/static/images/girl-reading.png" alt="" width="60" />
-        <p> <b>honest woman</b> </br> <span>Igne Moore</span></p>
-        <p>18+ downloads</p>
-      </div>
-      <div class="row-book">
-        <img src="/static/images/girl-reading.png" alt="" width="60" />
-        <p> <b>honest woman</b> </br> <span>Igne Moore</span></p>
-        <p>18+ downloads</p>
-      </div>
+      {% endfor %}
     </div>
     <button class="view_all"><a href="{{url_for('admin.categories')}}">View all categories</a></button>
   </div>

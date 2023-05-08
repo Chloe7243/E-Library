@@ -40,6 +40,10 @@ def update_rentals():
 @isAdmin
 def dashboard():
     update_rentals()
+    popular_books = Book.query.join(Rental).group_by(Book.id).order_by(
+        db.func.count(Rental.id).desc()).limit(3).all()
+    popular_categories = Category.query.group_by(Category.id).order_by(
+        db.func.count.desc()).limit(3).all()
     today = datetime.utcnow()
     week_ago = today - timedelta(days=7)
     downloads_count = BookDownload.query.count()
@@ -49,7 +53,7 @@ def dashboard():
     total_users = User.query.count()
     users = User.query.all()
     return render_template('admin/dashboard.html', d_active="active", downloads_count=downloads_count,
-                           rentals_count=rentals_count, access_requests_count=access_requests_count, total_users=total_users, users=users)
+                           rentals_count=rentals_count, access_requests_count=access_requests_count, total_users=total_users, users=users, popular_books=popular_books, popular_categories=popular_categories)
 
 
 # Profile Route
@@ -68,8 +72,6 @@ def edit_profile():
         return render_template('admin/edit_profile.html')
 
 # Reports
-
-
 @admin_bp.route('/reports')
 @login_required
 @isAdmin
