@@ -13,36 +13,51 @@
   <div class="navigation" id="navbarNav">
     <ul class="nav">
       <li class="nav-item active">
-        <a href="#" class="nav-link">Most Popular</a>
+        <a href="#popular" class="nav-link">Most Popular</a>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link">See All</a>
+        <a href="#all" class="nav-link">See All</a>
       </li>
     </ul>
-    <form class="form-inline my-2 ">
-      <input class="form-control mr-sm-2" type="search" placeholder="Search users, authors, titles" aria-label="Search">
+    <form class="form-inline my-2">
+      <input
+        class="form-control mr-sm-2"
+        type="search"
+        placeholder="Search users, authors, titles"
+        aria-label="Search"
+      />
     </form>
   </div>
 
-  {% with messages = get_flashed_messages(with_categories=true) %}
-  {% if messages %}
-  {% for category, message in messages %}
-  <div class="alert alert-{{ category }}">
-    {{ message }}
-  </div>
-  {% endfor %}
-  {% endif %}
-  {% endwith %}
-
-  <div class="discover-books">
-    {% for book in random_books %}
+  <div class="discover-books" id="popular">
+    {% for book in popular_books %}
     <div class="book-d">
       <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
       <div class="about-book-d">
         <p class="title"><strong>{{ book.title }}</strong></p>
         <p class="blurb">{{ book.author }}</p>
-        <button class="btn download" onclick="requestAccess(book.id)">Request</button>
-        <a class="btn more" href="#">View More</a>
+        <form action="books/{{book.id}}/request-access" method="post">
+          <button class="download" type="submit">Request</button>
+        </form>
+        <form action="books/{{book.id}}" method="get">
+          <button class="download" type="submit">View more</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+
+  <div class="discover-books inactive-content" id="all">
+    {% for book in all_books %}
+    <div class="book-d">
+      <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
+      <div class="about-book-d">
+        <p class="title"><strong>{{ book.title }}</strong></p>
+        <p class="blurb">{{ book.author }}</p>
+        <form action="books/{{book.id}}/request-access" method="post">
+          <button class="btn download" type="submit">Request</button>
+        </form>
+        <a href="/read_more">View more</a>
       </div>
     </div>
     {% endfor %}

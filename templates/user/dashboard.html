@@ -1,11 +1,11 @@
 {% extends "./user/base_user.html" %} {% block main %}
 <h3>Dashboard</h3>
-<p>Welcome back, Let's get back to it</p>
+<p>Welcome, Let's get to it</p>
 
 <div class="statistics">
   <div class="main">
     <div class="category num_books">
-      <p class="number">0</p>
+      <p class="number">{{ total_rented }}</p>
       <p class="books-read">Books Read</p>
     </div>
     <div class="category num-downloaded">
@@ -19,58 +19,57 @@
   </div>
 </div>
 
-<div class="navigate-books">
+<div class="user-items navigate-books">
   <div class="navigation" id="navbarNav">
     <ul class="nav">
       <li class="nav-item active">
-        <a href="#" class="nav-link">My Books</a>
+        <a href="#books" class="nav-link">My Books</a>
       </li>
       <li class="nav-item">
-        <a href="#" class="nav-link">My Videos</a>
+        <a href="#videos" class="nav-link">My Videos</a>
       </li>
     </ul>
   </div>
 
-  <div class="users-books">
-    <div class="users-books-content">
-      {% for book in book_rentals %}
-      <div class="book">
-        <div class="about_book">
-          <img src="/static/images/book.jpeg" alt="" />
-          <p class="book_title">The thousand flames</p>
-          <p class="book_author">Emilia Clark</p>
-        </div>
-
-        <div class="actions">
-          <button><a href="/read">Read book</a></button>
-          <button>Request Download</button>
+  <div class="users-books" id="books">
+    {% for book in book_rentals %}
+    <div class="book">
+      <div class="about-book">
+        <img src="/static/images/covers/{{book.cover_path}}" alt="" />
+        <div>
+          <p class="book_title">{{book.title}}</p>
+          <p class="book_author">{{book.author}}</p>
         </div>
       </div>
-      {% endfor %}
+      <div class="actions">
+        <form action=" /books/{{ book.id }}/read/" method="get">
+          <button type="submit">Read Book</button>
+        </form>
+        <form action="/books/{{ book.id }}/download-request" method="post">
+          <button type="submit">Request Download</button>
+        </form>
+        <p>Expires in {{book.due_date}}</p>
+      </div>
     </div>
+    {% endfor %}
   </div>
 
-  {% if video == "active" %}
-  <div class="users-videos">
+  <div class="users-videos inactive-content" id="videos">
+    {% for video in videos %}
     <div class="video">
-      <img src="/static/images/book.jpeg" alt="" />
-      <p>TItle: MY title</p>
-      <p>Description: MY Desc</p>
+      <img src="/static/images/covers/{{video.cover_path}}" alt="" />
+      <p><strong>Title:</strong> {{video.title}}</p>
+      <p><strong>Description:</strong> {{video.description}}</p>
       <i class="bi bi-play-fill"></i>
+
+      <div class="actions">
+        <form action=" /videos/{{ video.id }}/watch/" method="get">
+          <button type="submit">Watch Video</button>
+        </form>
+      </div>
     </div>
-    <div class="video">
-      <img src="/static/images/book.jpeg" alt="" />
-      <i class="bi bi-play-fill"></i>
-    </div>
-    <div class="video">
-      <img src="/static/images/book.jpeg" alt="" />
-      <i class="bi bi-play-fill"></i>
-    </div>
-    <div class="video">
-      <img src="/static/images/book.jpeg" alt="" />
-      <i class="bi bi-play-fill"></i>
-    </div>
+    {% endfor %}
   </div>
-  {% endif%}
 </div>
+
 {% endblock %}

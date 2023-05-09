@@ -18,6 +18,7 @@ from models import (
     db,
     ChangePasswordForm,
     ProfileForm,
+    Video,
 )
 from random import sample
 from sqlalchemy import func
@@ -32,9 +33,12 @@ user_bp = Blueprint("user", __name__, url_prefix="/user")
 def discover():
     # Get 4 random books from the database
     popular_books = Book.query.order_by(func.random()).limit(10).all()
-
+    all_books = Book.query.all()
     return render_template(
-        "user/discover.html", di_active="active", popular_books=popular_books
+        "user/discover.html",
+        di_active="active",
+        popular_books=popular_books,
+        all_books=all_books,
     )
 
 
@@ -46,6 +50,8 @@ def dashboard():
     download_requests = DownloadRequest.query.filter_by(user_id=current_user.id).count()
     user = User.query.get(current_user.id)
     book_rentals = user.rentals
+    total_rented = len(book_rentals)
+    videos = Video.query.all()
     return render_template(
         "user/dashboard.html",
         user=user,
@@ -53,6 +59,8 @@ def dashboard():
         access_requests=access_requests,
         download_requests=download_requests,
         book_rentals=book_rentals,
+        videos=videos,
+        total_rented=total_rented,
     )
 
 
@@ -87,19 +95,14 @@ def update_user_profile():
 def requests():
     access_requests = AccessRequest.query.filter_by(user_id=current_user.id)
     download_requests = DownloadRequest.query.filter_by(user_id=current_user.id)
-    total_access_requests = AccessRequest.query.filter_by(
-        user_id=current_user.id
-    ).count()
-    total_download_requests = DownloadRequest.query.filter_by(
-        user_id=current_user.id
-    ).count()
-    total_requests = total_access_requests + total_download_requests
-    print(total_access_requests)
+    total_requests = access_requests.count() + download_requests.count()
+
     return render_template(
         "user/requests.html",
         access_requests=access_requests,
         download_requests=download_requests,
         total_requests=total_requests,
+        r_active="active",
     )
 
 
@@ -110,7 +113,7 @@ def requests():
 @login_required
 def book_details(id):
     return render_template(
-        "user/book_details.html", book=Book.query.get(id), di_active="active"
+        "user/book_details.html", book=Book.query.get(id)
     )
 
 

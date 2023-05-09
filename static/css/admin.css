@@ -263,10 +263,10 @@ table img {
   }
 }
 
-.requests_table tr td:nth-child(5) button {
+.requests_table tr td:nth-child(6) button {
   background: var(--secondary-green);
 }
-.requests_table tr td:nth-child(6) button {
+.requests_table tr td:nth-child(7) button {
   background: #7c2828;
 }
 
@@ -352,6 +352,7 @@ table img {
 }
 
 .top_rated > div {
+  min-width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -380,7 +381,19 @@ table img {
   align-items: end;
 }
 
+.row-book img{
+  min-width: 40%;
+  height: 100%;
+}
+.row-book p{
+  /* height: 100%;
+  width: 30%; */
+  flex: 1 1 auto
+}
+
 .items {
+  min-width: 100%;
+  min-height: 17rem;
   background: #f1f0f0;
   display: flex;
   flex-direction: column;
@@ -427,6 +440,7 @@ table img {
 
 .book-container img {
   height: 10rem;
+  width: 12rem;
 }
 
 .book-container .text {
@@ -435,15 +449,13 @@ table img {
 
 .book-container form, .video-container form{
   display:inline-block;
+  margin: .2rem; 
+
 }
 
 .book-container form:first-of-type button, .video-container form:first-of-type button{
   background: #FDE2F3;
   color: var(--secondary-color);
-}
-
-.book-container .text button + button, .video-container .desc button + button {
-  margin-left: 1rem; 
 }
 
 .book-container form button, .video-container form button {

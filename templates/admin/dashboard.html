@@ -3,7 +3,7 @@
 
 {% block content %}
 <div class="statistics">
-  <h3>In the last <span class="time">7 days</span></h3>
+  <h3>In the last <span class="time">30 days</span></h3>
   <div class="main">
     <div class="category num_books">
       <p class="number">{{ rentals_count }}</p>
@@ -62,32 +62,6 @@
         </td>
       </tr>
       {% endfor %}
-
-      <!-- <tr>
-        <td>24567890876</td>
-        <td>My stone heart</td>
-        <td>Stephanie</td>
-        <td>
-          <select name="" id="days">
-            <option disabled>Select due date</option>
-            <option value="7">7 days</option>
-            <option value="14">14 days</option>
-            <option value="21">21 days</option>
-            <option value="28">28 days</option>
-          </select>
-        </td>
-        <td>
-          <form class="grant-request" action="/grant-access-request/<int:request_id>" method="post">
-            <input style="display:none" type="number" name="due_date" id="due_date" value="">
-            <button type="submit">Accept Request</button>
-          </form>
-        </td>
-        <td>
-          <form action="/reject-access-request/<int:request_id>" method="post">
-            <button type="submit">Reject Request</button>
-          </form>
-        </td>
-      </tr> -->
     </table>
 
     <div class="empty {{ hidden if access_requests_count < 1}}">
@@ -105,8 +79,9 @@
     <div class="items">
       {% for book in popular_books %}
       <div class="row-book">
-        <img src="/static/images/{{book.cover_path}}" alt="" width="60" />
-        <p> <b>{{book.title}}</b> </br> <span>{{book.author}}</span></p>
+        <img src="/static/images/covers/{{book.cover_path}}" alt="" width="60" />
+        <p><strong>Title:</strong> {{book.title}} </br> <span>
+          <strong>Author:</strong> {{book.author}}</span></p>
       </div>
       {% endfor %}
     </div>

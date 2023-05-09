@@ -10,6 +10,7 @@
           <th>Request Id</th>
           <th>Book Id</th>
           <th>User Id</th>
+          <th>Request type</th>
           <th>Specify due date</th>
           <th></th>
           <th></th>
@@ -21,6 +22,7 @@
         <td>{{ access_request.id }}</td>
         <td>{{ access_request.book.title }}</td>
         <td>{{ access_request.user_id }}</td>
+        <td>Access request</td>
         <td>
           <select name="" id="days">
             <option disabled>Select due date</option>
@@ -31,13 +33,58 @@
           </select>
         </td>
         <td>
-          <form class="grant-request" action="/admin/grant-access-request/{{ access_request.id }}" method="post">
-            <input style="display:none" type="number" name="due_date" id="due_date" value="7">
+          <form
+            class="grant-request"
+            action="/admin/grant-access-request/{{ access_request.id }}"
+            method="post"
+          >
+            <input
+              style="display: none"
+              type="number"
+              name="due_date"
+              id="due_date"
+              value="7"
+            />
             <button type="submit">Accept Request</button>
           </form>
         </td>
         <td>
-          <form action="/admin/reject-access-request/{{ access_request.id }}" method="post">
+          <form
+            action="/admin/reject-access-request/{{ access_request.id }}"
+            method="post"
+          >
+            <button type="submit">Reject Request</button>
+          </form>
+        </td>
+      </tr>
+      {% endfor %} {% for download_request in download_requests %}
+      <tr>
+        <td>{{ download_request.id }}</td>
+        <td>{{ download_request.book.title }}</td>
+        <td>{{ download_request.user_id }}</td>
+        <td>Download request</td>
+        <td>Forever</td>
+        <td>
+          <form
+            class="grant-request"
+            action="/admin/grant-access-request/{{ access_request.id }}"
+            method="post"
+          >
+            <input
+              style="display: none"
+              type="number"
+              name="due_date"
+              id="due_date"
+              value="7"
+            />
+            <button type="submit">Accept Request</button>
+          </form>
+        </td>
+        <td>
+          <form
+            action="/admin/reject-access-request/{{ access_request.id }}"
+            method="post"
+          >
             <button type="submit">Reject Request</button>
           </form>
         </td>
@@ -45,8 +92,8 @@
       {% endfor %}
     </table>
 
-    <div class="empty hidden">
-      <h1>NOTHING YET</h1>
+    <div class="empty {{'hidden' if total_requests > 0}}">
+      <h1>NO REQUESTS</h1>
       <i class="bi bi-emoji-frown-fill"></i>
     </div>
   </div>

@@ -295,8 +295,9 @@ def requests():
     # get all access and download requests from the database and pass them to the template
     access_requests = AccessRequest.query.all()
     download_requests = DownloadRequest.query.all()
+    total_requests = len(access_requests) + len( download_requests)
 
-    return render_template('admin/requests.html', access_requests=access_requests, download_requests=download_requests, req_active="active")
+    return render_template('admin/requests.html', access_requests=access_requests, download_requests=download_requests, req_active="active", total_requests=total_requests)
 
 
 @admin_bp.route('/grant-access-request/<string:request_id>', methods=['POST'])

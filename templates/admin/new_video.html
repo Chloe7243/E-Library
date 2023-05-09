@@ -28,7 +28,7 @@
   </div>
   <div class="form-group">
     {{ form.cover.label }}
-    {{ form.cover(class_="form-control", accept=".jpg,.jpeg,.png", alt="Video Thumbnail") }}
+    {{ form.cover(class_="form-control", accept=".jpg,.png", alt="Video Thumbnail") }}
     {% for error in form.cover.errors %}
       <span class="invalid-feedback">{{ error }}</span>
     {% endfor %}
