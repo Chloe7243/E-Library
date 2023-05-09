@@ -42,25 +42,49 @@ def discover():
     )
 
 
+def get_user_books(user_id):
+    """Return a list of books rented by a user."""
+    user = User.query.get(user_id)
+    if user:
+        rentals = user.rentals
+        books = []
+        for rental in rentals:
+            book = rental.book
+            books.append({
+                'id': book.id,
+                'title': book.title,
+                'author': book.author,
+                'description': book.description,
+                'cover_path': book.cover_path,
+                'file_path': book.file_path,
+                'category': book.category.name,
+                'downloadable': rental.downloadable
+            })
+        return books
+    else:
+        return None
+
+
+
 # Render the user dashboard
 @user_bp.route("/dashboard")
 @login_required
 def dashboard():
     access_requests = AccessRequest.query.filter_by(user_id=current_user.id).count()
     download_requests = DownloadRequest.query.filter_by(user_id=current_user.id).count()
-    user = User.query.get(current_user.id)
-    book_rentals = user.rentals
-    total_rented = len(book_rentals)
+
+    # get all book details in book rentals and add them to a list
+    rented_books = get_user_books(current_user.id)
+
     videos = Video.query.all()
     return render_template(
         "user/dashboard.html",
-        user=user,
+        user=current_user,
         d_active="active",
         access_requests=access_requests,
         download_requests=download_requests,
-        book_rentals=book_rentals,
         videos=videos,
-        total_rented=total_rented,
+        rented_books=rented_books
     )
 
 
