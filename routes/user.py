@@ -13,9 +13,9 @@ user_bp = Blueprint('user', __name__, url_prefix='/user')
 @login_required
 def discover():
      # Get 4 random books from the database
-    random_books = Book.query.order_by(func.random()).limit(10).all()
-
-    return render_template('user/discover.html', di_active="active", random_books=random_books)
+   popular_books = Book.query.order_by(func.random()).limit(10).all()
+   
+   return render_template('user/discover.html', di_active="active", popular_books=popular_books)
 
 
 # Render the user dashboard
@@ -23,8 +23,11 @@ def discover():
 @login_required
 def dashboard():
     access_requests = AccessRequest.query.filter_by(user_id=current_user.id).count()
+    download_requests = DownloadRequest.query.filter_by(
+        user_id=current_user.id).count()
     user = User.query.get(current_user.id)
-    return render_template('user/dashboard.html', user=user, d_active="active", access_requests=access_requests)
+    book_rentals = user.rentals
+    return render_template('user/dashboard.html', user=user, d_active="active", access_requests=access_requests, download_requests=download_requests, book_rentals=book_rentals)
 
 # Render the user profile page
 
@@ -104,8 +107,6 @@ def request_download(id):
     return redirect(url_for('book_details', id=id))
 
 # Handle the download of a specific book
-
-
 @user_bp.route('/books/<int:id>/download')
 @login_required
 def download_book(id):

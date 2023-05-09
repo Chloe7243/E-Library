@@ -107,7 +107,6 @@
       <div class="row-book">
         <img src="/static/images/{{book.cover_path}}" alt="" width="60" />
         <p> <b>{{book.title}}</b> </br> <span>{{book.author}}</span></p>
-        <!-- <p>18+ downloads</p> -->
       </div>
       {% endfor %}
     </div>
@@ -117,8 +116,8 @@
   <div class="top_rated_category col col-md-auto col-lg-auto">
     <h4>Top rated categories</h4>
     <div class="items">
+      {% for category in popular_categories %}
       <div class="row-book">
-        {% for category in popular_categories %}
         <h1>{{category.name}}</h1>
       </div>
       {% endfor %}

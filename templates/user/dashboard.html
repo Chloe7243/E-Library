@@ -1,6 +1,4 @@
-{% extends "./user/base_user.html" %}
-
-{% block main %}
+{% extends "./user/base_user.html" %} {% block main %}
 <h3>Dashboard</h3>
 <p>Welcome back, Let's get back to it</p>
 
@@ -11,11 +9,11 @@
       <p class="books-read">Books Read</p>
     </div>
     <div class="category num-downloaded">
-      <p class="number">0</p>
+      <p class="number">{{ download_requests }}</p>
       <p class="downloaded-books">Books Downloaded</p>
     </div>
     <div class="category num_downloads">
-      <p class="number">{{ access_requests }}</p>
+      <p class="number">{{ access_requests + download_requests }}</p>
       <p class="requests">Requests</p>
     </div>
   </div>
@@ -33,12 +31,12 @@
     </ul>
   </div>
 
-  {% if book == "active" %}
   <div class="users-books">
     <div class="users-books-content">
+      {% for book in book_rentals %}
       <div class="book">
         <div class="about_book">
-          <img src="/static/images/book.jpeg" alt="">
+          <img src="/static/images/book.jpeg" alt="" />
           <p class="book_title">The thousand flames</p>
           <p class="book_author">Emilia Clark</p>
         </div>
@@ -48,33 +46,11 @@
           <button>Request Download</button>
         </div>
       </div>
-      <div class="book">
-        <div class="about_book">
-          <img src="/static/images/book.jpeg" alt="">
-          <p class="book_title">The thousand flames</p>
-          <p class="book_author">Emilia Clark</p>
-        </div>
-
-        <div class="actions">
-          <button>Read book</button>
-          <button>Request Download</button>
-        </div>
-      </div>
-      <div class="book">
-        <div class="about_book">
-          <img src="/static/images/book.jpeg" alt="">
-          <p class="book_title">The thousand flames</p>
-          <p class="book_author">Emilia Clark</p>
-        </div>
-
-        <div class="actions">
-          <button>Read book</button>
-          <button>Request Download</button>
-        </div>
-      </div>
+      {% endfor %}
     </div>
   </div>
-  {% endif %} {% if video == "active" %}
+
+  {% if video == "active" %}
   <div class="users-videos">
     <div class="video">
       <img src="/static/images/book.jpeg" alt="" />
