@@ -165,14 +165,14 @@ def reports():
 
     # Percentage of rented books
     rented_books_per = (
-        (Rental.query.distinct(Rental.book_id).count()) / total_books
+        (Rental.query.distinct(Rental.book_id).count()) / (total_books or 1)
     ) * 100
 
     # Percentage of active users
-    active_users = ((User.query.filter(User.rentals.any()).count()) / total_users) * 100
+    active_users = ((User.query.filter(User.rentals.any()).count()) / (total_users or 1)) * 100
 
     # Ratio of Books to Videos
-    book_to_video_per = (total_books / (total_books + total_videos)) * 100
+    book_to_video_per = (total_books / ((total_books + total_videos) or 1)) * 100
 
     # rentals due today
     now = datetime.now()
@@ -203,8 +203,6 @@ def reports():
 
 
 # Render list of users
-
-
 @admin_bp.route("/users")
 @login_required
 @isAdmin
