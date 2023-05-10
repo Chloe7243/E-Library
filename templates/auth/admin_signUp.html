@@ -1,4 +1,4 @@
-{% extends "/auth/base_auth.html" %} {%block title %}Sign Up{% endblock %} {%
+{% extends "/auth/base_auth.html" %} {%block title %}Sign Up Admin{% endblock %} {%
 block content2 %}
 <h2>Keep it Quiet</h2>
 <p>It's ypur library, you make the rules</p>
@@ -65,4 +65,12 @@ block content2 %}
 
 {% endblock %} {% block content3 %}
 <img src="/static/images/sign-up-img.jpg" alt="" />
-{% endblock %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script class="flashes {{ category }}">
+ " {% for category, message in messages %}"
+  alert("{{ message }}")
+  "{% endfor %}"
+</script>
+{% endif %} {% endwith %} {% endblock %}

@@ -1,35 +1,7 @@
-{% extends "/admin/base_admin.html" %} {%block title %}Books{% endblock %}
+{% extends "/admin/base_admin.html" %} {%block title %}Report{% endblock %}
 {%block main %}
 
-<!-- ========== BUDGET OVERVIEW ========== -->
-<div id="navigation">
-  <h1>Report Overview</h1>
-
-  <div id="links">
-    <div class="white">
-      <a href="#navigation"
-        ><i class="bi bi-index-finger purple"></i>Total Stats</a
-      >
-    </div>
-
-    <div>
-      <a href="#total"
-        ><i class="bi bi-index-finger purple"></i>Requests status</a
-      >
-    </div>
-
-    <div>
-      <a href="#requests"><i class="bi bi-index-finger purple"></i>Downloads</a>
-    </div>
-
-    <div>
-      <a href="#downloads"
-        ><i class="bi bi-index-finger purple"></i>New Users</a
-      >
-    </div>
-  </div>
-</div>
-
+<h1>Library Statistics</h1>
 <!-- ========== PROJECTS =========== -->
 <section id="total">
   <!-- <div id="body-section"> -->
@@ -69,21 +41,32 @@
 <!-- ========== FREELANCE HEALTH SECTION =========== -->
 <section id="requests">
   <div>
-    <h1>Requests Status</h1>
-
     <!-- ========= SEMI CIRCLES ========= -->
     <div id="percentage-circles">
-      <div class="circle-1 bigger-circle">
+      <div
+        class="circle-1 bigger-circle"
+      style="--perc-1:{{(rented_books_per * 1.8) - 45}}deg"
+      >
         <p>
-          60% <br />
-          <span>Accepted Download Requests</span>
+          {{rented_books_per}}% <br />
+          <span>Rented Books</span>
         </p>
       </div>
 
-      <div class="circle-2 bigger-circle">
+      <div
+        class="circle-2 bigger-circle"
+        style="--perc-2:{{(book_to_video_per * 1.8) - 45}}deg"
+      >
         <p>
-          25% <br />
-          <span>Accepted Access Requests</span>
+          {{book_to_video_per}}% <br />
+          <span>Books to video</span>
+        </p>
+      </div>
+
+      <div class="circle-3 bigger-circle" style="--perc-3:{{(active_users * 1.8) - 45}}deg">
+        <p>
+          {{active_users}}% <br />
+          <span>Active users</span>
         </p>
       </div>
     </div>
@@ -91,145 +74,141 @@
     <!-- ======= STRT LINE ======== -->
     <div id="percentage-linear">
       <div class="perc">
-        <div class="big-line line-1"></div>
-        <p>60% Accepted Download Requests</p>
+        <div
+          class="big-line line-1"
+         style="--perc-4:{{rented_books_per}}%"
+        ></div>
+        <p>{{rented_books_per}}% Rented books</p>
       </div>
 
       <div>
-        <div class="big-line line-2"></div>
-        <p>25% Accepted Access Requests</p>
+        <div
+          class="big-line line-2"
+        style="--perc-5:{{book_to_video_per}}%"
+        ></div>
+        <p>{{book_to_video_per}}% of Books to Video</p>
+      </div>
+
+      <div>
+        <div class="big-line line-3" style="--perc-6:{{active_users}}%"></div>
+        <p>{{active_users}}% Users are active</p>
       </div>
     </div>
     <!-- PAID UNPAID UN....... COMPLETED -->
     <div class="description">
       <div class="t-des">
         <span></span>
-        <p>Accepted download requests</p>
+        <p>Rented books</p>
       </div>
 
       <div class="t-des">
         <span></span>
-        <p>Unaccepted requests</p>
+        <p>Percentage of books to video</p>
       </div>
 
       <div class="t-des">
         <span></span>
-        <p>Accepted access requests</p>
+        <p>Active Users</p>
       </div>
     </div>
   </div>
 </section>
 
-  <!-- ======= TOTAL INCOME ======== -->
-  <section id="weekly-charts">
-    <h1>Weekly Chart</h1>
-    <div class="increase">
-      <div class="increase-div white-2">
-        <p class="right3">
-          <span class="green"> <i class="bi bi-caret-up-fill"></i> +20% </span>
-          this week
-        </p>
-        <i class="bi bi-download"></i>
-        <p class="downloads">
-          0<br />
-          <span class="desc">Downloads today</span>
-        </p>
-      </div>
-
-      <div class="increase-div white-2">
-        <p class="right3">
-          <span class="green">  <i class="bi bi-caret-up-fill"></i></i> +20% </span>
-          this week
-        </p>
-
-        <i class="bi bi-person"></i>
-        <p class="users">
-          0 <br />
-          <span class="desc">New users today</span>
-        </p>
-      </div>
+<!-- ======= TOTAL INCOME ======== -->
+<section id="weekly-charts">
+  <div class="increase">
+    <div class="increase-div white-2">
+      <i class="bi bi-calendar-x"></i>
+      <p class="downloads">
+        {{rentals_due_today}}
+        <span class="desc">Rentals due today</span>
+      </p>
     </div>
 
-    <!-- CHART SECTION 2 in monthly income -->
-    <div class="chart-section-2">
-      <div class="money-made">
-        <ul class="values">
-          <li>15+</li>
-          <li>12</li>
-          <li>9</li>
-          <li>6</li>
-          <li>3</li>
-          <li>0</li>
-        </ul>
-      </div>
+    <div class="increase-div white-2">
+      <i class="bi bi-calendar-range"></i>
+      <p class="users">
+        {{ rentals_due_soon }} 
+        <span class="desc">Rentals due in a week</span>
+      </p>
+    </div>
+  </div>
 
-      <div class="monthly-bars">
-        <!-- <div class="avg">
-          <div class="avg-money">
-            <p class="val">
-              $4500 USD <br />
-              <span class="desc-4">average</span>
-            </p>
-            <span class="pointer"></span>
-          </div>
-
-          <div class="dotted-line"></div>
-        </div> -->
-
-        <div class="bars">
-          <div>
-            <span class="bar"></span>
-            <span class="bar"></span>
-          </div>
-          <div>
-            <span class="bar"></span>
-            <span class="bar"></span>
-          </div>
-          <div>
-            <span class="bar"></span>
-            <span class="bar"></span>
-          </div>
-          <div>
-            <span class="bar"></span>
-            <span class="bar"></span>
-          </div>
-          <div>
-            <span class="bar"></span>
-            <span class="bar"></span>
-          </div>
-          <div>
-            <span class="bar"></span>
-            <span class="bar"></span>
-          </div>
-          <div>
-            <span class="bar"></span>
-            <span class="bar"></span>
-          </div>
-        </div>
-
-        <div class="days">
-          <p>Mon</p>
-          <p>Tue</p>
-          <p>Wed</p>
-          <p>Thu</p>
-          <p>Fri</p>
-          <p>Sat</p>
-          <p>Sun</p>
-        </div>
-      </div>
+  <!-- CHART SECTION 2 in monthly income -->
+  <div class="chart-section-2">
+    <div class="money-made">
+      <ul class="values">
+        <li>15+</li>
+        <li>12</li>
+        <li>9</li>
+        <li>6</li>
+        <li>3</li>
+        <li>0</li>
+      </ul>
     </div>
 
-  </section>
-      <div class="description">
-      <div class="t-des">
-        <span></span>
-        <p>New Users</p>
+    <div class="monthly-bars">
+
+      <div class="bars">
+        <div>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <div>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <div>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <div>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <div>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <div>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
+        <div>
+          <span class="bar"></span>
+          <span class="bar"></span>
+        </div>
       </div>
 
-      <div class="t-des">
-        <span></span>
-        <p>Downloads</p>
+      <div class="days">
+        <p>Mon</p>
+        <p>Tue</p>
+        <p>Wed</p>
+        <p>Thu</p>
+        <p>Fri</p>
+        <p>Sat</p>
+        <p>Sun</p>
       </div>
-    </div>  
+    </div>
+  </div>
+</section>
+<div class="description">
+  <div class="t-des">
+    <span></span>
+    <p>New Users</p>
+  </div>
 
-{% endblock %}
+  <div class="t-des">
+    <span></span>
+    <p>Downloads</p>
+  </div>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script class="flashes {{ category }}">
+ " {% for category, message in messages %}"
+  alert("{{ message }}")
+  "{% endfor %}"
+</script>
+{% endif %} {% endwith %} {% endblock %}

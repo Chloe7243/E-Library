@@ -1,5 +1,5 @@
 {% extends "./admin/base_admin.html" %}
-{%block title %}Dashboard{% endblock %}
+{%block title %}Edit Profile{% endblock %}
 
 {% block main %}
 <form action="POST">
@@ -26,4 +26,13 @@
   </div>
   <button type="submit" class="btn auth-btn">Save Changes</button>
 </form>
-{% endblock %}
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script class="flashes {{ category }}">
+ " {% for category, message in messages %}"
+  alert("{{ message }}")
+  "{% endfor %}"
+</script>
+{% endif %} {% endwith %} {% endblock %}

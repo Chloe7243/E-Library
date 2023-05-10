@@ -1,9 +1,9 @@
-{% extends "/admin/base_admin.html" %} {%block title %}Books{% endblock %}
+{% extends "/admin/base_admin.html" %} {%block title %}Categories{% endblock %}
 {%block main%}
 <div class="main-top">
-  <div class="search-bar" style="border: none;">
+  <div class="search-bar" style="border: none">
     <div class="col-sm-12 categories-list">
-      <select class="form-control">
+      <select class="form-control search">
         <option disabled>Select category</option>
         <option value="all">All</option>
         {% for category in categories %}
@@ -73,24 +73,88 @@
 
   {% endfor %}
 </div>
-{% endblock %}
-<!--  {%block content2 %}
-<div class="books_statistics statistics">
-  <div class="category num_books">
-    <p class="number">0</p>
-    <p class="category_title">Total Books</p>
+
+<script>
+  const searchBox = document.querySelector(".search");
+  const option = document.querySelectorAll("option");
+  const container = document.querySelector(".all-categories");
+  let html;
+  console.log(container);
+  console.log(searchBox.value);
+
+  searchBox.addEventListener("click", (e) => {
+    console.log(e.target);
+    container.innerHTML = "";
+
+    ("{% for category in categories %}");
+
+    html = `
+              <h3>{{category.name}}</h3>
+  <div class="all-books">
+    {% for book in category.books %}
+    <div class="book-container">
+      <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
+      <div class="text">
+        <p>{{ book.author }}</p>
+        <p>{{ book.title }}</p>
+        <form action="/admin/books/{{ book.id }}/edit" method="get">
+          <button type="submit">Edit</button>
+        </form>
+        <form action="/admin/books/{{ book.id }}/delete" method="post">
+          <button type="submit">Delete</button>
+        </form>
+      </div>
+    </div>
+    {% endfor %}
   </div>
-  <div class="category book_categories">
-    <p class="number">0</p>
-    <p class="category_title">Categories</p>
+
+  <div class="all-videos">
+    {% for video in category.videos %}
+    <div class="video-container">
+      <video controls>
+        <source src="/static/videos/{{video.file_path}}" type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+      <div class="desc">
+        <p><b>Title:</b> {{ video.title }}</p>
+        <p><b>Description:</b> {{ video.description }}</p>
+
+        <form action="/admin/videos/{{video.id}}/edit" method="get">
+          <button type="submit">Edit</button>
+        </form>
+
+        <form action="/admin/videos/{{video.id}}/delete" method="post">
+          <button type="submit">Delete</button>
+        </form>
+      </div>
+    </div>
+        {% endfor %}
   </div>
-  <div class="category num_books">
-    <p class="number">0</p>
-    <p class="category_title">Total Downloded Books</p>
-  </div>
-  <div class="category audio">
-    <p class="number">0</p>
-    <p class="category_title">Total Videos</p>
-  </div>
-</div>
-{% endblock %} -->
+
+  <form action="/admin/categories/{{category.id}}/delete" method="post">
+    <button type="submit" class="btn delete-category">Delete Category</button>
+  </form>
+    `;
+
+    if (searchBox.value.toLowerCase() == "all") {
+      container.insertAdjacentHTML("beforeend", html);
+    }
+
+    if ("{{category.name}}".toLowerCase() == searchBox.value.toLowerCase()) {
+      console.log(searchBox.value);
+      container.insertAdjacentHTML("beforeend", html);
+    }
+
+    ("{% endfor %}");
+  });
+</script>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script class="flashes {{ category }}">
+ " {% for category, message in messages %}"
+  alert("{{ message }}")
+  "{% endfor %}"
+</script>
+{% endif %} {% endwith %} {% endblock %}
+

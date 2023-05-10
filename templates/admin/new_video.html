@@ -1,5 +1,5 @@
 {% extends "./admin/base_admin.html" %}
-{%block title %}Dashboard{% endblock %}
+{%block title %}New Video{% endblock %}
 
 {% block main %}
 <form action="{{ url_for('admin.new_video') }}" method="POST" enctype="multipart/form-data">
@@ -42,4 +42,12 @@
   </div>
   <button type="submit" class="btn auth-btn">Save</button>
 </form>
-{% endblock %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script class="flashes {{ category }}">
+ " {% for category, message in messages %}"
+  alert("{{ message }}")
+  "{% endfor %}"
+</script>
+{% endif %} {% endwith %} {% endblock %}

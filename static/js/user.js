@@ -1,5 +1,6 @@
 const nav = document.querySelector(".navigation");
 
+// displaying the contents based on which link is clicked
 nav.addEventListener("click", (e) => {
   console.log(e.target);
   if (e.target.tagName.toLowerCase() === "a") {
@@ -27,18 +28,3 @@ nav.addEventListener("click", (e) => {
   }
 });
 
-// function requestAccess(bookId) {
-//   fetch("books/" + bookId + "/request-access", { method: "POST" })
-//     .then(function (response) {
-//       console.log(response);
-//       console.log(bookId);
-//       return response.text();
-//     })
-//     .then(function (data) {
-//       console.log(data);
-//       alert(data);
-//     })
-//     .catch(function (error) {
-//       console.error("Error:", error);
-//     });
-// }

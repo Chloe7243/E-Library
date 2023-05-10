@@ -37,4 +37,12 @@ content2 %}
 <p>Don't have an account? <a href="/register">Register</a></p>
 {% endblock %} {% block content3 %}
 <img src="/static/images/login-img.jpg" alt="" />
-{% endblock %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script class="flashes {{ category }}">
+ " {% for category, message in messages %}"
+  alert("{{ message }}")
+  "{% endfor %}"
+</script>
+{% endif %} {% endwith %} {% endblock %}

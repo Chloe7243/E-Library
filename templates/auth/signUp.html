@@ -53,4 +53,13 @@ content2 %}
 
 {% endblock %} {% block content3 %}
 <img src="/static/images/sign-up-img.jpg" alt="" />
-{% endblock %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script class="flashes {{ category }}">
+ " {% for category, message in messages %}"
+  alert("{{ message }}")
+  "{% endfor %}"
+</script>
+{% endif %} {% endwith %} {% endblock %}
+

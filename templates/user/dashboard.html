@@ -5,12 +5,12 @@
 <div class="statistics">
   <div class="main">
     <div class="category num_books">
-      <p class="number">{% len(rented_books) %}</p>
-      <p class="books-read">Books Read</p>
+      <p class="number">{{ total_rented_books }}</p>
+      <p class="books-read">Books Available</p>
     </div>
     <div class="category num-downloaded">
-      <p class="number">{{ download_requests }}</p>
-      <p class="downloaded-books">Books Downloaded</p>
+      <p class="number">{{ download_count }}</p>
+      <p class="downloaded-books">Books Available for Download</p>
     </div>
     <div class="category num_downloads">
       <p class="number">{{ access_requests + download_requests }}</p>
@@ -32,7 +32,7 @@
   </div>
 
   <div class="users-books" id="books">
-    {% for book in book_rentals %}
+    {% for book in rented_books %}
     <div class="book">
       <div class="about-book">
         <img src="/static/images/covers/{{book.cover_path}}" alt="" />
@@ -42,13 +42,19 @@
         </div>
       </div>
       <div class="actions">
-        <form action=" /books/{{ book.id }}/read/" method="get">
-          <button type="submit">Read Book</button>
+        <form action="/user/books/{{ book.id }}/read" method="get">
+          <button href="">Read Book</button>
         </form>
-        <form action="/books/{{ book.id }}/download-request" method="post">
+        {% if book.downloadable %}
+        <form action="/user/books/{{ book.id }}/download" method="get">
+          <button type="submit">Download</button>
+        </form>
+        {% else %}
+        <form action="/user/books/{{ book.id }}/download-request" method="post">
           <button type="submit">Request Download</button>
         </form>
-        <p>Expires in {{book.due_date}}</p>
+        {% endif %}
+        <p>Expires in {{book.date_due}}</p>
       </div>
     </div>
     {% endfor %}
@@ -63,7 +69,7 @@
       <i class="bi bi-play-fill"></i>
 
       <div class="actions">
-        <form action=" /videos/{{ video.id }}/watch/" method="get">
+        <form action="/user/videos/{{ video.id }}/watch" method="get">
           <button type="submit">Watch Video</button>
         </form>
       </div>
@@ -72,4 +78,11 @@
   </div>
 </div>
 
-{% endblock %}
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script class="flashes {{ category }}">
+ " {% for category, message in messages %}"
+  alert("{{ message }}")
+  "{% endfor %}"
+</script>
+{% endif %} {% endwith %} {% endblock %}

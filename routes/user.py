@@ -7,21 +7,14 @@ from flask import (
     send_file,
     abort,
     request,
+    current_app,
 )
 from flask_login import current_user, login_required
-from models import (
-    User,
-    Book,
-    Rental,
-    AccessRequest,
-    DownloadRequest,
-    db,
-    ChangePasswordForm,
-    ProfileForm,
-    Video,
-)
+from models import User, Book, Rental, AccessRequest, DownloadRequest, db, Video
 from random import sample
 from sqlalchemy import func
+import os
+from datetime import datetime
 
 user_bp = Blueprint("user", __name__, url_prefix="/user")
 
@@ -50,20 +43,23 @@ def get_user_books(user_id):
         books = []
         for rental in rentals:
             book = rental.book
-            books.append({
-                'id': book.id,
-                'title': book.title,
-                'author': book.author,
-                'description': book.description,
-                'cover_path': book.cover_path,
-                'file_path': book.file_path,
-                'category': book.category.name,
-                'downloadable': rental.downloadable
-            })
+            date_due = str(rental.date_due - datetime.now()).split(",")[0]
+            books.append(
+                {
+                    "id": book.id,
+                    "title": book.title,
+                    "author": book.author,
+                    "description": book.description,
+                    "cover_path": book.cover_path,
+                    "file_path": book.file_path,
+                    "category": book.category.name,
+                    "date_due": date_due,
+                    "downloadable": rental.downloadable,
+                }
+            )
         return books
     else:
         return None
-
 
 
 # Render the user dashboard
@@ -75,6 +71,12 @@ def dashboard():
 
     # get all book details in book rentals and add them to a list
     rented_books = get_user_books(current_user.id)
+    total_rented_books = len(rented_books)
+
+    # total number of books available for download
+    download_count = len(
+        [rental for rental in current_user.rentals if rental.downloadable]
+    )
 
     videos = Video.query.all()
     return render_template(
@@ -84,7 +86,9 @@ def dashboard():
         access_requests=access_requests,
         download_requests=download_requests,
         videos=videos,
-        rented_books=rented_books
+        rented_books=rented_books,
+        total_rented_books=total_rented_books,
+        download_count=download_count,
     )
 
 
@@ -133,16 +137,14 @@ def requests():
 # Render the details of a specific book
 
 
-@user_bp.route("/books/<int:id>")
+@user_bp.route("/books/<string:id>")
 @login_required
 def book_details(id):
-    return render_template(
-        "user/book_details.html", book=Book.query.get(id)
-    )
+    return render_template("user/book_details.html", book=Book.query.get(id))
 
 
 # Render the page to read the book online
-@user_bp.route("/books/<int:id>/read")
+@user_bp.route("/books/<string:id>/read", methods=["GET"])
 @login_required
 def read_book(id):
     # Get the currently logged in user
@@ -163,7 +165,7 @@ def read_book(id):
 
 
 # Handle the request to download a specific book
-@user_bp.route("/books/<int:id>/download-request", methods=["POST"])
+@user_bp.route("/books/<string:id>/download-request", methods=["POST"])
 @login_required
 def request_download(id):
     book = Book.query.get(id)
@@ -171,11 +173,11 @@ def request_download(id):
     db.session.add(download_request)
     db.session.commit()
     flash("Your request to download this book has been submitted.", "success")
-    return redirect(url_for("book_details", id=id))
+    return redirect(url_for("user.dashboard", id=id))
 
 
 # Handle the download of a specific book
-@user_bp.route("/books/<int:id>/download")
+@user_bp.route("/books/<string:id>/download")
 @login_required
 def download_book(id):
     # Get the currently logged in user
@@ -191,12 +193,16 @@ def download_book(id):
     if not book:
         abort(404, "Book not found")
 
+    file_path = file_path = os.path.join(
+        current_app.root_path, "static/books", book.file_path
+    )
+
     # Serve the book file to the user's browser
-    return send_file(book.file_path, as_attachment=True, attachment_filename=book.title)
+    return send_file(file_path, as_attachment=True, download_name=f"{book.title}.pdf")
 
 
 # Handle the access request for specific book
-@user_bp.route("/books/<int:id>/request-access", methods=["GET", "POST"])
+@user_bp.route("/books/<string:id>/request-access", methods=["GET", "POST"])
 @login_required
 def request_access(id):
     book = Book.query.get(id)
@@ -208,14 +214,14 @@ def request_access(id):
 
 
 # Render the page to watch a specific video online
-@user_bp.route("/videos/<int:id>/watch")
+@user_bp.route("/videos/<string:id>/watch", methods=["GET"])
 @login_required
 def watch_video(id):
     # Get the currently logged in user
     user = User.query.get(current_user.id)
 
     # Get the video object
-    video = Book.query.get(id)
+    video = Video.query.get(id)
     if not video:
         abort(404, "Video not found")
 

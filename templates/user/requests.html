@@ -22,7 +22,7 @@
             {% endfor %}
             {% for download_request in download_requests %}
             <tr>
-                <td>{{ download_request.book.title }}</td>
+                <td>-</td>
                 <td>{{ download_request.date_requested }}</td>
             </tr>
             {% endfor %}
@@ -34,4 +34,12 @@
         </div>
     </div>
 </div>
-{% endblock %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script class="flashes {{ category }}">
+ " {% for category, message in messages %}"
+  alert("{{ message }}")
+  "{% endfor %}"
+</script>
+{% endif %} {% endwith %} {% endblock %}

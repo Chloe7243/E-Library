@@ -1,46 +1,96 @@
-{% extends "/admin/base_admin.html" %}
-{%block title %}Users{% endblock %}
-
-{% block main %}
-<div class="main-top" style="margin-bottom: 2rem;">
+{% extends "/admin/base_admin.html" %} {%block title %}Users{% endblock %} {%
+block main %}
+<div class="main-top" style="margin-bottom: 2rem">
   <div class="search-bar">
     <label for="d_search"></label>
-    <input
-      type="search"
-      name=""
-      id=""
-      placeholder="Search Users"
-    />
+    <input type="search" name="search" id="search" placeholder="Search Users" />
     <i></i>
   </div>
-  
-  <div style="padding:1rem 1rem 0; background-color: var(--secondary-color); vertical-align: middle; border-radius: .4rem;">
-    <p style="font-size:1rem; color: var(--light-primary-color);">Total users: {{total_users}}</p>
+
+  <div
+    style="
+      padding: 1rem 1rem 0;
+      background-color: var(--secondary-color);
+      vertical-align: middle;
+      border-radius: 0.4rem;
+    "
+  >
+    <p style="font-size: 1rem; color: var(--light-primary-color)">
+      Total users: {{total_users}}
+    </p>
   </div>
 </div>
 
-  <div class="all_users table">
-    <table class="users_table">
-      <thead>
-        <tr>
-          <th>Id</th>
-          <th>Name</th>
-          <th>Email Address</th>
-        </tr>
-      </thead>
-
-      {% for user in users %}
+<div class="all_users table">
+  <table class="users_table">
+    <thead>
       <tr>
-        <td>{{user.id}}</td>
-        <td>{{user.name}}</td>
-        <td>{{user.email}}</td>
+        <th>Id</th>
+        <th>Name</th>
+        <th>Email Address</th>
       </tr>
-      {% endfor %}
-    </table>
+    </thead>
 
-    <div class="empty {{ 'hidden' if total_users > 0 }}">
-      <h1>NOTHING YET</h1>
-      <i class="bi bi-emoji-frown-fill"></i>
-    </div>
+    {% for user in users %}
+    <tr>
+      <td>{{user.id}}</td>
+      <td>{{user.name}}</td>
+      <td>{{user.email}}</td>
+    </tr>
+    {% endfor %}
+  </table>
+
+  <div class="empty {{ 'hidden' if total_users > 0 }}">
+    <h1>NO USERS FOUND</h1>
+    <i class="bi bi-emoji-frown-fill"></i>
   </div>
-{% endblock %}
+</div>
+
+<script>
+  const searchBox = document.getElementById("search");
+  const container = document.querySelector("tbody");
+  console.log(container);
+  
+  searchBox.addEventListener("input", () => {
+    const searchTerm = searchBox.value.toLowerCase();
+    let i = 0;
+
+    console.log(searchTerm);
+    container.innerHTML = "";
+
+    ("{% for user in users %}");
+
+    if ("{{user.name}}".includes(searchTerm)) {
+      document.querySelector(".empty").classList.add("hidden");
+      console.log("User is {{user.name}}");
+      const tData = `
+              <tr>
+            <td>{{user.id}}</td>
+            <td>{{user.name}}</td>
+            <td>{{user.email}}</td>
+          </tr>`;
+      container.insertAdjacentHTML("beforeend",tData);
+      console.log(container);
+      
+      i++;
+    }
+
+    ("{% endfor %}");
+
+    if (i == 0) {
+      document.querySelector(".empty").classList.remove("hidden");
+    }
+
+  });
+</script>
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script class="flashes {{ category }}">
+ " {% for category, message in messages %}"
+  alert("{{ message }}")
+  "{% endfor %}"
+</script>
+{% endif %} {% endwith %} {% endblock %}
+

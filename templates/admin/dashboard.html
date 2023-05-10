@@ -13,10 +13,6 @@
       <p class="number">{{ access_requests_count }}</p>
       <p class="category_title">Access Requests</p>
     </div>
-    <div class="category num_downloads">
-      <p class="number">{{ downloads_count }}</p>
-      <p class="category_title">Downloads</p>
-    </div>
   </div>
 </div>
 
@@ -38,7 +34,7 @@
       {% for access_request in access_requests %}
       <tr>
         <td>{{ access_request.id }}</td>
-        <td>{{ access_request.book.title }}</td>
+        <td>{{ access_request.book.id}}</td>
         <td>{{ access_request.user_id }}</td>
         <td>
           <select name="" id="days">
@@ -50,13 +46,26 @@
           </select>
         </td>
         <td>
-          <form class="grant-request" action="/grant-access-request/<int:request_id>" method="post">
-            <input style="display:none" type="number" name="due_date" id="due_date" value="">
+          <form
+            class="grant-request"
+            action="/admin/grant-access-request/{{ access_request.id }}"
+            method="post"
+          >
+            <input
+              style="display: none"
+              type="number"
+              name="due_date"
+              id="due_date"
+              value="7"
+            />
             <button type="submit">Accept Request</button>
           </form>
         </td>
         <td>
-          <form action="/reject-access-request/<int:request_id>" method="post">
+          <form
+            action="/admin/reject-access-request/{{ access_request.id }}"
+            method="post"
+          >
             <button type="submit">Reject Request</button>
           </form>
         </td>
@@ -64,7 +73,7 @@
       {% endfor %}
     </table>
 
-    <div class="empty {{ hidden if access_requests_count < 1}}">
+    <div class="empty {{ 'hidden' if access_requests_count > 0}}">
       <h1>NO REQUESTS</h1>
       <i class="bi bi-emoji-frown-fill"></i>
     </div>
@@ -89,7 +98,7 @@
   </div>
 
   <div class="top_rated_category col col-md-auto col-lg-auto">
-    <h4>Top rated categories</h4>
+    <h4>Books in top rated categories</h4>
     <div class="items">
       {% for category in popular_categories %}
       <div class="row-book">
@@ -100,4 +109,12 @@
     <button class="view_all"><a href="{{url_for('admin.categories')}}">View all categories</a></button>
   </div>
 </div>
-{% endblock %}
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script class="flashes {{ category }}">
+ " {% for category, message in messages %}"
+  alert("{{ message }}")
+  "{% endfor %}"
+</script>
+{% endif %} {% endwith %} {% endblock %}

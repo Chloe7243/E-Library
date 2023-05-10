@@ -1,9 +1,9 @@
-{% extends "/admin/base_admin.html" %} {%block title %}Books{% endblock %} {%
+{% extends "/admin/base_admin.html" %} {%block title %}Videos{% endblock %} {%
 block main %}
 <div class="main-top">
   <div class="search-bar">
     <label for="d_search"></label>
-    <input type="search" name="" id="" placeholder="Search videos" />
+    <input type="search" name="search" id="search"placeholder="Search videos" />
     <i></i>
   </div>
 
@@ -40,4 +40,50 @@ block main %}
 
   {% endfor %}
 </div>
-{% endblock %}
+
+<script>
+  const searchBox = document.getElementById("search");
+  const container = document.querySelector(".all-videos");
+ 
+  searchBox.addEventListener("input", () => {
+    const searchTerm = searchBox.value.toLowerCase();
+    container.innerHTML = "";
+    
+    ("{% for video in videos %}");
+    if ("{{video.title}}".toLowerCase().includes(searchTerm.toLowerCase()) || "{{video.description}}".includes(searchTerm) ) {
+      
+      const html = `
+  <div class="video-container">
+    <video controls>
+      <source src="/static/videos/{{video.file_path}}" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <div class="desc">
+      <p><b>Title:</b> {{ video.title }}</p>
+      <p><b>Description:</b> {{ video.description }}</p>
+
+      <form action="/admin/videos/{{video.id}}/edit" method="get">
+        <button type="submit">Edit</button>
+      </form>
+
+      <form action="/admin/videos/{{video.id}}/delete" method="post">
+        <button type="submit">Delete</button>
+      </form>
+    </div>
+  </div>`;
+      container.insertAdjacentHTML("beforeend",html);
+    }
+
+    ("{% endfor %}");
+
+  });
+</script>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script class="flashes {{ category }}">
+ " {% for category, message in messages %}"
+  alert("{{ message }}")
+  "{% endfor %}"
+</script>
+{% endif %} {% endwith %} {% endblock %}

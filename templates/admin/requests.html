@@ -1,4 +1,4 @@
-{% extends "/admin/base_admin.html" %} {%block title %}Dashboard{% endblock %}
+{% extends "/admin/base_admin.html" %} {%block title %}Request{% endblock %}
 {% block main %}
 
 <h1>Requests</h1>
@@ -20,7 +20,7 @@
       {% for access_request in access_requests %}
       <tr>
         <td>{{ access_request.id }}</td>
-        <td>{{ access_request.book.title }}</td>
+        <td>{{ access_request.book.id}}</td>
         <td>{{ access_request.user_id }}</td>
         <td>Access request</td>
         <td>
@@ -60,14 +60,14 @@
       {% endfor %} {% for download_request in download_requests %}
       <tr>
         <td>{{ download_request.id }}</td>
-        <td>{{ download_request.book.title }}</td>
+        <td>-</td>
         <td>{{ download_request.user_id }}</td>
         <td>Download request</td>
         <td>Forever</td>
         <td>
           <form
             class="grant-request"
-            action="/admin/grant-access-request/{{ access_request.id }}"
+            action="/admin/grant-download-request/{{ download_request.id }}"
             method="post"
           >
             <input
@@ -82,7 +82,7 @@
         </td>
         <td>
           <form
-            action="/admin/reject-access-request/{{ access_request.id }}"
+          action="/admin/reject-download-request/{{ download_request.id }}"
             method="post"
           >
             <button type="submit">Reject Request</button>
@@ -98,4 +98,13 @@
     </div>
   </div>
 </div>
-{% endblock %}
+
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script class="flashes {{ category }}">
+ " {% for category, message in messages %}"
+  alert("{{ message }}")
+  "{% endfor %}"
+</script>
+{% endif %} {% endwith %} {% endblock %}

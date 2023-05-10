@@ -6,8 +6,8 @@ block main %}
     <label for="d_search"></label>
     <input
       type="search"
-      name=""
-      id=""
+      name="search"
+      id="search"
       placeholder="Search books, authors"
     />
     <i></i>
@@ -40,4 +40,47 @@ block main %}
   </div>
   {% endfor %}
 </div>
+
+<script>
+  const searchBox = document.getElementById("search");
+  const container = document.querySelector(".all-books");
+
+  searchBox.addEventListener("input", () => {
+    const searchTerm = searchBox.value.toLowerCase();
+    container.innerHTML = "";
+
+    ("{% for book in books %}");
+    if (
+      "{{book.author}}".includes(searchTerm) ||
+      "{{book.title}}".includes(searchTerm)
+    ) {
+      const html = `
+   <div class="book-container">
+    <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
+    <div class="text">
+      <p>{{ book.author }}</p>
+      <p>{{ book.title }}</p>
+      <form action="/admin/books/{{ book.id }}/edit" method="get">
+        <button type="submit">Edit</button>
+      </form>
+      <form action="/admin/books/{{ book.id }}/delete" method="post">
+        <button type="submit">Delete</button>
+      </form>
+    </div>
+  </div>`;
+      container.insertAdjacentHTML("beforeend", html);
+    }
+
+    ("{% endfor %}");
+  });
+</script>
+
+{% with messages = get_flashed_messages(with_categories=true) %}
+{% if messages %}
+<script class="flashes {{ category }}">
+ " {% for category, message in messages %}"
+  alert("{{ message }}")
+  "{% endfor %}"
+</script>
+{% endif %} {% endwith %}
 {% endblock %}

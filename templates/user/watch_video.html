@@ -1,12 +1,117 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-    
-</body>
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Watch</title>
+    <link rel="icon" href="/static/images/book-stack.png" type="image/png" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.4/font/bootstrap-icons.css"
+    />
+  </head>
+
+  <style>
+    /* ===============
+    Global Styles
+================*/
+
+    @import url("https://fonts.googleapis.com/css2?family=Oswald:wght@200;300;400;500;600;700&family=Taviraj:ital,wght@0,100;0,300;0,400;0,500;1,100;1,200;1,300;1,400;1,500;1,600&display=swap");
+
+    * {
+      margin: 0;
+      padding: 0;
+      scroll-behavior: smooth;
+      color: black;
+    }
+
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+    }
+
+    *::-webkit-scrollbar {
+      display: none;
+    }
+
+    body {
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+      background-color: var(--dark-primary-color);
+    }
+
+    :root {
+      --secondary-color: #691852;
+      --light-primary-color: #fff;
+      --dark-primary-color: #000;
+      --grey-color: #cacaca;
+    }
+
+    .header {
+      padding: 2rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: linear-gradient(0deg, #2d13259a, rgba(81, 12, 53, 0.977)),
+        url("/static/images/hero-img-bg.jpeg");
+    }
+
+    .company {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    h1 {
+      color: var(--light-primary-color);
+      font-size: 2.5rem;
+    }
+
+    h2 {
+      color: var(--light-primary-color);
+      text-align: center;
+      padding: 1rem;
+      font-size: 2.5rem;
+    }
+
+    i {
+      color: var(--light-primary-color);
+    }
+
+    a {
+      color: var(--light-primary-color);
+      text-decoration: none;
+    }
+
+    video {
+      margin: auto;
+      width: 95%;
+      height: 65%;
+      margin: 1rem;
+      border: 1px solid var(--grey-color);
+    }
+  </style>
+
+  <body>
+    <div class="header">
+      <div class="company">
+        <img src="/static/images/book-stack.png" alt="" width="60" />
+        <h1>Book-Lite</h1>
+      </div>
+
+      <a href="{{url_for('user.dashboard')}}">
+        <i class="bi bi-arrow-left-circle-fill"></i> Go back to dashbooard</a
+      >
+    </div>
+    <h2>{{video.title}}</h2>
+
+    <video controls="" autoplay>
+      <source src="/static/videos/{{video.file_path}}" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+  </body>
 </html>
