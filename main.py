@@ -1,3 +1,4 @@
+import os
 from flask import Flask
 from models import db, User
 from flask_login import LoginManager, current_user
@@ -10,7 +11,7 @@ app = Flask(__name__)
 
 app.config["SQLALCHEMY_DATABASE_URI"] = "sqlite:///library.db"
 app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
-app.secret_key = "your-secret-key"
+app.secret_key = os.environ.get('PASSKEY')
 
 db.init_app(app)
 
