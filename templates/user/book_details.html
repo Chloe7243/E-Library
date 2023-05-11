@@ -1,9 +1,8 @@
 {% extends "user/base_user.html" %} {%block title %}Dashboard{% endblock %} {%
 block main %}
-div
-<div class="details">
-    <h1>Details</h1>
-    <i class="bi bi-x-circle-fill"></i>
+<div class="details-header">
+    <h2>Details</h2>
+    <a href="{{url_for('user.discover')}}"><i class="bi bi-x-circle-fill"></i></a>
 </div>
 <div class="book-details-container">
   <img src="/static/images/covers/{{ book.cover_path }}" alt=""  width="100"/>
@@ -12,7 +11,7 @@ div
       <p class="title">{{ book.title }}</p>
     <p class="author">{{ book.author }}</p>
     <form action="books/{{book.id}}/request-access" method="post">
-      <button class="download" type="submit">Request</button>
+      <button class="download" type="submit">Request book</button>
     </form>
   </div>
 </div>

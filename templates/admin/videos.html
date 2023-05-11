@@ -50,7 +50,7 @@ block main %}
     container.innerHTML = "";
     
     ("{% for video in videos %}");
-    if ("{{video.title}}".toLowerCase().includes(searchTerm.toLowerCase()) || "{{video.description}}".includes(searchTerm) ) {
+    if ("{{video.title}}".toLowerCase().includes(searchTerm) || "{{video.description}}".toLowerCase().includes(searchTerm) ) {
       
       const html = `
   <div class="video-container">

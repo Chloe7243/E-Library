@@ -71,7 +71,7 @@ def dashboard():
         .all()
     )
 
-    #get popular categories
+    # get popular categories
     popular_categories = Category.query.order_by(func.random()).limit(4).all()
 
     today = datetime.utcnow()
@@ -165,11 +165,14 @@ def reports():
 
     # Percentage of rented books
     rented_books_per = (
-        (Rental.query.distinct(Rental.book_id).count()) / (total_books or 1)
+        (db.session.query(func.count(Rental.book_id.distinct())).scalar())
+        / (total_books or 1)
     ) * 100
 
     # Percentage of active users
-    active_users = ((User.query.filter(User.rentals.any()).count()) / (total_users or 1)) * 100
+    active_users = (
+        (User.query.filter(User.rentals.any()).count()) / (total_users or 1)
+    ) * 100
 
     # Ratio of Books to Videos
     book_to_video_per = (total_books / ((total_books + total_videos) or 1)) * 100
@@ -274,6 +277,7 @@ def books():
     books = Book.query.all()
     return render_template("admin/books.html", books=books, b_active="active")
 
+
 # new books route
 @admin_bp.route("/books/new", methods=["GET", "POST"])
 @login_required
@@ -369,6 +373,7 @@ def edit_book(id):
             all_categories=all_categories,
         )
 
+
 # delete book route
 @admin_bp.route("/books/<string:id>/delete", methods=["POST"])
 @login_required
@@ -416,7 +421,8 @@ def requests():
         total_requests=total_requests,
     )
 
-# grant request 
+
+# grant request
 @admin_bp.route("/grant-access-request/<string:request_id>", methods=["POST"])
 @login_required
 @isAdmin
@@ -456,6 +462,7 @@ def reject_access_request(request_id):
 
     return redirect(url_for("admin.requests"))
 
+
 # grant download request
 @admin_bp.route("/grant-download-request/<string:request_id>", methods=["POST"])
 @login_required
@@ -477,6 +484,7 @@ def grant_download_request(request_id):
     db.session.commit()
 
     return redirect(url_for("admin.requests"))
+
 
 # reject download request
 @admin_bp.route("/reject-download-request/<string:request_id>", methods=["POST"])

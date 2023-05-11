@@ -1,0 +1,84 @@
+{% extends 'base.html' %} {%block title %}Books{% endblock %} {% block content
+%}
+<div class="hero" id="hero">
+  <div class="back-drop">
+    <div class="search-panel">
+      <form action="{{ url_for('views.search') }}" method="post">
+        <input
+          type="text"
+          class="search-input-field"
+          placeholder="Search for a book"
+          name="search"
+        />
+        <button type="submit" class="btn">Search</button>
+      </form>
+    </div>
+
+    <div class="result">
+      {% if search_results %}
+      <div class="text-content">
+        {% for book in search_results %}
+        <div class="book">
+          <div class="book-image">
+            <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
+          </div>
+
+          <div class="boring-texts">
+            <h4>{{ book.title }}</h4>
+            <h5>{{ book.author }}</h5>
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+
+      {% else %}
+      <h1>Top books</h1>
+      <div class="text-content top">
+        {% for popular_book in popular_books %}
+        <div class="book">
+          <div class="boring-texts">
+            <h3>{{ popular_book.title }}</h3>
+            <h5><i>{{ popular_book.author }}</i></h5>
+          </div>
+          <div class="book-image">
+            <img
+              src="/static/images/covers/{{ popular_book.cover_path }}"
+              alt=""
+            />
+          </div>
+        </div>
+        {% endfor %}
+      </div>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+<div class="features">
+  <div class="container">
+    <h1>All Books</h1>
+    <div class="row">
+      {% if books %} {% for book in books %}
+      <div class="col-lg-4 features-item">
+        <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
+        <div class="content">
+          <h4>{{ book.title }}</h4>
+          <h5>{{ book.author }}</h5>
+          <a href="" class="btn btn-outline-dark">View</a>
+        </div>
+      </div>
+      {% endfor %} {% else %}
+      <h3 style="text-align: center">No books</h3>
+      {% endif %}
+    </div>
+  </div>
+</div>
+
+{% with messages = get_flashed_messages(with_categories=true) %} {% if messages
+%}
+<script class="flashes {{ category }}">
+  " {% for category, message in messages %}";
+  alert("{{ message }}");
+  ("{% endfor %}");
+</script>
+{% endif %} {% endwith %} {% endblock %}

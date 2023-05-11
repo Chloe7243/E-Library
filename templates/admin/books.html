@@ -51,8 +51,8 @@ block main %}
 
     ("{% for book in books %}");
     if (
-      "{{book.author}}".includes(searchTerm) ||
-      "{{book.title}}".includes(searchTerm)
+      "{{book.author}}".toLowerCase().includes(searchTerm) ||
+      "{{book.title}}".toLowerCase().includes(searchTerm)
     ) {
       const html = `
    <div class="book-container">

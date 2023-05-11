@@ -23,7 +23,9 @@
       <input
         class="form-control mr-sm-2"
         type="search"
-        placeholder="Search users, authors, titles"
+        id="search"
+        name="search"
+        placeholder="Search Authors, titles"
         aria-label="Search"
       />
     </form>
@@ -55,21 +57,85 @@
         <p class="title"><strong>{{ book.title }}</strong></p>
         <p class="blurb">{{ book.author }}</p>
         <form action="books/{{book.id}}/request-access" method="post">
-          <button class="btn download" type="submit">Request</button>
+          <button class="download" type="submit">Request</button>
         </form>
-        <a href="/read_more">View more</a>
+        <form action="books/{{book.id}}" method="get">
+          <button class="download" type="submit">View more</button>
+        </form>
       </div>
     </div>
     {% endfor %}
   </div>
 </div>
 
+<script>
+  const searchBox = document.getElementById("search");
+  const containers = document.querySelectorAll(".discover-books");
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
+  searchBox.addEventListener("input", () => {
+    const searchTerm = searchBox.value.toLowerCase();
+    containers.forEach((el) => {
+      el.innerHTML = " ";
+      if (el.id == "popular") {
+        ("{% for book in popular_books %}");
+
+        if (
+          "{{book.author}}".toLowerCase().includes(searchTerm) ||
+          "{{book.title}}".toLowerCase().includes(searchTerm)
+        ) {
+          const html = `
+      <div class="book-d">
+        <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
+        <div class="about-book-d">
+          <p class="title"><strong>{{ book.title }}</strong></p>
+          <p class="blurb">{{ book.author }}</p>
+          <form action="books/{{book.id}}/request-access" method="post">
+            <button class="download" type="submit">Request</button>
+          </form>
+          <form action="books/{{book.id}}" method="get">
+            <button class="download" type="submit">View more</button>
+          </form>
+        </div>
+      </div>`;
+          el.insertAdjacentHTML("beforeend", html);
+        }
+
+        ("{% endfor %}");
+      } else {
+        ("{% for book in all_books %}");
+
+        if (
+          "{{book.author}}".toLowerCase().includes(searchTerm) ||
+          "{{book.title}}".toLowerCase().includes(searchTerm)
+        ) {
+          const html = `
+      <div class="book-d">
+        <img src="/static/images/covers/{{ book.cover_path }}" alt="" />
+        <div class="about-book-d">
+          <p class="title"><strong>{{ book.title }}</strong></p>
+          <p class="blurb">{{ book.author }}</p>
+          <form action="books/{{book.id}}/request-access" method="post">
+            <button class="download" type="submit">Request</button>
+          </form>
+          <form action="books/{{book.id}}" method="get">
+            <button class="download" type="submit">View more</button>
+          </form>
+        </div>
+      </div>`;
+          el.insertAdjacentHTML("beforeend", html);
+        }
+
+        ("{% endfor %}");
+      }
+    });
+  });
+</script>
+
+{% with messages = get_flashed_messages(with_categories=true) %} {% if messages
+%}
 <script class="flashes {{ category }}">
- " {% for category, message in messages %}"
-  alert("{{ message }}")
-  "{% endfor %}"
+  " {% for category, message in messages %}";
+  alert("{{ message }}");
+  ("{% endfor %}");
 </script>
 {% endif %} {% endwith %} {% endblock %}
