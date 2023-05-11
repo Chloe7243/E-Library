@@ -211,7 +211,7 @@ def reports():
 @isAdmin
 def users():
     all_users = User.query.all()
-    users = [user for user in all_users if user.is_admin]
+    users = [user for user in all_users if not user.is_admin]
     return render_template(
         "admin/users_info.html", users=users, u_active="active", total_users=len(users)
     )

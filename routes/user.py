@@ -140,7 +140,9 @@ def requests():
 @user_bp.route("/books/<string:id>")
 @login_required
 def book_details(id):
-    return render_template("user/book_details.html", book=Book.query.get(id), di_active="active")
+    return render_template(
+        "user/book_details.html", book=Book.query.get(id), di_active="active"
+    )
 
 
 # Render the page to read the book online
@@ -209,8 +211,8 @@ def request_access(id):
     access_request = AccessRequest(user_id=current_user.id, book_id=book.id)
     db.session.add(access_request)
     db.session.commit()
-    message = f'Your request to access "{book.title}" has been submitted.'
-    return message
+    flash("Your request has been submitted.")
+    return redirect(url_for("user.discover"))
 
 
 # Render the page to watch a specific video online

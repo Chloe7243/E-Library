@@ -319,19 +319,24 @@ ul + div button a {
   font-size:2.5rem;
 } */
 
-.about > p {
-  font-size: 1.3rem;
+.about > h2 {
+  font-size: 3rem;
+}
+.about > h4 {
+    margin-top: 2rem;
+  font-weight: 600;
 }
 
 .about .list > div {
   display: flex;
   gap: 1rem;
+  font-size: 1.5rem;
   /* align-items: center; */
 }
 
-.about .list > div i {
+/* .about .list > div i {
   font-size: 2.2rem;
-}
+} */
 
 .about ul li {
   margin-left: -2rem;

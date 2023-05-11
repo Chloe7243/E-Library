@@ -60,7 +60,7 @@ block main %}
 
     ("{% for user in users %}");
 
-    if ("{{user.name}}".includes(searchTerm)) {
+    if ("{{user.name}}".toLowerCase().includes(searchTerm)) {
       document.querySelector(".empty").classList.add("hidden");
       console.log("User is {{user.name}}");
       const tData = `

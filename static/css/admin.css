@@ -367,6 +367,7 @@ table img {
 .top_rated_category .items .row-book {
   font-style: italic;
   justify-content: left;
+ 
 }
 
 .top_rated > div + div {
@@ -390,10 +391,11 @@ table img {
   gap: 0.7rem;
   justify-content: space-evenly;
   align-items: end;
+   max-height: 5rem;
 }
 
 .row-book img {
-  min-width: 40%;
+  max-width: 40%;
   height: 100%;
 }
 
@@ -453,7 +455,7 @@ table img {
 .book-container img {
   border-radius: 0.3rem;
   box-shadow: 0 4px 7px rgba(0, 0, 0, 0.403);
-  height: 10rem;
+  height: 14rem;
   width: 12rem;
 }
 

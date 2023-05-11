@@ -3,7 +3,12 @@ block main %}
 <div class="main-top">
   <div class="search-bar">
     <label for="d_search"></label>
-    <input type="search" name="search" id="search"placeholder="Search videos" />
+    <input
+      type="search"
+      name="search"
+      id="search"
+      placeholder="Search videos"
+    />
     <i></i>
   </div>
 
@@ -44,14 +49,13 @@ block main %}
 <script>
   const searchBox = document.getElementById("search");
   const container = document.querySelector(".all-videos");
- 
+
   searchBox.addEventListener("input", () => {
     const searchTerm = searchBox.value.toLowerCase();
     container.innerHTML = "";
-    
+
     ("{% for video in videos %}");
-    if ("{{video.title}}".toLowerCase().includes(searchTerm) || "{{video.description}}".toLowerCase().includes(searchTerm) ) {
-      
+    if ("{{video.title}}".toLowerCase().includes(searchTerm)) {
       const html = `
   <div class="video-container">
     <video controls>
@@ -71,19 +75,18 @@ block main %}
       </form>
     </div>
   </div>`;
-      container.insertAdjacentHTML("beforeend",html);
+      container.insertAdjacentHTML("beforeend", html);
     }
 
     ("{% endfor %}");
-
   });
 </script>
 
-{% with messages = get_flashed_messages(with_categories=true) %}
-{% if messages %}
+{% with messages = get_flashed_messages(with_categories=true) %} {% if messages
+%}
 <script class="flashes {{ category }}">
- " {% for category, message in messages %}"
-  alert("{{ message }}")
-  "{% endfor %}"
+  " {% for category, message in messages %}";
+  alert("{{ message }}");
+  ("{% endfor %}");
 </script>
 {% endif %} {% endwith %} {% endblock %}
